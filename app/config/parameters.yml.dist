@@ -1,0 +1,10 @@
+base_url: http://localhost/~michael/dummy-client/
+
+title: Dummy Client
+description: Dummy client description
+
+dummy:
+    endpoint: http://localhost/~michael/dummy/
+    key:
+        public: 829c3804401b0727f70f73d4415e162400cbe57b
+        private: f64133af6818761d95c8230953e5c9ddee1d0cf3

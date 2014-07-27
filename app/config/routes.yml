@@ -1,0 +1,35 @@
+routes:
+    
+    # index
+    
+    - name: dummy_client.index.index
+      methods: ["GET"]
+      uri:
+          pattern: ~
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\IndexController
+      action: indexAction
+
+    # app
+    
+    - name: dummy_client.app.index
+      methods: ["GET"]
+      uri:
+          pattern: apps/{page}
+          requirements:
+              - param: page
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\AppController
+      action: indexAction
+    
+    # default
+    
+    - name: dummy_client.not_found
+      methods: ["GET","POST","PUT","DELETE","OPTIONS","PATCH","HEAD"]
+      uri:
+          pattern: "{any}"
+          requirements:
+              - param: any
+                value: ".*"
+      controller: \Michcald\DummyClient\Controller\IndexController
+      action: notFoundAction

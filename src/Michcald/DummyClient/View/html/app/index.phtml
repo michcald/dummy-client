@@ -1,0 +1,56 @@
+<h1>
+    Apps
+</h1>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search...">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span> Search
+            </span>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-success pull-right">
+                <span class="glyphicon glyphicon-plus"></span> Create
+            </button>
+
+<div class="col-md-12">
+    <?= $this->paginator('dummy_client.app.index', $_['paginator']) ?>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-condensed table-hover table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Is Admin</th>
+                <th>Keys</th>
+            </tr>
+        </thead>
+        <tbody>
+            <? foreach ($_['apps'] as $app): ?>
+            <tr>
+                <td><?= $app['id'] ?></td>
+                <td><?= $app['name'] ?></td>
+                <td><?= $app['description'] ?></td>
+                <td>
+                    <? if ($app['is_admin'] == 1): ?>
+                    Y
+                    <? else: ?>
+                    N
+                    <? endif; ?>
+                </td>
+                <td>
+                    <p><strong>public</strong> <?= $app['public_key'] ?></p>
+                    <p><strong>private</strong> <?= $app['private_key'] ?></p>
+                </td>
+            </tr>
+            <? endforeach; ?>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,52 @@
+<ul class="pagination">
+    <li class="disabled">
+        <a href="">
+            Total Results <?= $_['paginator']['results']?>
+        </a>
+    </li>
+    <li class="disabled">
+        <a href="">
+            Page <?= $_['paginator']['page']['current'] ?> of <?= $_['paginator']['page']['total'] ?>
+        </a>
+    </li>
+    
+    <!-- Start Go back //-->
+    
+    <? if ($_['paginator']['page']['current'] > 1): ?>
+    <li>
+        <a href="<?= $this->url($_['routeId'], array('page' => $_['paginator']['page']['current']-1))?>">&laquo;</a>
+    </li>
+    <? else: ?>
+    <li class="disabled">
+        <a href="#">&laquo;</a>
+    </li>
+    <? endif; ?>
+    
+    <!-- End Go back //-->
+    
+    <!-- Start Pages list //-->
+    
+    <? for ($i=1; $i<=$_['paginator']['page']['total']; $i++): ?>
+    <li<? if($i == $_['paginator']['page']['current']): ?> class="active"<? endif; ?>>
+        <a href="<?= $this->url($_['routeId'], array('page' => $i))?>">
+            <?= $i ?>
+        </a>
+    </li>
+    <? endfor; ?>
+  
+    <!-- End Pages list //-->
+    
+    <!-- Start Go next //-->
+    
+    <? if ($_['paginator']['page']['current'] < $_['paginator']['page']['total']): ?>
+    <li>
+        <a href="<?= $this->url($_['routeId'], array('page' => $_['paginator']['page']['current']+1))?>">&raquo;</a>
+    </li>
+    <? else: ?>
+    <li class="disabled">
+        <a href="#">&raquo;</a>
+    </li>
+    <? endif; ?>
+    
+    <!-- End Go next //-->
+</ul>
