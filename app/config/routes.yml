@@ -15,12 +15,86 @@ routes:
     - name: dummy_client.app.index
       methods: ["GET"]
       uri:
-          pattern: apps/{page}
-          requirements:
-              - param: page
-                value: \d+
+          pattern: app/list
+          requirements: []
       controller: \Michcald\DummyClient\Controller\AppController
       action: indexAction
+
+    - name: dummy_client.app.create
+      methods: ["GET","POST"]
+      uri:
+          pattern: app/create
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\AppController
+      action: createAction
+
+    - name: dummy_client.app.read
+      methods: ["GET"]
+      uri:
+          pattern: app/{id}/read
+          requirements:
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\AppController
+      action: readAction
+
+    - name: dummy_client.app.update
+      methods: ["GET","POST"]
+      uri:
+          pattern: app/{id}/update
+          requirements:
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\AppController
+      action: updateAction
+
+    - name: dummy_client.app.delete
+      methods: ["GET","POST"]
+      uri:
+          pattern: app/{id}/delete
+          requirements:
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\AppController
+      action: deleteAction
+
+    - name: dummy_client.app.grants
+      methods: ["GET"]
+      uri:
+          pattern: app/{id}/grants
+          requirements:
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\AppController
+      action: grantsAction
+
+    # repository
+    
+    - name: dummy_client.repository.index
+      methods: ["GET"]
+      uri:
+          pattern: repository/list
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\RepositoryController
+      action: indexAction
+
+    - name: dummy_client.repository.create
+      methods: ["GET","POST"]
+      uri:
+          pattern: repository/create
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\RepositoryController
+      action: createAction
+
+    - name: dummy_client.repository.read
+      methods: ["GET"]
+      uri:
+          pattern: repository/read/{name}
+          requirements:
+              - param: name
+                value: "[a-zA-Z0-9_]+"
+      controller: \Michcald\DummyClient\Controller\RepositoryController
+      action: readAction
     
     # default
     

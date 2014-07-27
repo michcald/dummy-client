@@ -3,15 +3,14 @@
         <a href="<?= $this->url('dummy_client.index.index') ?>">Home</a>
     </li>
     <li>
-        <a href="<?= $this->url('dummy_client.app.index') ?>">Apps</a>
+        <a href="<?= $this->url('dummy_client.repository.index') ?>">Repositories</a>
     </li>
 </ol>
 
-
 <h1>
-    Apps
+    Repositories
     <small>
-        <a href="<?= $this->url('dummy_client.app.create') ?>" class="green">
+        <a href="<?= $this->url('dummy_client.repository.create') ?>" class="green">
             <span class="glyphicon glyphicon-plus-sign"></span>
         </a>
     </small>
@@ -29,7 +28,7 @@
 </div>
 
 <div class="col-md-12">
-    <?= $this->paginator('dummy_client.app.index', $_['paginator']) ?>
+    <?= $this->paginator('dummy_client.repository.index', $_['paginator']) ?>
 </div>
 
 <div class="table-responsive">
@@ -39,39 +38,25 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Is Admin</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            <? foreach ($_['apps'] as $app): ?>
+            <? foreach ($_['repositories'] as $r): ?>
             <tr>
-                <td><?= $app['id'] ?></td>
-                <td><?= $app['name'] ?></td>
-                <td><?= $app['description'] ?></td>
-                <td>
-                    <? if ($app['is_admin'] == 1): ?>
-                    Y
-                    <? else: ?>
-                    N
-                    <? endif; ?>
-                </td>
+                <td><?= $r['id'] ?></td>
+                <td><?= $r['name'] ?></td>
+                <td><?= $r['description'] ?></td>
                 <td class="text-right">
-                    <a href="<?= $this->url('dummy_client.app.read', array(
-                        'id' => $app['id']
-                    )) ?>">
+                    <a href="<?= $this->url('dummy_client.repository.read', array('name' => $r['name'])) ?>">
                         <span class="glyphicon glyphicon-book"></span> view
                     </a>
                     &emsp;
-                    <a href="<?= $this->url('dummy_client.app.update', array(
-                        'id' => $app['id']
-                    )) ?>" class="orange">
+                    <a href="" class="orange">
                         <span class="glyphicon glyphicon-edit"></span> edit
                     </a>
                     &emsp;
-                    <a href="<?= $this->url('dummy_client.app.delete', array(
-                        'id' => $app['id']
-                    )) ?>" class="red">
+                    <a href="" class="red">
                         <span class="glyphicon glyphicon-remove"></span> delete
                     </a>
                 </td>

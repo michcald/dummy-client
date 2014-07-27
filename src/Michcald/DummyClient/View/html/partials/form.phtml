@@ -1,0 +1,34 @@
+<? if ($_['form']->getError()): ?>
+<div class="alert alert-warning">
+    <?= $_['form']->getError() ?>
+</div>
+<? endif; ?>
+
+<form role="form" method="<?= $_['form']->getMethod() ?>">
+    <? foreach ($_['form']->getElements() as $element): ?>
+    <div class="form-group">
+        <label for="<?= $element->getName() ?>">
+            <?= $element->getLabel() ?>
+        </label>
+        <input
+            type="text"
+            class="form-control"
+            name="<?= $element->getName() ?>"
+            id="<?= $element->getName() ?>"
+            value="<?= $element->getValue() ?>"
+            />
+        <? if (count($element->getErrors()) > 0): ?>
+        <div class="alert alert-danger">
+            <ul>
+                <? foreach ($element->getErrors() as $error): ?>
+                <li><small><?= $error ?></small></li>
+                <? endforeach; ?>
+            </ul>
+        </div>
+        <? endif; ?>
+    </div>
+    <? endforeach; ?>
+    <button type="submit" class="btn btn-success">
+        <?= $_['form']->getButtonLabel() ?>
+    </button>
+</form>

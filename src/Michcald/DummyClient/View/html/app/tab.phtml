@@ -1,0 +1,30 @@
+<ul class="nav nav-tabs" role="tablist">
+    <li<? if($_['active'] == 'read'): ?> class="active"<? endif; ?>>
+        <a href="<?= $this->url('dummy_client.app.read', array(
+            'id' => $_['app']['id']
+        )) ?>">
+            Read
+        </a>
+    </li>
+    <li<? if($_['active'] == 'update'): ?> class="active"<? endif; ?>>
+        <a href="<?= $this->url('dummy_client.app.update', array(
+            'id' => $_['app']['id']
+        )) ?>">
+            Edit
+        </a>
+    </li>
+    <li<? if($_['active'] == 'delete'): ?> class="active"<? endif; ?>>
+        <a href="<?= $this->url('dummy_client.app.delete', array(
+            'id' => $_['app']['id']
+        )) ?>">
+            Delete
+        </a>
+    </li>
+    <li<? if($_['active'] == 'grants'): ?> class="active"<? endif; ?>>
+        <a href="<?= $this->url('dummy_client.app.grants', array(
+            'id' => $_['app']['id']
+        )) ?>">
+            Grants
+        </a>
+    </li>
+</ul>
