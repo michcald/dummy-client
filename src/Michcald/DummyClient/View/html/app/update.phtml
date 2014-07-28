@@ -1,20 +1,20 @@
-<ol class="breadcrumb">
-    <li>
-        <a href="<?= $this->url('dummy_client.index.index') ?>">Home</a>
-    </li>
-    <li>
-        <a href="<?= $this->url('dummy_client.app.index') ?>">Apps</a>
-    </li>
-    <li>
-        <a href="<?= $this->url('dummy_client.app.read', array(
-            'id' => $_['app']['id']
-        )) ?>">App</a>
-    </li>
-</ol>
+<?= $this->viewRender('partials/navbar.phtml', array(
+    'urls' => array(
+        'Apps' => $this->url('dummy_client.app.index'),
+        'Edit' => Null
+    )
+)) ?>
 
-<h1>App</h1>
+<h1>
+    <span class="glyphicon glyphicon-lock"></span>
+    <?= $_['app']['name'] ?>
+</h1>
 
 <?= $this->viewRender('app/tab.phtml', array(
     'app' => $_['app'],
     'active' => 'update'
+)) ?>
+
+<?= $this->viewRender('partials/form.phtml', array(
+    'form' => $_['form']
 )) ?>

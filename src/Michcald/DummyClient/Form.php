@@ -28,8 +28,17 @@ class Form
         
         foreach ($this->getElements() as $element) {
             $value = $this->request->getData($element->getName(), false);
-            if ($value) {
+            if ($value !== false) {
                 $element->setValue($value);
+            }
+        }
+    }
+    
+    public function handleArray(array $array)
+    {
+        foreach ($this->getElements() as $element) {
+            if (isset($array[$element->getName()])) {
+                $element->setValue($array[$element->getName()]);
             }
         }
     }
@@ -49,6 +58,10 @@ class Form
         if (isset($error['form'])) {
             foreach ($this->getElements() as $element) {
 
+                if ($element->getDisabled()) {
+                    continue;
+                }
+                
                 $e = $error['form'][$element->getName()];
 
                 $element->setValue($e['value']);
@@ -58,6 +71,19 @@ class Form
                         $element->addError($err);
                     }
                 }
+            }
+        }
+    }
+    
+    public function handleReadResponse(\Michcald\RestClient\Response $response)
+    {
+        $this->response = $response;
+        
+        $array = json_decode($response->getContent(), true);
+        
+        foreach ($this->getElements() as $element) {
+            if (isset($array[$element->getName()])) {
+                $element->setValue($array[$element->getName()]);
             }
         }
     }
@@ -128,6 +154,9 @@ class Form
     {
         $array = array();
         foreach ($this->elements as $element) {
+            if ($element->getDisabled() == true) {
+                continue;
+            }
             $array[$element->getName()] = (string) $element->getValue();
         }
         return $array;

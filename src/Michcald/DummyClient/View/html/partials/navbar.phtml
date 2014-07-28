@@ -1,0 +1,18 @@
+<ol class="breadcrumb">
+    <li>
+        <a href="<?= $this->url('dummy_client.index.index') ?>">
+            Home
+        </a>
+    </li>
+    <? foreach ($_['urls'] as $key => $value): ?>
+    <li>
+        <? if ($value): ?>
+        <a href="<?= $value ?>">
+            <?= $key ?>
+        </a>
+        <? else: ?>
+        <?= $key ?>
+        <? endif; ?>
+    </li>
+    <? endforeach; ?>
+</ol>

@@ -6,18 +6,16 @@
 
 <form role="form" method="<?= $_['form']->getMethod() ?>">
     <? foreach ($_['form']->getElements() as $element): ?>
+    <? if ($element->getDisabled() && !$element->getValue()) continue; ?>
     <div class="form-group">
         <label for="<?= $element->getName() ?>">
             <?= $element->getLabel() ?>
         </label>
-        <input
-            type="text"
-            class="form-control"
-            name="<?= $element->getName() ?>"
-            id="<?= $element->getName() ?>"
-            value="<?= $element->getValue() ?>"
-            />
+        <?= $this->viewRender(sprintf('partials/form/%s.phtml', $element->getType()), array(
+            'element' => $element
+        )) ?>
         <? if (count($element->getErrors()) > 0): ?>
+        <br />
         <div class="alert alert-danger">
             <ul>
                 <? foreach ($element->getErrors() as $error): ?>

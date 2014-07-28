@@ -1,14 +1,11 @@
-<ol class="breadcrumb">
-    <li>
-        <a href="<?= $this->url('dummy_client.index.index') ?>">Home</a>
-    </li>
-    <li>
-        <a href="<?= $this->url('dummy_client.app.index') ?>">Apps</a>
-    </li>
-</ol>
-
+<?= $this->viewRender('partials/navbar.phtml', array(
+    'urls' => array(
+        'Apps' => null
+    )
+)) ?>
 
 <h1>
+    <span class="glyphicon glyphicon-lock"></span>
     Apps
     <small>
         <a href="<?= $this->url('dummy_client.app.create') ?>" class="green">
@@ -18,7 +15,7 @@
 </h1>
 
 <div class="panel panel-default">
-    <div class="panel-body">
+    <div class="panel-body bg-info">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search...">
             <span class="input-group-addon">
@@ -27,6 +24,18 @@
         </div>
     </div>
 </div>
+
+<? if ($_['deleted']): ?>
+<p class="alert alert-success">
+    App deleted successfully!
+</p>
+<? endif; ?>
+
+<? if ($_['created']): ?>
+<p class="alert alert-success">
+    App created successfully!
+</p>
+<? endif; ?>
 
 <div class="col-md-12">
     <?= $this->paginator('dummy_client.app.index', $_['paginator']) ?>
@@ -60,19 +69,19 @@
                     <a href="<?= $this->url('dummy_client.app.read', array(
                         'id' => $app['id']
                     )) ?>">
-                        <span class="glyphicon glyphicon-book"></span> view
+                        <span class="glyphicon glyphicon-book"></span> read
                     </a>
                     &emsp;
                     <a href="<?= $this->url('dummy_client.app.update', array(
                         'id' => $app['id']
                     )) ?>" class="orange">
-                        <span class="glyphicon glyphicon-edit"></span> edit
+                        <span class="glyphicon glyphicon-edit"></span> update
                     </a>
                     &emsp;
                     <a href="<?= $this->url('dummy_client.app.delete', array(
                         'id' => $app['id']
                     )) ?>" class="red">
-                        <span class="glyphicon glyphicon-remove"></span> delete
+                        <span class="glyphicon glyphicon-trash"></span> delete
                     </a>
                 </td>
             </tr>

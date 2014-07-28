@@ -4,6 +4,9 @@ namespace Michcald\DummyClient\Form;
 
 class Element
 {
+    const TYPE_TEXT = 'text';
+    const TYPE_SELECT = 'select';
+    
     private $name;
     
     private $label;
@@ -11,6 +14,12 @@ class Element
     private $value;
     
     private $errors = array();
+    
+    private $disabled = false;
+    
+    private $type = self::TYPE_TEXT;
+    
+    private $options;
     
     public function setName($name)
     {
@@ -58,5 +67,36 @@ class Element
     public function getErrors()
     {
         return $this->errors;
+    }
+    
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
+        
+        return $this;
+    }
+    
+    public function getDisabled()
+    {
+        return $this->disabled;
+    }
+    
+    public function setType($type, array $options = array())
+    {
+        $this->type = $type;
+        
+        $this->options = $options;
+        
+        return $this;
+    }
+    
+    public function getType()
+    {
+        return $this->type;
+    }
+    
+    public function getOptions()
+    {
+        return $this->options;
     }
 }

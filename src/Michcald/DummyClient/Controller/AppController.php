@@ -7,6 +7,8 @@ class AppController extends \Michcald\DummyClient\Controller
     public function indexAction()
     {
         $page = (int)$this->getRequest()->getQueryParam('page', 1);
+        $deleted = (int)$this->getRequest()->getQueryParam('deleted', 0);
+        $created = (int)$this->getRequest()->getQueryParam('created', 0);
         
         $restResponse = $this->restCall('get', 'app', array(
             'page' => $page
@@ -29,6 +31,8 @@ class AppController extends \Michcald\DummyClient\Controller
                 array(
                     'paginator' => $array['paginator'],
                     'apps' => $array['results'],
+                    'deleted' => $deleted,
+                    'created' => $created
                 )
             );
             
@@ -60,12 +64,7 @@ class AppController extends \Michcald\DummyClient\Controller
             
             if ($form->isValid()) {
                 
-                $content = $this->render(
-                    'app/create.phtml',
-                    array(
-                        'created' => true,
-                    )
-                );
+                $this->redirect('dummy_client.app.index', array('created' => 1));
                 
             } else {
                 
@@ -103,7 +102,7 @@ class AppController extends \Michcald\DummyClient\Controller
     public function readAction($id)
     {
         $restResponse = $this->restCall('get', sprintf('app/%d', $id));
-        
+
         if ($restResponse->getStatusCode() != 200) {
             $content = $this->render(
                 'error.phtml',
@@ -112,7 +111,12 @@ class AppController extends \Michcald\DummyClient\Controller
                 )
             );
         } else {
+            
+            $form = new \Michcald\DummyClient\App\Form\App();
+            
             $array = json_decode($restResponse->getContent(), true);
+            
+            $form->handleArray($array);
             
             // set up paginator
             
@@ -120,6 +124,7 @@ class AppController extends \Michcald\DummyClient\Controller
                 'app/read.phtml',
                 array(
                     'app' => $array,
+                    'form' => $form
                 )
             );
             
@@ -149,16 +154,34 @@ class AppController extends \Michcald\DummyClient\Controller
                 )
             );
         } else {
-            $array = json_decode($restResponse->getContent(), true);
             
-            // set up paginator
+            $form = new \Michcald\DummyClient\App\Form\App();
+            $form->setButtonLabel('Save');
+        
+            $form->handleRequest($this->getRequest());
             
-            $content = $this->render(
-                'app/update.phtml',
-                array(
-                    'app' => $array,
-                )
-            );
+            $form->handleReadResponse($restResponse);
+
+            if ($form->isSubmitted()) {
+                
+                /*$restResponse = $this->restCall(
+                    'get', 
+                    sprintf('app/%d', $id),
+                    $form->toArray()
+                );*/
+                
+                
+                
+            } else {
+                $content = $this->render(
+                    'app/update.phtml',
+                    array(
+                        'app' => json_decode($restResponse->getContent(), true),
+                        'form' => $form,
+                    )
+                );
+            }
+            
             
             $content = $this->render(
                 'layout.phtml',
@@ -188,7 +211,15 @@ class AppController extends \Michcald\DummyClient\Controller
         } else {
             $array = json_decode($restResponse->getContent(), true);
             
-            // set up paginator
+            if ($this->getRequest()->isMethod('post')) {
+                $resp = $this->restCall('delete', sprintf('app/%d', $id));
+
+                if ($resp->getStatusCode() == 204) {
+                    $this->redirect('dummy_client.app.index', array('deleted' => 1));
+                } else {
+                    throw new \Exception('Cannot delete app');
+                }
+            }
             
             $content = $this->render(
                 'app/delete.phtml',
@@ -225,12 +256,13 @@ class AppController extends \Michcald\DummyClient\Controller
         } else {
             $array = json_decode($restResponse->getContent(), true);
             
-            // set up paginator
+            $grantsResponse = $this->restCall('get', sprintf('app/%d/grants', $id));
             
             $content = $this->render(
                 'app/grants.phtml',
                 array(
                     'app' => $array,
+                    'reposito'
                 )
             );
             

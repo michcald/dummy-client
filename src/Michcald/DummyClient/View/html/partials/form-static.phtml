@@ -1,0 +1,14 @@
+<? foreach ($_['form']->getElements() as $element): ?>
+<div class="form-group">
+    <label class="col-sm-2 control-label">
+        <?= $element->getLabel() ?>
+    </label>
+    <div class="col-sm-10">
+        <p class="form-control-static">
+            <?= $this->viewRender(sprintf('partials/form-static/%s.phtml', $element->getType()), array(
+                'element' => $element
+            )) ?>
+        </p>
+    </div>
+</div>
+<? endforeach; ?>
