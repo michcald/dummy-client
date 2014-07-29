@@ -69,7 +69,6 @@ abstract class Bootstrap
         $view->addHelper('\Michcald\DummyClient\View\Helper\Asset', 'asset');
         $view->addHelper('\Michcald\DummyClient\View\Helper\ViewRender', 'viewRender');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Url', 'url');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\Paginator', 'paginator');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Menu', 'menu');
     }
     

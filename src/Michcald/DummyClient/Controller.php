@@ -4,6 +4,8 @@ namespace Michcald\DummyClient;
 
 abstract class Controller extends \Michcald\Mvc\Controller
 {
+    private $flashes = array();
+    
     /**
      * 
      * @return \Michcald\Mvc\View
@@ -25,7 +27,19 @@ abstract class Controller extends \Michcald\Mvc\Controller
         
         $filename = realpath($filename);
         
+        $data['_flashes'] = $this->flashes;
+        
         return $this->getView()->render($filename, $data);
+    }
+    
+    protected function addFlash($message, $type = 'info')
+    {
+        $this->flashes[] = array(
+            'type' => $type,
+            'message' => $message
+        );
+        
+        return $this;
     }
     
     /**

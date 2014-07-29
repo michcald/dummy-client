@@ -1,0 +1,26 @@
+<? foreach ($_['flashes'] as $flash): ?>
+
+<? if (isset($flash['type'])): ?>
+    <? if ($flash['type'] == 'success'): ?>
+        <? $icon = 'ok-sign' ?>
+        <? $class = 'success' ?>
+    <? elseif ($flash['type'] == 'error'): ?>
+        <? $icon = 'remove-sign' ?>
+        <? $class = 'danger' ?>
+    <? else: ?>
+        <? $icon = 'info-sign' ?>
+        <? $class = 'info' ?>
+    <? endif; ?>
+<? else: ?>
+    <? $icon = 'info-sign' ?>
+    <? $class = 'info' ?>
+<? endif; ?>
+
+<p class="alert alert-<?= $class ?>">
+    <span class="glyphicon glyphicon-<?= $icon ?>"></span>
+    <?= $flash['message'] ?>
+</p>
+
+<br />
+
+<? endforeach; ?>

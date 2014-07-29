@@ -7,8 +7,11 @@ class AppController extends \Michcald\DummyClient\Controller
     public function indexAction()
     {
         $page = (int)$this->getRequest()->getQueryParam('page', 1);
+        
         $deleted = (int)$this->getRequest()->getQueryParam('deleted', 0);
-        $created = (int)$this->getRequest()->getQueryParam('created', 0);
+        if ($deleted) {
+            $this->addFlash('App deleted successfully!', 'success');
+        }
         
         $restResponse = $this->restCall('get', 'app', array(
             'page' => $page
@@ -31,8 +34,6 @@ class AppController extends \Michcald\DummyClient\Controller
                 array(
                     'paginator' => $array['paginator'],
                     'apps' => $array['results'],
-                    'deleted' => $deleted,
-                    'created' => $created
                 )
             );
             
@@ -64,9 +65,14 @@ class AppController extends \Michcald\DummyClient\Controller
             
             if ($form->isValid()) {
                 
-                $this->redirect('dummy_client.app.index', array('created' => 1));
+                $this->redirect('dummy_client.app.read', array(
+                    'id' => $restResponse->getContent(),
+                    'created' => 1
+                ));
                 
             } else {
+                
+                $this->addFlash($form->getError(), 'error');
                 
                 $content = $this->render(
                     'app/create.phtml',
@@ -101,6 +107,11 @@ class AppController extends \Michcald\DummyClient\Controller
     
     public function readAction($id)
     {
+        $created = (int)$this->getRequest()->getQueryParam('created', 0);
+        if ($created) {
+            $this->addFlash('App created successfully!', 'success');
+        }
+        
         $restResponse = $this->restCall('get', sprintf('app/%d', $id));
 
         if ($restResponse->getStatusCode() != 200) {

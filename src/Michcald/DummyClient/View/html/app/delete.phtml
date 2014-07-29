@@ -15,7 +15,9 @@
     'active' => 'delete'
 )) ?>
 
-<br />
+<?= $this->viewRender('partials/flashes.phtml', array(
+    'flashes' => isset($_['_flashes']) ? $_['_flashes'] : array()
+)) ?>
 
 <div class="alert alert-danger">
     <p>

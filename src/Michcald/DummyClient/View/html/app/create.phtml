@@ -10,12 +10,10 @@
     Create a New App
 </h1>
 
-<? if (isset($_['created'])): ?>
-<div class="alert alert-success">
-    App created successfully
-</div>
-<? else: ?>
+<?= $this->viewRender('partials/flashes.phtml', array(
+    'flashes' => isset($_['_flashes']) ? $_['_flashes'] : array()
+)) ?>
 
-<?= $this->viewRender('partials/form.phtml', array('form' => $_['form'])) ?>
-
-<? endif; ?>
+<?= $this->viewRender('partials/form.phtml', array(
+    'form' => $_['form']
+)) ?>

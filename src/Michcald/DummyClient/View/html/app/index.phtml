@@ -14,31 +14,25 @@
     </small>
 </h1>
 
-<div class="panel panel-default">
-    <div class="panel-body bg-info">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search...">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-search"></span> Search
-            </span>
-        </div>
-    </div>
-</div>
+<?= $this->viewRender('partials/search.phtml') ?>
 
-<? if ($_['deleted']): ?>
-<p class="alert alert-success">
-    App deleted successfully!
-</p>
-<? endif; ?>
+<?= $this->viewRender('partials/flashes.phtml', array(
+    'flashes' => isset($_['_flashes']) ? $_['_flashes'] : array()
+)) ?>
 
-<? if ($_['created']): ?>
-<p class="alert alert-success">
-    App created successfully!
+<? if ($_['paginator']['results'] == 0): ?>
+
+<p class="alert alert-info">
+    No results yet
 </p>
-<? endif; ?>
+
+<? else: ?>
 
 <div class="col-md-12">
-    <?= $this->paginator('dummy_client.app.index', $_['paginator']) ?>
+    <?= $this->viewRender('partials/paginator.phtml', array(
+        'paginator' => $_['paginator'],
+        'routeId' => 'dummy_client.app.index'
+    )) ?>
 </div>
 
 <div class="table-responsive">
@@ -89,3 +83,5 @@
         </tbody>
     </table>
 </div>
+
+<? endif; ?>

@@ -1,9 +1,3 @@
-<? if ($_['form']->getError()): ?>
-<div class="alert alert-warning">
-    <?= $_['form']->getError() ?>
-</div>
-<? endif; ?>
-
 <form role="form" method="<?= $_['form']->getMethod() ?>">
     <? foreach ($_['form']->getElements() as $element): ?>
     <? if ($element->getDisabled() && !$element->getValue()) continue; ?>

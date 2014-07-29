@@ -14,3 +14,7 @@
     'app' => $_['app'],
     'active' => 'grants'
 )) ?>
+
+<?= $this->viewRender('partials/flashes.phtml', array(
+    'flashes' => isset($_['_flashes']) ? $_['_flashes'] : array()
+)) ?>
