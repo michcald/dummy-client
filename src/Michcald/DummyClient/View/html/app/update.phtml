@@ -5,6 +5,10 @@
     )
 )) ?>
 
+<?= $this->viewRender('partials/flashes.phtml') ?>
+
+<? if (isset($_['app'])): ?>
+
 <h1>
     <span class="glyphicon glyphicon-lock"></span>
     <?= $_['app']['name'] ?>
@@ -15,10 +19,8 @@
     'active' => 'update'
 )) ?>
 
-<?= $this->viewRender('partials/flashes.phtml', array(
-    'flashes' => isset($_['_flashes']) ? $_['_flashes'] : array()
-)) ?>
-
 <?= $this->viewRender('partials/form.phtml', array(
     'form' => $_['form']
 )) ?>
+
+<? endif; ?>

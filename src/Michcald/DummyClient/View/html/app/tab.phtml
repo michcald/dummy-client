@@ -5,7 +5,7 @@ $items = array(
         'active' => $_['active'] == 'read',
         'icon' => 'book',
         'url' => $this->url('dummy_client.app.read', array(
-            'id' => $_['app']['id']
+            'id' => $_['app']->getId()
         ))
     ),
     array(
@@ -13,7 +13,7 @@ $items = array(
         'active' => $_['active'] == 'update',
         'icon' => 'edit',
         'url' => $this->url('dummy_client.app.update', array(
-            'id' => $_['app']['id']
+            'id' => $_['app']->getId()
         ))
     ),
     array(
@@ -21,7 +21,7 @@ $items = array(
         'active' => $_['active'] == 'delete',
         'icon' => 'trash',
         'url' => $this->url('dummy_client.app.delete', array(
-            'id' => $_['app']['id']
+            'id' => $_['app']->getId()
         ))
     ),
     array(
@@ -29,7 +29,7 @@ $items = array(
         'active' => $_['active'] == 'grants',
         'icon' => 'ok',
         'url' => $this->url('dummy_client.app.grants', array(
-            'id' => $_['app']['id']
+            'id' => $_['app']->getId()
         ))
     ),
 );

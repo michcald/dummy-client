@@ -5,18 +5,18 @@
     )
 )) ?>
 
+<?= $this->viewRender('partials/flashes.phtml') ?>
+
+<? if (isset($_['app'])): ?>
+
 <h1>
     <span class="glyphicon glyphicon-lock"></span>
-    <?= $_['app']['name'] ?>
+    <?= $_['app']->getName() ?>
 </h1>
 
 <?= $this->viewRender('app/tab.phtml', array(
     'app' => $_['app'],
     'active' => 'delete'
-)) ?>
-
-<?= $this->viewRender('partials/flashes.phtml', array(
-    'flashes' => isset($_['_flashes']) ? $_['_flashes'] : array()
 )) ?>
 
 <div class="alert alert-danger">
@@ -34,3 +34,5 @@
     </form>
     
 </div>
+
+<? endif; ?>

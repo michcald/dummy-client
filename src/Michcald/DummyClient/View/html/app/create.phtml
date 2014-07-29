@@ -10,9 +10,7 @@
     Create a New App
 </h1>
 
-<?= $this->viewRender('partials/flashes.phtml', array(
-    'flashes' => isset($_['_flashes']) ? $_['_flashes'] : array()
-)) ?>
+<?= $this->viewRender('partials/flashes.phtml') ?>
 
 <?= $this->viewRender('partials/form.phtml', array(
     'form' => $_['form']

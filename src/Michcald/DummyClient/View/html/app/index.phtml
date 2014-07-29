@@ -14,13 +14,11 @@
     </small>
 </h1>
 
+<?= $this->viewRender('partials/flashes.phtml') ?>
+
 <?= $this->viewRender('partials/search.phtml') ?>
 
-<?= $this->viewRender('partials/flashes.phtml', array(
-    'flashes' => isset($_['_flashes']) ? $_['_flashes'] : array()
-)) ?>
-
-<? if ($_['paginator']['results'] == 0): ?>
+<? if ($_['apps']->count() == 0): ?>
 
 <p class="alert alert-info">
     No results yet
@@ -30,7 +28,7 @@
 
 <div class="col-md-12">
     <?= $this->viewRender('partials/paginator.phtml', array(
-        'paginator' => $_['paginator'],
+        'paginator' => $_['apps']->getPaginator(),
         'routeId' => 'dummy_client.app.index'
     )) ?>
 </div>
@@ -49,11 +47,11 @@
         <tbody>
             <? foreach ($_['apps'] as $app): ?>
             <tr>
-                <td><?= $app['id'] ?></td>
-                <td><?= $app['name'] ?></td>
-                <td><?= $app['description'] ?></td>
+                <td><?= $app->getId() ?></td>
+                <td><?= $app->getName() ?></td>
+                <td><?= $app->getDescription() ?></td>
                 <td>
-                    <? if ($app['is_admin'] == 1): ?>
+                    <? if ($app->getIsAdmin() == 1): ?>
                     Y
                     <? else: ?>
                     N
@@ -61,19 +59,19 @@
                 </td>
                 <td class="text-right">
                     <a href="<?= $this->url('dummy_client.app.read', array(
-                        'id' => $app['id']
+                        'id' => $app->getId()
                     )) ?>">
                         <span class="glyphicon glyphicon-book"></span> read
                     </a>
                     &emsp;
                     <a href="<?= $this->url('dummy_client.app.update', array(
-                        'id' => $app['id']
+                        'id' => $app->getId()
                     )) ?>" class="orange">
                         <span class="glyphicon glyphicon-edit"></span> update
                     </a>
                     &emsp;
                     <a href="<?= $this->url('dummy_client.app.delete', array(
-                        'id' => $app['id']
+                        'id' => $app->getId()
                     )) ?>" class="red">
                         <span class="glyphicon glyphicon-trash"></span> delete
                     </a>

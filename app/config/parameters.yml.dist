@@ -8,3 +8,7 @@ dummy:
     key:
         public: 829c3804401b0727f70f73d4415e162400cbe57b
         private: f64133af6818761d95c8230953e5c9ddee1d0cf3
+
+users:
+    - username: dummy
+      password: dummy

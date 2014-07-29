@@ -22,13 +22,15 @@ class Form
     
     private $error;
     
-    public function handleRequest(Request $request)
+    public function handleRequest(Request $request, \Michcald\DummyClient\Model $model)
     {
         $this->request = $request;
         
         foreach ($this->getElements() as $element) {
-            $value = $this->request->getData($element->getName(), false);
+            $name = $element->getName();
+            $value = $this->request->getData($name, false);
             if ($value !== false) {
+                $model->set($name, $value);
                 $element->setValue($value);
             }
         }
@@ -43,13 +45,13 @@ class Form
         }
     }
     
-    public function handleResponse(\Michcald\RestClient\Response $response)
+    
+    
+    public function handleResponse(array $formResponse)
     {
-        $this->response = $response;
+        $this->response = $formResponse;
         
-        $array = json_decode($response->getContent(), true);
-        
-        $error = $array['error'];
+        $error = $formResponse['error'];
         
         if (isset($error['message'])) {
             $this->setError($error['message']);
@@ -75,6 +77,7 @@ class Form
         }
     }
     
+    // to drop
     public function handleReadResponse(\Michcald\RestClient\Response $response)
     {
         $this->response = $response;
@@ -84,15 +87,6 @@ class Form
         foreach ($this->getElements() as $element) {
             if (isset($array[$element->getName()])) {
                 $element->setValue($array[$element->getName()]);
-            }
-        }
-    }
-    
-    public function isValid()
-    {
-        if ($this->response) {
-            if ($this->response->getStatusCode() == 201) {
-                return true;
             }
         }
     }

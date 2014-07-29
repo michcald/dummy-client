@@ -1,4 +1,8 @@
-<? foreach ($_['flashes'] as $flash): ?>
+<? $session = \Michcald\DummyClient\Session::getInstance()->setNamespace('dummy_client') ?>
+
+<? if (isset($session->flashes)): ?>
+
+<? foreach ($session->flashes as $flash): ?>
 
 <? if (isset($flash['type'])): ?>
     <? if ($flash['type'] == 'success'): ?>
@@ -7,6 +11,9 @@
     <? elseif ($flash['type'] == 'error'): ?>
         <? $icon = 'remove-sign' ?>
         <? $class = 'danger' ?>
+    <? elseif ($flash['type'] == 'warning'): ?>
+        <? $icon = 'warning-sign' ?>
+        <? $class = 'warning' ?>
     <? else: ?>
         <? $icon = 'info-sign' ?>
         <? $class = 'info' ?>
@@ -24,3 +31,7 @@
 <br />
 
 <? endforeach; ?>
+
+<? unset($session->flashes) ?>
+
+<? endif; ?>

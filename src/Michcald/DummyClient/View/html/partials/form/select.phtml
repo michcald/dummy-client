@@ -4,7 +4,7 @@
     class="form-control"
     <? if ($_['element']->getDisabled()): ?> disabled<? endif; ?>
     >
-    <option>-- Select --</option>
+    <option value="">-- Select --</option>
     <? foreach ($_['element']->getOptions() as $key => $value): ?>
     <option 
         value="<?= $value?>"

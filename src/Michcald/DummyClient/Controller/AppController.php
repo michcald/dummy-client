@@ -4,290 +4,186 @@ namespace Michcald\DummyClient\Controller;
 
 class AppController extends \Michcald\DummyClient\Controller
 {
+    private $appDao;
+    
+    private $response;
+    
+    public function __construct()
+    {
+        $this->appDao = new \Michcald\DummyClient\App\Dao\App();
+        
+        $this->response = new \Michcald\Mvc\Response();
+        $this->response->addHeader('Content-Type: text/html');
+    }
+    
     public function indexAction()
     {
         $page = (int)$this->getRequest()->getQueryParam('page', 1);
         
-        $deleted = (int)$this->getRequest()->getQueryParam('deleted', 0);
-        if ($deleted) {
-            $this->addFlash('App deleted successfully!', 'success');
-        }
+        $apps = $this->appDao->findAll($page);
         
-        $restResponse = $this->restCall('get', 'app', array(
-            'page' => $page
+        $content = $this->render('app/index.phtml', array(
+            'apps' => $apps
         ));
         
-        if ($restResponse->getStatusCode() != 200) {
-            $content = $this->render(
-                'error.phtml',
-                array(
-                    'response' => $restResponse,
-                )
-            );
-        } else {
-            $array = json_decode($restResponse->getContent(), true);
-            
-            // set up paginator
-            
-            $content = $this->render(
-                'app/index.phtml',
-                array(
-                    'paginator' => $array['paginator'],
-                    'apps' => $array['results'],
-                )
-            );
-            
-            $content = $this->render(
-                'layout.phtml',
-                array(
-                    'content' => $content,
-                )
-            );
-        }
+        $layout = $this->render('layout.phtml', array(
+            'content' => $content,
+        ));
         
-        $response = new \Michcald\Mvc\Response();
-        $response->addHeader('Content-Type: text/html')
-            ->setContent($content);
-        return $response;
+        return $this->response->setContent($layout);
     }
     
     public function createAction()
     {
+        $app = new \Michcald\DummyClient\App\Model\App();
+        
         $form = new \Michcald\DummyClient\App\Form\App();
         
-        $form->handleRequest($this->getRequest());
-        
+        $form->handleRequest($this->getRequest(), $app);
+
         if ($form->isSubmitted()) {
             
-            $restResponse = $this->restCall('post', 'app', $form->toArray());
+            $created = $this->appDao->create($app);
             
-            $form->handleResponse($restResponse);
             
-            if ($form->isValid()) {
+            if ($created === true) {
+                
+                $this->addFlash('App created successfully!', 'success');
                 
                 $this->redirect('dummy_client.app.read', array(
-                    'id' => $restResponse->getContent(),
-                    'created' => 1
+                    'id' => $app->getId()
                 ));
                 
             } else {
-                
                 $this->addFlash($form->getError(), 'error');
                 
-                $content = $this->render(
-                    'app/create.phtml',
-                    array(
-                        'form' => $form
-                    )
-                );
-                
+                $form->handleResponse($created);
             }
-            
-        } else {
-            $content = $this->render(
-                'app/create.phtml',
-                array(
-                    'form' => $form
-                )
-            );
         }
+            
+        $content = $this->render('app/create.phtml', array(
+            'form' => $form
+        ));
         
-        $content = $this->render(
-            'layout.phtml',
-            array(
-                'content' => $content,
-            )
-        );
+        $layout = $this->render('layout.phtml', array(
+            'content' => $content,
+        ));
         
-        $response = new \Michcald\Mvc\Response();
-        $response->addHeader('Content-Type: text/html')
-            ->setContent($content);
-        return $response;
+        return $this->response->setContent($layout);
     }
     
     public function readAction($id)
     {
-        $created = (int)$this->getRequest()->getQueryParam('created', 0);
-        if ($created) {
-            $this->addFlash('App created successfully!', 'success');
-        }
+        $app = $this->appDao->findOne($id);
         
-        $restResponse = $this->restCall('get', sprintf('app/%d', $id));
+        $form = new \Michcald\DummyClient\App\Form\App();
 
-        if ($restResponse->getStatusCode() != 200) {
-            $content = $this->render(
-                'error.phtml',
-                array(
-                    'response' => $restResponse,
-                )
-            );
+        if (!$app) {
+            
+            $this->addFlash('App not found', 'warning');
+            
         } else {
             
-            $form = new \Michcald\DummyClient\App\Form\App();
-            
-            $array = json_decode($restResponse->getContent(), true);
-            
-            $form->handleArray($array);
-            
-            // set up paginator
-            
-            $content = $this->render(
-                'app/read.phtml',
-                array(
-                    'app' => $array,
-                    'form' => $form
-                )
-            );
-            
-            $content = $this->render(
-                'layout.phtml',
-                array(
-                    'content' => $content,
-                )
-            );
+            $form->handleArray($app->toArray());
         }
         
-        $response = new \Michcald\Mvc\Response();
-        $response->addHeader('Content-Type: text/html')
-            ->setContent($content);
-        return $response;
+        $content = $this->render('app/read.phtml', array(
+            'app' => $app,
+            'form' => $form
+        ));
+
+        $layout = $this->render('layout.phtml', array(
+            'content' => $content,
+        ));
+        
+        return $this->response->setContent($layout);
     }
     
     public function updateAction($id)
     {
-        $restResponse = $this->restCall('get', sprintf('app/%d', $id));
+        $app = $this->appDao->findOne($id);
         
-        if ($restResponse->getStatusCode() != 200) {
-            $content = $this->render(
-                'error.phtml',
-                array(
-                    'response' => $restResponse,
-                )
-            );
+        $form = new \Michcald\DummyClient\App\Form\App();
+        
+        if (!$app) {
+            
+            $this->addFlash('App not found', 'warning');
+            
         } else {
             
-            $form = new \Michcald\DummyClient\App\Form\App();
             $form->setButtonLabel('Save');
         
-            $form->handleRequest($this->getRequest());
+            //$form->handleRequest($this->getRequest());
             
-            $form->handleReadResponse($restResponse);
+            //$form->handleModel($app);
 
             if ($form->isSubmitted()) {
                 
-                /*$restResponse = $this->restCall(
-                    'get', 
-                    sprintf('app/%d', $id),
-                    $form->toArray()
-                );*/
-                
-                
-                
-            } else {
-                $content = $this->render(
-                    'app/update.phtml',
-                    array(
-                        'app' => json_decode($restResponse->getContent(), true),
-                        'form' => $form,
-                    )
-                );
             }
-            
-            
-            $content = $this->render(
-                'layout.phtml',
-                array(
-                    'content' => $content,
-                )
-            );
         }
         
-        $response = new \Michcald\Mvc\Response();
-        $response->addHeader('Content-Type: text/html')
-            ->setContent($content);
-        return $response;
+        $content = $this->render('app/update.phtml', array(
+            'app' => $app,
+            'form' => $form,
+        ));
+        
+        $layout = $this->render('layout.phtml', array(
+            'content' => $content,
+        ));
+        
+        return $this->response->setContent($layout);
     }
     
     public function deleteAction($id)
     {
-        $restResponse = $this->restCall('get', sprintf('app/%d', $id));
+        $app = $this->appDao->findOne($id);
         
-        if ($restResponse->getStatusCode() != 200) {
-            $content = $this->render(
-                'error.phtml',
-                array(
-                    'response' => $restResponse,
-                )
-            );
+        if (!$app) {
+            
+            $this->addFlash('App not found', 'warning');
+            
         } else {
-            $array = json_decode($restResponse->getContent(), true);
             
             if ($this->getRequest()->isMethod('post')) {
-                $resp = $this->restCall('delete', sprintf('app/%d', $id));
+                
+                $this->appDao->delete($app);
+                
+                $this->addFlash('App deleted successfully!', 'success');
 
-                if ($resp->getStatusCode() == 204) {
-                    $this->redirect('dummy_client.app.index', array('deleted' => 1));
-                } else {
-                    throw new \Exception('Cannot delete app');
-                }
+                $this->redirect('dummy_client.app.index');
             }
-            
-            $content = $this->render(
-                'app/delete.phtml',
-                array(
-                    'app' => $array,
-                )
-            );
-            
-            $content = $this->render(
-                'layout.phtml',
-                array(
-                    'content' => $content,
-                )
-            );
         }
         
-        $response = new \Michcald\Mvc\Response();
-        $response->addHeader('Content-Type: text/html')
-            ->setContent($content);
-        return $response;
+        $content = $this->render('app/delete.phtml', array(
+            'app' => $app,
+        ));
+        
+        $layout = $this->render('layout.phtml', array(
+            'content' => $content,
+        ));
+        
+        return $this->response->setContent($layout);
     }
     
     public function grantsAction($id)
     {
-        $restResponse = $this->restCall('get', sprintf('app/%d', $id));
+        $app = $this->appDao->findOne($id);
         
-        if ($restResponse->getStatusCode() != 200) {
-            $content = $this->render(
-                'error.phtml',
-                array(
-                    'response' => $restResponse,
-                )
-            );
+        if (!$app) {
+            
+            $this->addFlash('App not found', 'warning');
+            
         } else {
-            $array = json_decode($restResponse->getContent(), true);
             
-            $grantsResponse = $this->restCall('get', sprintf('app/%d/grants', $id));
+            $content = $this->render('app/grants.phtml', array(
+                'app' => $app,
+            ));
             
-            $content = $this->render(
-                'app/grants.phtml',
-                array(
-                    'app' => $array,
-                    'reposito'
-                )
-            );
-            
-            $content = $this->render(
-                'layout.phtml',
-                array(
-                    'content' => $content,
-                )
-            );
+            $layout = $this->render('layout.phtml', array(
+                'content' => $content,
+            ));
         }
         
-        $response = new \Michcald\Mvc\Response();
-        $response->addHeader('Content-Type: text/html')
-            ->setContent($content);
-        return $response;
+        return $this->response->setContent($layout);
     }
 }

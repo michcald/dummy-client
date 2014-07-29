@@ -28,7 +28,10 @@
 </div>
 
 <div class="col-md-12">
-    <?= $this->paginator('dummy_client.repository.index', $_['paginator']) ?>
+    <?= $this->viewRender('partials/paginator.phtml', array(
+        'paginator' => $_['paginator'],
+        'routeId' => 'dummy_client.app.index'
+    )) ?>
 </div>
 
 <div class="table-responsive">

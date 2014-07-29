@@ -4,8 +4,6 @@ namespace Michcald\DummyClient;
 
 abstract class Controller extends \Michcald\Mvc\Controller
 {
-    private $flashes = array();
-    
     /**
      * 
      * @return \Michcald\Mvc\View
@@ -27,17 +25,19 @@ abstract class Controller extends \Michcald\Mvc\Controller
         
         $filename = realpath($filename);
         
-        $data['_flashes'] = $this->flashes;
-        
         return $this->getView()->render($filename, $data);
     }
-    
+
     protected function addFlash($message, $type = 'info')
     {
-        $this->flashes[] = array(
+        $session = Session::getInstance()->setNamespace('dummy_client');
+        
+        $flashes[] = array(
             'type' => $type,
             'message' => $message
         );
+        
+        $session->flashes = $flashes;
         
         return $this;
     }
@@ -68,6 +68,22 @@ abstract class Controller extends \Michcald\Mvc\Controller
                 $uri = $route->getUri()->generate($params);
                 header(sprintf('Location: %s%s', Config::getInstance()->base_url, $uri));
                 die;
+            }
+        }
+        
+        throw new \Exception(sprintf('Route id %s not found', $routeId));
+    }
+    
+    protected function generateUrl($routeId, array $params = array())
+    {
+        /* @var $router \Michcald\Mvc\Router */
+        $router = \Michcald\Mvc\Container::get('mvc.router');
+        
+        foreach ($router->getRoutes() as $route) {
+            /* @var $route \Michcald\Mvc\Router\Route */
+            if ($route->getId() == $routeId) {
+                $uri = $route->getUri()->generate($params);
+                return sprintf('%s%s', Config::getInstance()->base_url, $uri);
             }
         }
         
