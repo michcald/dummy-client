@@ -40,7 +40,7 @@ class App extends \Michcald\DummyClient\Model
     
     public function setIsAdmin($isAdmin)
     {
-        $this->isAdmin = $isAdmin;
+        $this->is_admin = $isAdmin;
         
         return $this;
     }

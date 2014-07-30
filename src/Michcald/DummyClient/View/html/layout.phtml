@@ -21,6 +21,10 @@
         
         <?= $this->menu('partials/menu.phtml') ?>
         
+        <div class="container">
+            <?= $this->viewRender('partials/flashes.phtml') ?>
+        </div>
+        
         <? if (isset($_['content'])): ?>
         <div class="container">
             <?= $_['content'] ?>

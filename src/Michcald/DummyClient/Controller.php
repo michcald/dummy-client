@@ -34,7 +34,7 @@ abstract class Controller extends \Michcald\Mvc\Controller
         
         $flashes[] = array(
             'type' => $type,
-            'message' => $message
+            'message' => is_array($message) ? json_encode($message) : $message
         );
         
         $session->flashes = $flashes;

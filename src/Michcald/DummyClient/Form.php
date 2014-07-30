@@ -26,12 +26,17 @@ class Form
     {
         $this->request = $request;
         
+        if ($model->getId()) {
+            $data = $model->toArray();
+        } else {
+            $data = $request->getData();
+        }
+        
         foreach ($this->getElements() as $element) {
             $name = $element->getName();
-            $value = $this->request->getData($name, false);
-            if ($value !== false) {
-                $model->set($name, $value);
-                $element->setValue($value);
+            if (array_key_exists($name, $data)) {
+                $model->set($name, (string) $data[$name]);
+                $element->setValue((string) $data[$name]);
             }
         }
     }

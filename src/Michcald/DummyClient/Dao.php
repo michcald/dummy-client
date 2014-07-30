@@ -9,6 +9,8 @@ abstract class Dao
      */
     private $rest;
     
+    private $identityMap = array();
+    
     public function __construct()
     {
         $this->rest = \Michcald\Mvc\Container::get('dummy_client.rest_client');
@@ -20,6 +22,10 @@ abstract class Dao
     
     public function findOne($id)
     {
+        if (isset($this->identityMap[$id])) {
+            return $this->identityMap[$id];
+        }
+        
         $response = $this->rest->call(
             'get', 
             sprintf('%s/%d', $this->getResource(), $id)
@@ -30,7 +36,9 @@ abstract class Dao
                 return null;
             case 200:
                 $data = json_decode($response->getContent(), true);
-                return $this->instanciate($data);
+                $model = $this->instanciate($data);
+                $this->identityMap[$id] = $model;
+                return $model;
             default:
                 throw new \Exception(sprintf('Invalid response: %s', $response->getContent()));
         }
@@ -60,7 +68,9 @@ abstract class Dao
             $collection->setPaginator($paginator);
             
             foreach ($data['results'] as $result) {
-                $collection->addElement($this->instanciate($result));
+                $model = $this->instanciate($result);
+                $this->identityMap[$model->getId()] = $model;
+                $collection->addElement($model);
             }
 
             return $collection;
@@ -76,6 +86,7 @@ abstract class Dao
         if ($response->getStatusCode() == 201) { // created
             $id = $response->getContent();
             $model->setId($id);
+            $this->identityMap[$id] = $model;
             return true;
         }
         
@@ -98,6 +109,11 @@ abstract class Dao
             $model->toArray()
         );
         
+        if (isset($this->identityMap[$model->getId()])) {
+            unset($this->identityMap[$model->getId()]);
+        }
+        
+        return array('error' => 'TODO');
         
         throw new \Exception(sprintf('TODO'));
     }
@@ -110,6 +126,9 @@ abstract class Dao
         );
         
         if ($response->getStatusCode() == 204) {
+            if (isset($this->identityMap[$model->getId()])) {
+                unset($this->identityMap[$model->getId()]);
+            }
             return true;
         }
         
