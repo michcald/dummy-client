@@ -1,17 +1,19 @@
+<? $navbar = \Michcald\DummyClient\Navbar::getInstance() ?>
+
 <ol class="breadcrumb">
     <li>
         <a href="<?= $this->url('dummy_client.index.index') ?>">
             Home
         </a>
     </li>
-    <? foreach ($_['urls'] as $key => $value): ?>
+    <? foreach ($navbar->getElements() as $element): ?>
     <li>
-        <? if ($value): ?>
-        <a href="<?= $value ?>">
-            <?= $key ?>
+        <? if ($element['url']): ?>
+        <a href="<?= $element['url'] ?>">
+            <?= $element['label'] ?>
         </a>
         <? else: ?>
-        <?= $key ?>
+        <?= $element['label'] ?>
         <? endif; ?>
     </li>
     <? endforeach; ?>

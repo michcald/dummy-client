@@ -4,48 +4,35 @@ namespace Michcald\DummyClient\Controller;
 
 class AppController extends \Michcald\DummyClient\Controller
 {
+
     private $appDao;
-    
-    private $response;
     
     public function __construct()
     {
         $this->appDao = new \Michcald\DummyClient\App\Dao\App();
         
-        $this->response = new \Michcald\Mvc\Response();
-        $this->response->addHeader('Content-Type: text/html');
-        
-        ######## mettere navbar nella session?
-    }
-    
-    private function generateResponse($file = null, array $params = array())
-    {
-        if ($file) {
-            $content = $this->render($file, $params);
-        } else {
-            $content = null;
-        }
-        
-        $layout = $this->render('layout.phtml', array(
-            'content' => $content,
-        ));
-        
-        return $this->response->setContent($layout);
+        $this->addNavbar('App', $this->generateUrl('dummy_client.app.index'));
     }
     
     public function indexAction()
     {
         $page = (int)$this->getRequest()->getQueryParam('page', 1);
         
-        $apps = $this->appDao->findAll($page);
-
-        return $this->generateResponse('app/index.phtml', array(
-            'apps' => $apps
-        ));
+        try {
+            $apps = $this->appDao->findAll($page);
+            return $this->generateResponse('app/index.phtml', array(
+                'apps' => $apps
+            ));
+        } catch (\Exception $e) {
+            $this->addFlash($e->getMessage(), 'error');
+            return $this->generateResponse();
+        }
     }
     
     public function createAction()
     {
+        $this->addNavbar('Create', $this->generateUrl('dummy_client.app.create'));
+        
         $app = new \Michcald\DummyClient\App\Model\App();
         
         $form = new \Michcald\DummyClient\App\Form\App();
@@ -79,6 +66,8 @@ class AppController extends \Michcald\DummyClient\Controller
     {
         $app = $this->appDao->findOne($id);
         
+        $this->addNavbar('Read');
+        
         $form = new \Michcald\DummyClient\App\Form\App();
 
         if (!$app) {
@@ -95,6 +84,8 @@ class AppController extends \Michcald\DummyClient\Controller
     
     public function updateAction($id)
     {
+        $this->addNavbar('Update');
+        
         $app = $this->appDao->findOne($id);
         
         if (!$app) {
@@ -135,6 +126,8 @@ class AppController extends \Michcald\DummyClient\Controller
     
     public function deleteAction($id)
     {
+        $this->addNavbar('Delete');
+        
         $app = $this->appDao->findOne($id);
         
         if (!$app) {
@@ -151,19 +144,5 @@ class AppController extends \Michcald\DummyClient\Controller
             'app' => $app
         ));
     }
-    
-    public function grantsAction($id)
-    {
-        $app = $this->appDao->findOne($id);
-        
-        if (!$app) {
-            $this->addFlash('App not found', 'warning');
-        } else {
-            return $this->generateResponse('app/grants.phtml', array(
-                'app' => $app
-            ));
-        }
-        
-        return $this->generateResponse();
-    }
+
 }

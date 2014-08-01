@@ -49,9 +49,7 @@ class Form
             }
         }
     }
-    
-    
-    
+
     public function handleResponse(array $formResponse)
     {
         $this->response = $formResponse;
