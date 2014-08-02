@@ -1,13 +1,5 @@
-<ol class="breadcrumb">
-    <li>
-        <a href="<?= $this->url('dummy_client.index.index') ?>">Home</a>
-    </li>
-    <li>
-        <a href="<?= $this->url('dummy_client.repository.index') ?>">Repositories</a>
-    </li>
-</ol>
-
 <h1>
+    <span class="glyphicon glyphicon-folder-open"></span>
     Repositories
     <small>
         <a href="<?= $this->url('dummy_client.repository.create') ?>" class="green">
@@ -16,21 +8,20 @@
     </small>
 </h1>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search...">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-search"></span> Search
-            </span>
-        </div>
-    </div>
-</div>
+<?= $this->viewRender('partials/search.phtml') ?>
+
+<? if ($_['repositories']->count() == 0): ?>
+
+<p class="alert alert-info">
+    No results yet
+</p>
+
+<? else: ?>
 
 <div class="col-md-12">
     <?= $this->viewRender('partials/paginator.phtml', array(
-        'paginator' => $_['paginator'],
-        'routeId' => 'dummy_client.app.index'
+        'paginator' => $_['repositories']->getPaginator(),
+        'routeId' => 'dummy_client.repository.index'
     )) ?>
 </div>
 
@@ -45,22 +36,28 @@
             </tr>
         </thead>
         <tbody>
-            <? foreach ($_['repositories'] as $r): ?>
+            <? foreach ($_['repositories'] as $repository): ?>
             <tr>
-                <td><?= $r['id'] ?></td>
-                <td><?= $r['name'] ?></td>
-                <td><?= $r['description'] ?></td>
+                <td><?= $repository->getId() ?></td>
+                <td><?= $repository->getName() ?></td>
+                <td><?= $repository->getDescription() ?></td>
                 <td class="text-right">
-                    <a href="<?= $this->url('dummy_client.repository.read', array('name' => $r['name'])) ?>">
-                        <span class="glyphicon glyphicon-book"></span> view
+                    <a href="<?= $this->url('dummy_client.repository.read', array(
+                        'id' => $repository->getId()
+                    )) ?>">
+                        <span class="glyphicon glyphicon-book"></span> read
                     </a>
                     &emsp;
-                    <a href="" class="orange">
-                        <span class="glyphicon glyphicon-edit"></span> edit
+                    <a href="<?= $this->url('dummy_client.repository.update', array(
+                        'id' => $repository->getId()
+                    )) ?>" class="orange">
+                        <span class="glyphicon glyphicon-edit"></span> update
                     </a>
                     &emsp;
-                    <a href="" class="red">
-                        <span class="glyphicon glyphicon-remove"></span> delete
+                    <a href="<?= $this->url('dummy_client.repository.delete', array(
+                        'id' => $repository->getId()
+                    )) ?>" class="red">
+                        <span class="glyphicon glyphicon-trash"></span> delete
                     </a>
                 </td>
             </tr>
@@ -68,3 +65,5 @@
         </tbody>
     </table>
 </div>
+
+<? endif; ?>

@@ -57,17 +57,7 @@ routes:
                 value: \d+
       controller: \Michcald\DummyClient\Controller\AppController
       action: deleteAction
-
-    - name: dummy_client.app.grants
-      methods: ["GET"]
-      uri:
-          pattern: app/{id}/grants
-          requirements:
-              - param: id
-                value: \d+
-      controller: \Michcald\DummyClient\Controller\AppController
-      action: grantsAction
-
+      
     # repository
     
     - name: dummy_client.repository.index
@@ -89,12 +79,58 @@ routes:
     - name: dummy_client.repository.read
       methods: ["GET"]
       uri:
-          pattern: repository/read/{name}
+          pattern: repository/{id}/read
           requirements:
-              - param: name
-                value: "[a-zA-Z0-9_]+"
+              - param: id
+                value: \d+
       controller: \Michcald\DummyClient\Controller\RepositoryController
       action: readAction
+
+    - name: dummy_client.repository.update
+      methods: ["GET","POST"]
+      uri:
+          pattern: repository/{id}/update
+          requirements:
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\RepositoryController
+      action: updateAction
+
+    - name: dummy_client.repository.delete
+      methods: ["GET","POST"]
+      uri:
+          pattern: repository/{id}/delete
+          requirements:
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\RepositoryController
+      action: deleteAction
+
+    # grants
+
+    - name: dummy_client.grant.index
+      methods: ["GET"]
+      uri:
+          pattern: app/{appId}/grants/list
+          requirements:
+              - param: appId
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\GrantController
+      action: indexAction
+
+    - name: dummy_client.grant.update
+      methods: ["GET"]
+      uri:
+          pattern: app/{appId}/grant/{id}/{action}
+          requirements:
+              - param: appId
+                value: \d+
+              - param: id
+                value: \d+
+              - param: action
+                value: "c|r|u|d"
+      controller: \Michcald\DummyClient\Controller\GrantController
+      action: updateAction
     
     # default
     
