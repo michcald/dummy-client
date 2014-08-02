@@ -38,7 +38,7 @@ class Repository extends \Michcald\DummyClient\Model
 
     public function setSingularLabel($singularLabel)
     {
-        $this->singular_label = $singularLabel;
+        $this->label_singular = $singularLabel;
 
         return $this;
     }

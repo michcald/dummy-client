@@ -1,16 +1,20 @@
 <? if (isset($_['repository'])): ?>
 
 <h1>
-    <span class="glyphicon glyphicon-folder-open"></span>&emsp;
+    <span class="glyphicon glyphicon-folder-open"></span>
     <?= $_['repository']->getName() ?>
 </h1>
 
 <?= $this->viewRender('repository/tab.phtml', array(
     'repository' => $_['repository'],
-    'active' => 'read'
+    'active' => 'fields'
 )) ?>
 
-<?= $this->viewRender('partials/form-static.phtml', array(
+<h3>
+    Add a New Field
+</h3>
+
+<?= $this->viewRender('partials/form.phtml', array(
     'form' => $_['form']
 )) ?>
 

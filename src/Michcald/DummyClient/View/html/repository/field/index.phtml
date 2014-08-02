@@ -1,0 +1,90 @@
+<? if (isset($_['repository'])): ?>
+
+<h1>
+    <span class="glyphicon glyphicon-folder-open"></span>
+    <?= $_['repository']->getName() ?>
+</h1>
+
+<?= $this->viewRender('repository/tab.phtml', array(
+    'repository' => $_['repository'],
+    'active' => 'fields'
+)) ?>
+
+<p class="text-right">
+    <a href="<?= $this->url('dummy_client.field.create', array(
+        'repositoryId' => $_['repository']->getId()
+    )) ?>" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add new field
+    </a>
+</p>
+
+<? if ($_['fields']->count() == 0): ?>
+
+<p class="alert alert-info">
+    <span class="glyphicon glyphicon-info-sign"></span>&emsp;
+    No fields yet
+</p>
+
+<? else: ?>
+
+<table class="table table-hover table-condensed table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Label</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Searchable</th>
+            <th>Sortable</th>
+            <th>Main</th>
+            <th>List</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <? foreach ($_['fields'] as $field): ?>
+        <tr>
+            <td><?= $field->getDisplayOrder() ?></td>
+            <td><?= $field->getName() ?></td>
+            <td><?= $field->getDescription() ?></td>
+            <td><?= $field->getLabel() ?></td>
+            <td><?= $field->getType() ?></td>
+            <td>
+                <? if ($field->getRequired()): ?>Y<? else: ?>N<? endif; ?>
+            </td>
+            <td>
+                <? if ($field->getSearchable()): ?>Y<? else: ?>N<? endif; ?>
+            </td>
+            <td>
+                <? if ($field->getSortable()): ?>Y<? else: ?>N<? endif; ?>
+            </td>
+            <td>
+                <? if ($field->getMain()): ?>Y<? else: ?>N<? endif; ?>
+            </td>
+            <td>
+                <? if ($field->getList()): ?>Y<? else: ?>N<? endif; ?>
+            </td>
+            <td>
+                <a href="#">
+                        <span class="glyphicon glyphicon-book"></span> read
+                    </a>
+                    &emsp;
+                    <a href="#" class="orange">
+                        <span class="glyphicon glyphicon-edit"></span> update
+                    </a>
+                    &emsp;
+                    <a href="#" class="red">
+                        <span class="glyphicon glyphicon-trash"></span> delete
+                    </a>
+            </td>
+        </tr>
+        <? endforeach; ?>
+    </tbody>
+</table>
+
+<? endif; ?>
+
+<? endif; ?>

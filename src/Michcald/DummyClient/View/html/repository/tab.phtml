@@ -28,7 +28,9 @@ $items = array(
         'label' => 'Fields',
         'active' => $_['active'] == 'fields',
         'icon' => 'list',
-        'url' => '#'
+        'url' => $this->url('dummy_client.field.index', array(
+            'repositoryId' => $_['repository']->getId()
+        ))
     ),
 );
 ?>

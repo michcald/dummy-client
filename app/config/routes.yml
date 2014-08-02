@@ -15,7 +15,7 @@ routes:
     - name: dummy_client.app.index
       methods: ["GET"]
       uri:
-          pattern: app/list
+          pattern: apps
           requirements: []
       controller: \Michcald\DummyClient\Controller\AppController
       action: indexAction
@@ -63,7 +63,7 @@ routes:
     - name: dummy_client.repository.index
       methods: ["GET"]
       uri:
-          pattern: repository/list
+          pattern: repositories
           requirements: []
       controller: \Michcald\DummyClient\Controller\RepositoryController
       action: indexAction
@@ -106,12 +106,34 @@ routes:
       controller: \Michcald\DummyClient\Controller\RepositoryController
       action: deleteAction
 
+    # repository fields
+
+    - name: dummy_client.field.index
+      methods: ["GET"]
+      uri:
+          pattern: repository/{repositoryId}/fields
+          requirements:
+              - param: repositoryId
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\Repository\FieldController
+      action: indexAction
+
+    - name: dummy_client.field.create
+      methods: ["GET","POST"]
+      uri:
+          pattern: repository/{repositoryId}/field/create
+          requirements:
+              - param: repositoryId
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\Repository\FieldController
+      action: createAction
+
     # grants
 
     - name: dummy_client.grant.index
       methods: ["GET"]
       uri:
-          pattern: app/{appId}/grants/list
+          pattern: app/{appId}/grants
           requirements:
               - param: appId
                 value: \d+

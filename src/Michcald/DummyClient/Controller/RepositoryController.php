@@ -138,7 +138,7 @@ class RepositoryController extends \Michcald\DummyClient\Controller
         } else {
             if ($this->getRequest()->isMethod('post')) {
                 $this->repositoryDao->delete($repository);
-                $this->addFlash('Reposiotry deleted successfully!', 'success');
+                $this->addFlash('Repository deleted successfully!', 'success');
                 $this->redirect('dummy_client.repository.index');
             }
         }

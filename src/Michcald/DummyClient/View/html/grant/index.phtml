@@ -1,6 +1,6 @@
 <? if (isset($_['app'])): ?>
 <h1>
-    <span class="glyphicon glyphicon-lock"></span>
+    <span class="glyphicon glyphicon-lock"></span>&emsp;
     <?= $_['app']->getName() ?>
 </h1>
 
@@ -11,7 +11,16 @@
 
 <? endif; ?>
 
-<table class="table table-hover">
+<? if (count($_['items']) == 0): ?>
+
+<p class="alert alert-info">
+    <span class="glyphicon glyphicon-info-sign"></span>&emsp;
+    No repositories yet
+</p>
+
+<? else: ?>
+
+<table class="table table-hover table-condensed table-striped">
     <thead>
         <tr>
             <th>Repository</th>
@@ -93,3 +102,5 @@
         <? endforeach; ?>
     </tbody>
 </table>
+
+<? endif; ?>
