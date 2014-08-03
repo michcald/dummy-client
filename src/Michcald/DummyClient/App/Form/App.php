@@ -17,6 +17,11 @@ class App extends \Michcald\DummyClient\Form
             ->setLabel('Name');
         $this->addElement($name);
 
+        $title = new \Michcald\DummyClient\Form\Element();
+        $title->setName('title')
+            ->setLabel('Title');
+        $this->addElement($title);
+
         $description = new \Michcald\DummyClient\Form\Element();
         $description->setName('description')
             ->setLabel('Description');
@@ -30,6 +35,11 @@ class App extends \Michcald\DummyClient\Form
                 'No'  => 0
             ));
         $this->addElement($isAdmin);
+
+        $baseUrl = new \Michcald\DummyClient\Form\Element();
+        $baseUrl->setName('base_url')
+            ->setLabel('Base URL');
+        $this->addElement($baseUrl);
 
         $publicKey = new \Michcald\DummyClient\Form\Element();
         $publicKey->setName('public_key')

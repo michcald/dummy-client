@@ -8,18 +8,20 @@ class App extends \Michcald\DummyClient\Dao
     {
         return 'app';
     }
-    
+
     public function instanciate(array $data)
     {
         $app = new \Michcald\DummyClient\App\Model\App();
-        
+
         $app->setId($data['id'])
             ->setName($data['name'])
+            ->setTitle($data['title'])
             ->setDescription($data['description'])
             ->setIsAdmin($data['is_admin'])
+            ->setBaseUrl($data['base_url'])
             ->setPublicKey($data['public_key'])
             ->setPrivateKey($data['private_key']);
-        
+
         return $app;
     }
 }

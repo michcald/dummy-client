@@ -32,13 +32,15 @@ class Request extends \Michcald\Mvc\Request
 
     private function buildHttpRequest()
     {
-        $baseUrl = Config::getInstance()->base_url;
-        
+        $baseUrl = WhoAmI::getInstance()->getApp()->getBaseUrl();
+
+        // @TODO se non coincide con quello corrente stampalo a video
+
         $url = sprintf('http://%s%s', $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']);
-        
+
         $uri = str_replace($baseUrl, '', $url);
         $uri = str_replace('?' . $_SERVER['QUERY_STRING'], '', $uri);
-        
+
         if (strlen($uri) > 0) {
             if ($uri{0} == '/') {
                 $uri = substr($uri, 1);

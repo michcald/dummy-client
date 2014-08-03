@@ -58,7 +58,7 @@ abstract class Controller extends \Michcald\Mvc\Controller
     }
 
     /**
-     * 
+     *
      * @param type $method
      * @param type $resource
      * @param array $params
@@ -81,7 +81,7 @@ abstract class Controller extends \Michcald\Mvc\Controller
             /* @var $route \Michcald\Mvc\Router\Route */
             if ($route->getId() == $routeId) {
                 $uri = $route->getUri()->generate($params);
-                header(sprintf('Location: %s%s', Config::getInstance()->base_url, $uri));
+                header(sprintf('Location: %s%s', WhoAmI::getInstance()->getApp()->getBaseUrl(), $uri));
                 die;
             }
         }
@@ -98,7 +98,7 @@ abstract class Controller extends \Michcald\Mvc\Controller
             /* @var $route \Michcald\Mvc\Router\Route */
             if ($route->getId() == $routeId) {
                 $uri = $route->getUri()->generate($params);
-                return sprintf('%s%s', Config::getInstance()->base_url, $uri);
+                return sprintf('%s%s', WhoAmI::getInstance()->getApp()->getBaseUrl(), $uri);
             }
         }
 

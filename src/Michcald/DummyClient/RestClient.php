@@ -8,6 +8,8 @@ class RestClient extends \Michcald\RestClient\Client
 
     private $identityMap = array();
 
+    private $calls = array();
+
     public function __construct($baseUrl)
     {
         $this->baseUrl = $baseUrl;
@@ -45,6 +47,17 @@ class RestClient extends \Michcald\RestClient\Client
             $this->identityMap[$key] = $response;
         }
 
+        $this->calls[] = array(
+            'method' => $method,
+            'url' => $url,
+            'params' => $params
+        );
+
         return $response;
+    }
+
+    public function getCalls()
+    {
+        return $this->calls;
     }
 }
