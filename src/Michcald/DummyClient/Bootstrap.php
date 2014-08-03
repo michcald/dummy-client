@@ -10,10 +10,10 @@ abstract class Bootstrap
 
         self::initConfig();
         self::initRoutes();
-        self::initEventListeners();
         self::initViewHelpers();
         self::initRequest();
         self::initRestClient();
+        self::initEventListeners();
     }
 
     private static function initConfig()
@@ -27,6 +27,9 @@ abstract class Bootstrap
     private static function initEventListeners()
     {
         $mvc = \Michcald\Mvc\Container::get('dummy_client.mvc');
+
+        $listener = new Event\Listener\DummyAuth();
+        $mvc->addEventSubscriber($listener);
 
         //$listener = new Event\Listener\Monolog();
         //$mvc->addEventSubscriber($listener);
@@ -70,6 +73,7 @@ abstract class Bootstrap
         $view->addHelper('\Michcald\DummyClient\View\Helper\ViewRender', 'viewRender');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Url', 'url');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Menu', 'menu');
+        $view->addHelper('\Michcald\DummyClient\View\Helper\WhoAmI', 'whoami');
     }
 
     private static function initRequest()

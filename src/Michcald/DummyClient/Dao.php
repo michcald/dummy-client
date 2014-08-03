@@ -141,6 +141,10 @@ abstract class Dao
             return true;
         }
 
+        if ($response->getStatusCode() == 400) { // bad request (form not validated)
+            return $response->getContent();
+        }
+
         throw new \Exception(sprintf('Invalid response: %s', $response->getContent()));
     }
 }

@@ -118,6 +118,30 @@ routes:
       controller: \Michcald\DummyClient\Controller\Repository\FieldController
       action: indexAction
 
+    - name: dummy_client.field.read
+      methods: ["GET"]
+      uri:
+          pattern: repository/{repositoryId}/field/{id}/read
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\Repository\FieldController
+      action: readAction
+
+    - name: dummy_client.field.update
+      methods: ["GET"]
+      uri:
+          pattern: repository/{repositoryId}/field/{id}/update
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\Repository\FieldController
+      action: updateAction
+
     - name: dummy_client.field.create
       methods: ["GET","POST"]
       uri:
@@ -127,6 +151,18 @@ routes:
                 value: \d+
       controller: \Michcald\DummyClient\Controller\Repository\FieldController
       action: createAction
+
+    - name: dummy_client.field.delete
+      methods: ["GET","POST"]
+      uri:
+          pattern: repository/{repositoryId}/field/{id}/delete
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\Repository\FieldController
+      action: deleteAction
 
     # grants
 

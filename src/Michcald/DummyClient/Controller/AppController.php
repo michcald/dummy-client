@@ -137,8 +137,14 @@ class AppController extends \Michcald\DummyClient\Controller
             $this->addFlash('App not found', 'warning');
         } else {
             if ($this->getRequest()->isMethod('post')) {
-                $this->appDao->delete($app);
-                $this->addFlash('App deleted successfully!', 'success');
+                $deleted = $this->appDao->delete($app);
+
+                if ($deleted === true) {
+                    $this->addFlash('App deleted successfully!', 'success');
+                } else {
+                    $this->addFlash($deleted, 'error');
+                }
+
                 $this->redirect('dummy_client.app.index');
             }
         }
