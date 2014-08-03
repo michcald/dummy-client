@@ -14,15 +14,15 @@ class Field extends \Michcald\DummyClient\Model
 
     protected $description;
 
-    protected $required;
+    protected $required = 0;
 
-    protected $searchable;
+    protected $searchable = 0;
 
-    protected $sortable;
+    protected $sortable = 0;
 
-    protected $main;
+    protected $main = 0;
 
-    protected $list;
+    protected $list = 0;
 
     protected $display_order;
 

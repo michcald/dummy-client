@@ -44,12 +44,12 @@
                 <td><?= $app->getDescription() ?></td>
                 <td>
                     <? if ($app->getIsAdmin() == 1): ?>
-                    Y
+                    <span class="glyphicon glyphicon-check"></span>
                     <? else: ?>
-                    N
+                    <span class="glyphicon glyphicon-unchecked"></span>
                     <? endif; ?>
                 </td>
-                <td class="text-right">
+                <td class="small col-md-2">
                     <a href="<?= $this->url('dummy_client.app.read', array(
                         'id' => $app->getId()
                     )) ?>">

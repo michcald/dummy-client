@@ -12,7 +12,7 @@ class RepositoryController extends \Michcald\DummyClient\Controller
     {
         $this->repositoryDao = new App\Dao\Repository();
 
-        $this->addNavbar('Repository', $this->generateUrl('dummy_client.repository.index'));
+        $this->addNavbar('Repositories', $this->generateUrl('dummy_client.repository.index'));
     }
 
     public function indexAction()

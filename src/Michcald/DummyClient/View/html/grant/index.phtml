@@ -1,7 +1,10 @@
 <? if (isset($_['app'])): ?>
 <h1>
     <span class="glyphicon glyphicon-lock"></span>&emsp;
-    <?= $_['app']->getName() ?>
+    App
+    <small>
+        <?= $_['app']->getName() ?>
+    </small>
 </h1>
 
 <?= $this->viewRender('app/tab.phtml', array(
@@ -24,8 +27,8 @@
     <thead>
         <tr>
             <th>Repository</th>
-            <th>Read</th>
             <th>Create</th>
+            <th>Read</th>
             <th>Update</th>
             <th>Delete</th>
         </tr>

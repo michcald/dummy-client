@@ -8,12 +8,13 @@ class Field extends \Michcald\DummyClient\Form
     {
         $name = new \Michcald\DummyClient\Form\Element();
         $name->setName('name')
-            ->setLabel('Name');
+            ->setLabel('Name')
+            ->setDescription('The name of the raw field');
         $this->addElement($name);
 
         $type = new \Michcald\DummyClient\Form\Element();
         $type->setName('type')
-            ->setLabel('Type')
+            ->setLabel('Form element type')
             ->setType(\Michcald\DummyClient\Form\Element::TYPE_SELECT)
             ->setOptions(array(
                 'String' => 'string',
@@ -22,7 +23,8 @@ class Field extends \Michcald\DummyClient\Form
                 'Float' => 'float',
                 'Boolean' => 'boolean',
                 'Timestamp' => 'timestamp',
-                'File' => 'file'
+                'File' => 'file',
+                'Foreign' => 'foreign'
             ));
         $this->addElement($type);
 
@@ -39,46 +41,31 @@ class Field extends \Michcald\DummyClient\Form
         $required = new \Michcald\DummyClient\Form\Element();
         $required->setName('required')
             ->setLabel('Is required?')
-            ->setType(\Michcald\DummyClient\Form\Element::TYPE_SELECT, array(
-                'Yes' => 1,
-                'No'  => 0
-            ));
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_CHECKBOX);
         $this->addElement($required);
 
         $searchable = new \Michcald\DummyClient\Form\Element();
         $searchable->setName('searchable')
             ->setLabel('Is searchable?')
-            ->setType(\Michcald\DummyClient\Form\Element::TYPE_SELECT, array(
-                'Yes' => 1,
-                'No'  => 0
-            ));
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_CHECKBOX);
         $this->addElement($searchable);
 
         $sortable = new \Michcald\DummyClient\Form\Element();
         $sortable->setName('sortable')
             ->setLabel('Is sortable?')
-            ->setType(\Michcald\DummyClient\Form\Element::TYPE_SELECT, array(
-                'Yes' => 1,
-                'No'  => 0
-            ));
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_CHECKBOX);
         $this->addElement($sortable);
 
         $main = new \Michcald\DummyClient\Form\Element();
         $main->setName('main')
             ->setLabel('Is main?')
-            ->setType(\Michcald\DummyClient\Form\Element::TYPE_SELECT, array(
-                'Yes' => 1,
-                'No'  => 0
-            ));
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_CHECKBOX);
         $this->addElement($main);
 
         $list = new \Michcald\DummyClient\Form\Element();
         $list->setName('list')
             ->setLabel('Is list?')
-            ->setType(\Michcald\DummyClient\Form\Element::TYPE_SELECT, array(
-                'Yes' => 1,
-                'No'  => 0
-            ));
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_CHECKBOX);
         $this->addElement($list);
 
         $displayOrder = new \Michcald\DummyClient\Form\Element();

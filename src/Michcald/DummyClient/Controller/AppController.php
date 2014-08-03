@@ -12,7 +12,7 @@ class AppController extends \Michcald\DummyClient\Controller
     {
         $this->appDao = new App\Dao\App();
 
-        $this->addNavbar('App', $this->generateUrl('dummy_client.app.index'));
+        $this->addNavbar('Apps', $this->generateUrl('dummy_client.app.index'));
     }
 
     public function indexAction()

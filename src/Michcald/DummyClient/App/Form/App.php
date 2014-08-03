@@ -33,14 +33,12 @@ class App extends \Michcald\DummyClient\Form
 
         $publicKey = new \Michcald\DummyClient\Form\Element();
         $publicKey->setName('public_key')
-            ->setLabel('Public key')
-            ->setDisabled(true);
+            ->setLabel('Public key');
         $this->addElement($publicKey);
 
         $privateKey = new \Michcald\DummyClient\Form\Element();
         $privateKey->setName('private_key')
-            ->setLabel('Private key')
-            ->setDisabled(true);
+            ->setLabel('Private key');
         $this->addElement($privateKey);
     }
 

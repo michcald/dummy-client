@@ -7,7 +7,7 @@ abstract class Bootstrap
     public static function init()
     {
         date_default_timezone_set('europe/london');
-        
+
         self::initConfig();
         self::initRoutes();
         self::initEventListeners();
@@ -23,7 +23,7 @@ abstract class Bootstrap
         $config = \Michcald\DummyClient\Config::getInstance();
         $config->loadDir($dir);
     }
-    
+
     private static function initEventListeners()
     {
         $mvc = \Michcald\Mvc\Container::get('dummy_client.mvc');
@@ -35,7 +35,7 @@ abstract class Bootstrap
     private static function initRoutes()
     {
         $mvc = new \Michcald\Mvc\Mvc();
-        
+
         $config = \Michcald\DummyClient\Config::getInstance();
 
         foreach ($config->routes as $routeConfig) {
@@ -64,27 +64,34 @@ abstract class Bootstrap
     {
         /* @var $view \Michcald\Mvc\View */
         $view = \Michcald\Mvc\Container::get('mvc.view');
-        
+
         $view->addHelper('\Michcald\DummyClient\View\Helper\Config', 'config');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Asset', 'asset');
         $view->addHelper('\Michcald\DummyClient\View\Helper\ViewRender', 'viewRender');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Url', 'url');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Menu', 'menu');
     }
-    
+
     private static function initRequest()
     {
         $request = new \Michcald\DummyClient\Request();
 
         \Michcald\Mvc\Container::add('dummy_client.mvc.request', $request);
     }
-    
+
     private static function initRestClient()
     {
         $config = \Michcald\DummyClient\Config::getInstance();
-        
+
         $rest = new restClient($config->dummy['endpoint']);
-        
+
+        $basic = new \Michcald\RestClient\Auth\Basic();
+        $basic->setUsername($config->dummy['key']['public'])
+            ->setPassword($config->dummy['key']['private']);
+
+        $rest->setAuth($basic);
+
         \Michcald\Mvc\Container::add('dummy_client.rest_client', $rest);
+
     }
 }

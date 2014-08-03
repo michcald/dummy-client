@@ -7,10 +7,13 @@ class Element
     const TYPE_TEXT = 'text';
     const TYPE_SELECT = 'select';
     const TYPE_HIDDEN = 'hidden';
+    const TYPE_CHECKBOX = 'checkbox';
 
     private $name;
 
     private $label;
+
+    private $description;
 
     private $value;
 
@@ -44,6 +47,18 @@ class Element
     public function getLabel()
     {
         return $this->label;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     public function setValue($value)

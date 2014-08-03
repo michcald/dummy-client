@@ -18,7 +18,7 @@ class GrantController extends \Michcald\DummyClient\Controller
         $this->repositoryDao = new App\Dao\Repository();
         $this->grantDao = new App\Dao\Grant();
 
-        $this->addNavbar('App', $this->generateUrl('dummy_client.app.index'));
+        $this->addNavbar('Apps', $this->generateUrl('dummy_client.app.index'));
     }
 
     public function indexAction($appId)
@@ -85,7 +85,7 @@ class GrantController extends \Michcald\DummyClient\Controller
             }
 
             $updated = $this->grantDao->update($grant);
-            
+
             if ($updated !== true) {
                 $this->addFlash($updated, 'error');
             }

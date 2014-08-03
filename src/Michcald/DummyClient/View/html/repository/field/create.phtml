@@ -1,8 +1,11 @@
 <? if (isset($_['repository'])): ?>
 
 <h1>
-    <span class="glyphicon glyphicon-folder-open"></span>
-    <?= $_['repository']->getName() ?>
+    <span class="glyphicon glyphicon-folder-open"></span>&emsp;
+    Repository
+    <small>
+        <?= $_['repository']->getName() ?>
+    </small>
 </h1>
 
 <?= $this->viewRender('repository/tab.phtml', array(

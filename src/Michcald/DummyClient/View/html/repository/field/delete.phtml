@@ -1,4 +1,4 @@
-<? if (isset($_['repository'])): ?>
+<? if (isset($_['field']) && isset($_['repository'])): ?>
 
 <h1>
     <span class="glyphicon glyphicon-folder-open"></span>&emsp;
@@ -8,14 +8,21 @@
     </small>
 </h1>
 
-<?= $this->viewRender('repository/tab.phtml', array(
-    'repository' => $_['repository'],
+<h3>
+    Repository Field
+    <small>
+        <?= $_['field']->getName() ?>
+    </small>
+</h3>
+
+<?= $this->viewRender('repository/field/tab.phtml', array(
+    'field' => $_['field'],
     'active' => 'delete'
 )) ?>
 
 <div class="alert alert-danger">
     <p>
-        Do you really want to delete this repository?
+        Do you really want to delete this repository field?
     </p>
 
     <br />
