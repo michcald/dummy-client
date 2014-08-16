@@ -50,7 +50,8 @@ class RestClient extends \Michcald\RestClient\Client
         $this->calls[] = array(
             'method' => $method,
             'url' => $url,
-            'params' => $params
+            'params' => $params,
+            'status_code' => $response->getStatusCode()
         );
 
         return $response;

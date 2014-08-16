@@ -35,6 +35,7 @@ class Request extends \Michcald\Mvc\Request
         $baseUrl = WhoAmI::getInstance()->getApp()->getBaseUrl();
 
         // @TODO se non coincide con quello corrente stampalo a video
+        // @TODO create file install
 
         $url = sprintf('http://%s%s', $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']);
 

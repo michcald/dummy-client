@@ -18,7 +18,9 @@
             <ul class="nav navbar-nav">
                 <? foreach ($this->whoami()->getReadableRepositories() as $repo): ?>
                 <li>
-                    <a href="#">
+                    <a href="<?= $this->url('dummy_client.entity.index', array(
+                        'repositoryId' => $repo->getId()
+                    )) ?>">
                         <?= $repo->getPluralLabel() ?>
                     </a>
                 </li>

@@ -164,6 +164,18 @@ routes:
       controller: \Michcald\DummyClient\Controller\Repository\FieldController
       action: deleteAction
 
+    # entity
+
+    - name: dummy_client.entity.index
+      methods: ["GET"]
+      uri:
+          pattern: repository/{repositoryId}/entities
+          requirements:
+              - param: repositoryId
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\EntityController
+      action: indexAction
+
     # grants
 
     - name: dummy_client.grant.index
@@ -189,7 +201,7 @@ routes:
                 value: "c|r|u|d"
       controller: \Michcald\DummyClient\Controller\GrantController
       action: updateAction
-    
+      
     # default
     
     - name: dummy_client.not_found

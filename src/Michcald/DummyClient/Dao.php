@@ -55,7 +55,7 @@ abstract class Dao
         if ($response->getStatusCode() == 200) {
 
             $data = json_decode($response->getContent(), true);
-
+            
             $paginator = new Dao\Paginator();
             $paginator->setCurrentPage($data['paginator']['page']['current'])
                 ->setTotalPages($data['paginator']['page']['total'])
