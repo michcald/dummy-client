@@ -2,7 +2,9 @@
     <span class="glyphicon glyphicon-list"></span>&emsp;
     <?= $_['repository']->getPluralLabel() ?>
     <small>
-        <a href="#" class="green">
+        <a href="<?= $this->url('dummy_client.entity.create', array(
+            'repositoryId' => $_['repository']->getId()
+        ))?>" class="green">
             <span class="glyphicon glyphicon-plus-sign"></span>
         </a>
     </small>
@@ -52,15 +54,24 @@
                 <? endif; ?>
                 <? endforeach; ?>
                 <td class="text-right">
-                    <a href="#">
+                    <a href="<?= $this->url('dummy_client.entity.read', array(
+                        'repositoryId' => $_['repository']->getId(),
+                        'id' => $entity->getId()
+                    )) ?>">
                         <span class="glyphicon glyphicon-book"></span> read
                     </a>
                     &emsp;
-                    <a href="#" class="orange">
+                    <a href="<?= $this->url('dummy_client.entity.update', array(
+                        'repositoryId' => $_['repository']->getId(),
+                        'id' => $entity->getId()
+                    )) ?>" class="orange">
                         <span class="glyphicon glyphicon-edit"></span> update
                     </a>
                     &emsp;
-                    <a href="#" class="red">
+                    <a href="<?= $this->url('dummy_client.entity.delete', array(
+                        'repositoryId' => $_['repository']->getId(),
+                        'id' => $entity->getId()
+                    )) ?>" class="red">
                         <span class="glyphicon glyphicon-trash"></span> delete
                     </a>
                 </td>

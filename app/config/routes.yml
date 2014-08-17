@@ -176,6 +176,52 @@ routes:
       controller: \Michcald\DummyClient\Controller\EntityController
       action: indexAction
 
+    - name: dummy_client.entity.read
+      methods: ["GET"]
+      uri:
+          pattern: repository/{repositoryId}/entity/{id}
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\EntityController
+      action: readAction
+
+    - name: dummy_client.entity.create
+      methods: ["GET", "POST"]
+      uri:
+          pattern: repository/{repositoryId}/entity/create
+          requirements:
+              - param: repositoryId
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\EntityController
+      action: createAction
+
+    - name: dummy_client.entity.update
+      methods: ["GET", "POST"]
+      uri:
+          pattern: repository/{repositoryId}/entity/{id}/update
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\EntityController
+      action: updateAction
+
+    - name: dummy_client.entity.delete
+      methods: ["GET", "POST"]
+      uri:
+          pattern: repository/{repositoryId}/entity/{id}/delete
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\EntityController
+      action: deleteAction
+
     # grants
 
     - name: dummy_client.grant.index

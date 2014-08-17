@@ -5,6 +5,7 @@ namespace Michcald\DummyClient\Form;
 class Element
 {
     const TYPE_TEXT = 'text';
+    const TYPE_TEXTAREA = 'textarea';
     const TYPE_SELECT = 'select';
     const TYPE_HIDDEN = 'hidden';
     const TYPE_CHECKBOX = 'checkbox';

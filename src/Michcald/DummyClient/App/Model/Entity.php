@@ -7,7 +7,12 @@ class Entity extends \Michcald\DummyClient\Model
 
     public function toArray()
     {
-        return get_object_vars($this);
+        return array_merge(
+            array(
+                'id' => $this->getId()
+            ),
+            get_object_vars($this)
+        );
     }
 
 }

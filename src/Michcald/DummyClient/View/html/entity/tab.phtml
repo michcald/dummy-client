@@ -1,0 +1,52 @@
+<h1>
+    <span class="glyphicon glyphicon-lock"></span>&emsp;
+    <?= $this->main($_['entity'], $_['repositoryFields']) ?>
+    <small>
+        <?= $_['repository']->getSingularLabel() ?>
+    </small>
+</h1>
+
+<?
+$items = array(
+    array(
+        'label' => 'Read',
+        'active' => $_['active'] == 'read',
+        'icon' => 'book',
+        'url' => $this->url('dummy_client.entity.read', array(
+            'repositoryId' => $_['repository']->getId(),
+            'id' => $_['entity']->getId()
+        ))
+    ),
+    array(
+        'label' => 'Update',
+        'active' => $_['active'] == 'update',
+        'icon' => 'edit',
+        'url' => $this->url('dummy_client.entity.update', array(
+            'repositoryId' => $_['repository']->getId(),
+            'id' => $_['entity']->getId()
+        ))
+    ),
+    array(
+        'label' => 'Delete',
+        'active' => $_['active'] == 'delete',
+        'icon' => 'trash',
+        'url' => $this->url('dummy_client.entity.delete', array(
+            'repositoryId' => $_['repository']->getId(),
+            'id' => $_['entity']->getId()
+        ))
+    ),
+);
+?>
+
+<ul class="nav nav-tabs nav-justified" role="tablist">
+    <? foreach ($items as $item): ?>
+    <li<? if($item['active'] == 'read'): ?> class="active"<? endif; ?>>
+        <a href="<?= $item['url'] ?>">
+            <span class="glyphicon glyphicon-<?= $item['icon'] ?>"></span>
+            <?= $item['label'] ?>
+        </a>
+    </li>
+    <? endforeach; ?>
+</ul>
+
+<br />

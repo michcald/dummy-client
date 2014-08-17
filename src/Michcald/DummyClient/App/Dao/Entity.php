@@ -22,7 +22,9 @@ class Entity extends \Michcald\DummyClient\Dao
     {
         $entity = new \Michcald\DummyClient\App\Model\Entity();
 
-        $entity->setId($data['id']);
+        if (isset($data['id'])) {
+            $entity->setId($data['id']);
+        }
 
         foreach ($data as $key => $value) {
             if ($key == 'id') {

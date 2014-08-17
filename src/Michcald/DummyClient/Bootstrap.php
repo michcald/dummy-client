@@ -71,6 +71,7 @@ abstract class Bootstrap
         $view->addHelper('\Michcald\DummyClient\View\Helper\ViewRender', 'viewRender');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Url', 'url');
         $view->addHelper('\Michcald\DummyClient\View\Helper\WhoAmI', 'whoami');
+        $view->addHelper('\Michcald\DummyClient\View\Helper\Main', 'main');
     }
 
     private static function initRequest()
