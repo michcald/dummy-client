@@ -30,7 +30,12 @@ class EntityController extends \Michcald\DummyClient\Controller
                 throw new \Exception(sprintf('Repository not found: %d', $repositoryId));
             }
 
-            $this->addNavbar($repository->getPluralLabel());
+            $this->addNavbar(
+                $repository->getPluralLabel(),
+                $this->generateUrl('dummy_client.entity.index', array(
+                    'repositoryId' => $repository->getId()
+                ))
+            );
 
             $this->entityDao->setRepository($repository);
 
