@@ -1,6 +1,7 @@
 body {
     margin-top: 70px;
     padding-bottom: 50px;
+    overflow-y: scroll;
 }
 
 .red {

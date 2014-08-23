@@ -35,6 +35,11 @@ class Form
         foreach ($this->getElements() as $element) {
             $name = $element->getName();
             if (array_key_exists($name, $data)) {
+
+                if ($element->getType() == Form\Element::TYPE_FOREIGN && !$data[$name]) {
+                    continue;
+                }
+
                 $model->set($name, (string)$data[$name]);
                 $element->setValue((string)$data[$name]);
             }

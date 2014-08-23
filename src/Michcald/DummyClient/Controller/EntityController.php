@@ -123,7 +123,7 @@ class EntityController extends \Michcald\DummyClient\Controller
 
                 $this->redirect('dummy_client.entity.read', array(
                     'repositoryId' => $repository->getId(),
-                    'id' => $entity->getId()
+                    'id' => (int)$entity->getId()
                 ));
 
             } else {

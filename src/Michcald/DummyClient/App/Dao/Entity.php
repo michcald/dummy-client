@@ -22,6 +22,8 @@ class Entity extends \Michcald\DummyClient\Dao
     {
         $entity = new \Michcald\DummyClient\App\Model\Entity();
 
+        $entity->setRepository($this->repository);
+
         if (isset($data['id'])) {
             $entity->setId($data['id']);
         }

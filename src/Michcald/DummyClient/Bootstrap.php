@@ -72,6 +72,8 @@ abstract class Bootstrap
         $view->addHelper('\Michcald\DummyClient\View\Helper\Url', 'url');
         $view->addHelper('\Michcald\DummyClient\View\Helper\WhoAmI', 'whoami');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Main', 'main');
+        $view->addHelper('\Michcald\DummyClient\View\Helper\Foreign\Show', 'printForeign');
+        $view->addHelper('\Michcald\DummyClient\View\Helper\Foreign\Options', 'getForeignOptions');
     }
 
     private static function initRequest()
@@ -85,7 +87,7 @@ abstract class Bootstrap
     {
         $config = \Michcald\DummyClient\Config::getInstance();
 
-        $rest = new restClient($config->dummy['endpoint']);
+        $rest = new RestClient($config->dummy['endpoint']);
 
         $basic = new \Michcald\RestClient\Auth\Basic();
         $basic->setUsername($config->dummy['key']['public'])

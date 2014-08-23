@@ -17,7 +17,7 @@ class RestClient extends \Michcald\RestClient\Client
 
     public function call($method, $resource, $params = array())
     {
-        $key = sha1($resource);
+        $key = sha1($resource . serialize($params));
 
         if (array_key_exists($key, $this->identityMap)) {
             switch ($method) {

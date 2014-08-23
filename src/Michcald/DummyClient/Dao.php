@@ -55,7 +55,7 @@ abstract class Dao
         if ($response->getStatusCode() == 200) {
 
             $data = json_decode($response->getContent(), true);
-            
+
             $paginator = new Dao\Paginator();
             $paginator->setCurrentPage($data['paginator']['page']['current'])
                 ->setTotalPages($data['paginator']['page']['total'])
@@ -79,7 +79,9 @@ abstract class Dao
 
     public function create(Model $model)
     {
-        $response = $this->rest->call('post', $this->getResource(), $model->toArray());
+        $array = $model->toArray();
+
+        $response = $this->rest->call('post', $this->getResource(), $array);
 
         if ($response->getStatusCode() == 201) { // created
             $id = $response->getContent();

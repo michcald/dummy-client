@@ -9,6 +9,11 @@ class Element
     const TYPE_SELECT = 'select';
     const TYPE_HIDDEN = 'hidden';
     const TYPE_CHECKBOX = 'checkbox';
+    const TYPE_FILE = 'file';
+    const TYPE_INTEGER = 'integer';
+    const TYPE_FOREIGN = 'foreign';
+    const TYPE_FLOAT = 'float';
+    const TYPE_TIMESTAMP = 'timestamp';
 
     private $name;
 

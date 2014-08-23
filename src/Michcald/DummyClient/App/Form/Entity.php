@@ -25,11 +25,26 @@ class Entity extends \Michcald\DummyClient\Form
                 case 'string':
                     $element->setType(Element::TYPE_TEXT);
                     break;
+                case 'file':
+                    $element->setType(Element::TYPE_FILE);
+                    break;
                 case 'text':
                     $element->setType(Element::TYPE_TEXTAREA);
                     break;
+                case 'integer':
+                    $element->setType(Element::TYPE_INTEGER);
+                    break;
+                case 'foreign':
+                    $element->setType(Element::TYPE_FOREIGN);
+                    break;
+                case 'float':
+                    $element->setType(Element::TYPE_FLOAT);
+                    break;
                 case 'boolean':
                     $element->setType(Element::TYPE_CHECKBOX);
+                    break;
+                case 'timestamp':
+                    $element->setType(Element::TYPE_TIMESTAMP);
                     break;
                 default:
             }

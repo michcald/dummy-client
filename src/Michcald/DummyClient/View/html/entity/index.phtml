@@ -50,7 +50,13 @@
                 <td><?= $entity->getId() ?></td>
                 <? foreach ($_['repositoryFields'] as $field): ?>
                 <? if ($field->getList()): ?>
-                <td><?= $entityArray[$field->getName()] ?></td>
+                <td>
+                    <? if ($field->getType() == 'foreign'): ?>
+                    <?= $this->printForeign($entity, $field->getName()) ?>
+                    <? else: ?>
+                    <?= $entityArray[$field->getName()] ?>
+                    <? endif; ?>
+                </td>
                 <? endif; ?>
                 <? endforeach; ?>
                 <td class="text-right">
