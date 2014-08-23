@@ -1,11 +1,5 @@
-base_url: http://localhost/~michael/dummy-client/
-
 dummy:
     endpoint: http://localhost/~michael/dummy/
     key:
         public: dummy_app
         private: dummy_app
-
-users:
-    - username: dummy
-      password: dummy
