@@ -17,6 +17,7 @@ class Field extends \Michcald\DummyClient\Dao
             ->setId($data['id'])
             ->setRepositoryId($data['repository_id'])
             ->setType($data['type'])
+            ->setForeignTable($data['foreign_table'])
             ->setName($data['name'])
             ->setLabel($data['label'])
             ->setDescription($data['description'])

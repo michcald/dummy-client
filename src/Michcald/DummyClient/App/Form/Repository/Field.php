@@ -28,6 +28,11 @@ class Field extends \Michcald\DummyClient\Form
             ));
         $this->addElement($type);
 
+        $ft = new \Michcald\DummyClient\Form\Element();
+        $ft->setName('foreign_table')
+            ->setLabel('Foreign table');
+        $this->addElement($ft);
+
         $label = new \Michcald\DummyClient\Form\Element();
         $label->setName('label')
             ->setLabel('Label');

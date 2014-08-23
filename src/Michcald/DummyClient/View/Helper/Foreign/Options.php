@@ -6,7 +6,36 @@ class Options extends \Michcald\Mvc\View\Helper
 {
     public function execute()
     {
-        $repositoryName = $this->getArg(0);
+        /* @var $repository \Michcald\DummyClient\App\Model\Repository */
+        $repository = $this->getArg(0);
+
+        $fieldName = $this->getArg(1);
+
+        $repositoryFieldDao = new \Michcald\DummyClient\App\Dao\Repository\Field();
+
+        $result = $repositoryFieldDao->findAll(array(
+            'limit' => 1000,
+            'filters' => array(
+                array(
+                    'field' => 'repository_id',
+                    'value' => $repository->getId()
+                ),
+            ),
+        ));
+
+        $foreignTable = null;
+        foreach ($result->getElements() as $field) {
+
+            /* @var $field \Michcald\DummyClient\App\Model\Repository\Field */
+            if ($field->getName() == $fieldName) {
+                $foreignTable = $field->getForeignTable();
+                break;
+            }
+        }
+
+        if (!$foreignTable) {
+            throw new \Exception('Something wrong');
+        }
 
         $repositoryDao = new \Michcald\DummyClient\App\Dao\Repository();
         $result = $repositoryDao->findAll(array(
@@ -14,22 +43,21 @@ class Options extends \Michcald\Mvc\View\Helper
             'filters' => array(
                 array(
                     'field' => 'name',
-                    'value' => $repositoryName
+                    'value' => $foreignTable
                 )
             ),
         ));
 
         $result = $result->getElements();
 
-        $repository = $result[0];
+        $foreignRepository = $result[0];
 
-        $repositoryFieldDao = new \Michcald\DummyClient\App\Dao\Repository\Field();
         $result = $repositoryFieldDao->findAll(array(
             'limit' => 10000,
             'filters' => array(
                 array(
                     'field' => 'repository_id',
-                    'value' => $repository->getId()
+                    'value' => $foreignRepository->getId()
                 )
             ),
             'orders' => array(
@@ -40,10 +68,10 @@ class Options extends \Michcald\Mvc\View\Helper
             )
         ));
 
-        $repositoryFields = $result->getElements();
+        $foreignRepositoryFields = $result->getElements();
 
         $entityDao = new \Michcald\DummyClient\App\Dao\Entity();
-        $entityDao->setRepository($repository);
+        $entityDao->setRepository($foreignRepository);
         $result = $entityDao->findAll(array(
             'limit' => 10000,
         ));
@@ -56,7 +84,7 @@ class Options extends \Michcald\Mvc\View\Helper
             $entityArray = $entity->toArray();
 
             $main = array();
-            foreach ($repositoryFields as $field) {
+            foreach ($foreignRepositoryFields as $field) {
                 if ($field->getMain()) {
                     $main[] = $entityArray[$field->getName()];
                 }

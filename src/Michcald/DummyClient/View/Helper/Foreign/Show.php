@@ -9,7 +9,7 @@ class Show extends \Michcald\Mvc\View\Helper
         /* @var $entity \Michcald\DummyClient\App\Model\Entity */
         $entity = $this->getArg(0);
 
-        $field = $this->getArg(1);
+        $fieldName = $this->getArg(1);
 
         /* @var $repository \Michcald\DummyClient\App\Model\Repository */
         $repository = $entity->getRepository();
@@ -34,9 +34,16 @@ class Show extends \Michcald\Mvc\View\Helper
         $fields = $result->getElements();
 
         // verify if $field is a foreign key
+        $field = null;
         foreach ($fields as $f) {
-            if ($f->getName() == $field && $f->getType() != 'foreign') {
-                throw new \Exception('Something went wrong');
+            if ($f->getName() == $fieldName) {
+                if ($f->getType() != 'foreign') {
+                    throw new \Exception('Something went wrong');
+                } else {
+                    $field = $f;
+                    break;
+                }
+
             }
         }
 
@@ -47,7 +54,7 @@ class Show extends \Michcald\Mvc\View\Helper
             'filters' => array(
                 array(
                     'field' => 'name',
-                    'value' => $field
+                    'value' => $field->getForeignTable()
                 )
             )
         ));
@@ -79,7 +86,7 @@ class Show extends \Michcald\Mvc\View\Helper
 
         $entityArray = $entity->toArray();
 
-        $foreignEntity = $entityDao->findOne((int)$entityArray[$field]);
+        $foreignEntity = $entityDao->findOne((int)$entityArray[$fieldName]);
 
         if (!$foreignEntity) {
             echo '';
@@ -92,9 +99,9 @@ class Show extends \Michcald\Mvc\View\Helper
 
         $main = array();
 
-        foreach ($foreignRepositoryFields as $field) {
-            if ($field->getMain()) {
-                $varName = $field->getName();
+        foreach ($foreignRepositoryFields as $field2) {
+            if ($field2->getMain()) {
+                $varName = $field2->getName();
                 $main[] = $foreignArray[$varName];
             }
         }

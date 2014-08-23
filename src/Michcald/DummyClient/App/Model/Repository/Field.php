@@ -8,6 +8,8 @@ class Field extends \Michcald\DummyClient\Model
 
     protected $type;
 
+    protected $foreign_table;
+
     protected $name;
 
     protected $label;
@@ -48,6 +50,18 @@ class Field extends \Michcald\DummyClient\Model
     public function getType()
     {
         return $this->type;
+    }
+
+    public function setForeignTable($foreignTable)
+    {
+        $this->foreign_table = $foreignTable;
+
+        return $this;
+    }
+
+    public function getForeignTable()
+    {
+        return $this->foreign_table;
     }
 
     public function setName($name)
@@ -163,6 +177,7 @@ class Field extends \Michcald\DummyClient\Model
         return array(
             'repository_id' => $this->repository_id,
             'type' => $this->type,
+            'foreign_table' => $this->foreign_table,
             'name' => $this->name,
             'label' => $this->label,
             'description' => $this->description,

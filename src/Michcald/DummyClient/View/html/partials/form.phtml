@@ -14,7 +14,8 @@
         <? endif; ?>
 
         <?= $this->viewRender(sprintf('partials/form/%s.phtml', $element->getType()), array(
-            'element' => $element
+            'element' => $element,
+            'repository' => isset($_['repository']) ? $_['repository'] : null
         )) ?>
 
         <? if (count($element->getErrors()) > 0): ?>
