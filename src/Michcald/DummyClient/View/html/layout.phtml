@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title><?= $this->config()->title ?></title>
+        <title><?= $this->whoami()->getApp()->getTitle() ?></title>
 
         <!-- Bootstrap -->
         <link href="<?= $this->asset('bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
@@ -18,18 +18,21 @@
         <![endif]-->
     </head>
     <body>
-        
-        <?= $this->menu('partials/menu.phtml') ?>
-        
+
+        <?= $this->viewRender('partials/menu.phtml') ?>
+
         <div class="container">
+            <?= $this->viewRender('partials/navbar.phtml') ?>
             <?= $this->viewRender('partials/flashes.phtml') ?>
         </div>
-        
+
         <? if (isset($_['content'])): ?>
         <div class="container">
             <?= $_['content'] ?>
         </div>
         <? endif; ?>
+
+        <?//= $this->viewRender('partials/debug.phtml') ?>
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

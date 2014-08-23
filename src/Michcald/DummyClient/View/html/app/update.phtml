@@ -1,15 +1,11 @@
-<?= $this->viewRender('partials/navbar.phtml', array(
-    'urls' => array(
-        'Apps' => $this->url('dummy_client.app.index'),
-        'Edit' => Null
-    )
-)) ?>
-
 <? if (isset($_['app'])): ?>
 
 <h1>
-    <span class="glyphicon glyphicon-lock"></span>
-    <?= $_['app']->getName() ?>
+    <span class="glyphicon glyphicon-lock"></span>&emsp;
+    App
+    <small>
+        <?= $_['app']->getName() ?>
+    </small>
 </h1>
 
 <?= $this->viewRender('app/tab.phtml', array(

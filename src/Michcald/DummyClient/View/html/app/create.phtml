@@ -1,13 +1,9 @@
-<?= $this->viewRender('partials/navbar.phtml', array(
-    'urls' => array(
-        'Apps' => $this->url('dummy_client.app.index'),
-        'Create' => null
-    )
-)) ?>
-
 <h1>
-    <span class="glyphicon glyphicon-lock"></span>
-    Create a New App
+    <span class="glyphicon glyphicon-lock"></span>&emsp;
+    Apps
+    <small>
+        Create new
+    </small>
 </h1>
 
 <?= $this->viewRender('partials/form.phtml', array(

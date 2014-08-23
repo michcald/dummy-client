@@ -28,14 +28,14 @@ $items = array(
         'label' => 'Grants',
         'active' => $_['active'] == 'grants',
         'icon' => 'ok',
-        'url' => $this->url('dummy_client.app.grants', array(
-            'id' => $_['app']->getId()
+        'url' => $this->url('dummy_client.grant.index', array(
+            'appId' => $_['app']->getId()
         ))
     ),
 );
 ?>
 
-<ul class="nav nav-tabs" role="tablist">
+<ul class="nav nav-tabs nav-justified" role="tablist">
     <? foreach ($items as $item): ?>
     <li<? if($item['active'] == 'read'): ?> class="active"<? endif; ?>>
         <a href="<?= $item['url'] ?>">

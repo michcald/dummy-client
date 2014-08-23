@@ -2,12 +2,21 @@
     <? foreach ($_['form']->getElements() as $element): ?>
     <? if ($element->getDisabled() && !$element->getValue()) continue; ?>
     <div class="form-group">
+
+        <? if ($element->getType() != 'hidden'): ?>
         <label for="<?= $element->getName() ?>">
             <?= $element->getLabel() ?>
         </label>
+        <? endif; ?>
+
+        <? if ($element->getDescription()): ?>
+        <p><small><?= $element->getDescription() ?></small></p>
+        <? endif; ?>
+
         <?= $this->viewRender(sprintf('partials/form/%s.phtml', $element->getType()), array(
             'element' => $element
         )) ?>
+
         <? if (count($element->getErrors()) > 0): ?>
         <br />
         <div class="alert alert-danger">
@@ -18,6 +27,7 @@
             </ul>
         </div>
         <? endif; ?>
+        
     </div>
     <? endforeach; ?>
     <button type="submit" class="btn btn-success">

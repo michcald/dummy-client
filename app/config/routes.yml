@@ -15,7 +15,7 @@ routes:
     - name: dummy_client.app.index
       methods: ["GET"]
       uri:
-          pattern: app/list
+          pattern: apps
           requirements: []
       controller: \Michcald\DummyClient\Controller\AppController
       action: indexAction
@@ -57,23 +57,13 @@ routes:
                 value: \d+
       controller: \Michcald\DummyClient\Controller\AppController
       action: deleteAction
-
-    - name: dummy_client.app.grants
-      methods: ["GET"]
-      uri:
-          pattern: app/{id}/grants
-          requirements:
-              - param: id
-                value: \d+
-      controller: \Michcald\DummyClient\Controller\AppController
-      action: grantsAction
-
+      
     # repository
     
     - name: dummy_client.repository.index
       methods: ["GET"]
       uri:
-          pattern: repository/list
+          pattern: repositories
           requirements: []
       controller: \Michcald\DummyClient\Controller\RepositoryController
       action: indexAction
@@ -89,13 +79,175 @@ routes:
     - name: dummy_client.repository.read
       methods: ["GET"]
       uri:
-          pattern: repository/read/{name}
+          pattern: repository/{id}/read
           requirements:
-              - param: name
-                value: "[a-zA-Z0-9_]+"
+              - param: id
+                value: \d+
       controller: \Michcald\DummyClient\Controller\RepositoryController
       action: readAction
-    
+
+    - name: dummy_client.repository.update
+      methods: ["GET","POST"]
+      uri:
+          pattern: repository/{id}/update
+          requirements:
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\RepositoryController
+      action: updateAction
+
+    - name: dummy_client.repository.delete
+      methods: ["GET","POST"]
+      uri:
+          pattern: repository/{id}/delete
+          requirements:
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\RepositoryController
+      action: deleteAction
+
+    # repository fields
+
+    - name: dummy_client.field.index
+      methods: ["GET"]
+      uri:
+          pattern: repository/{repositoryId}/fields
+          requirements:
+              - param: repositoryId
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\Repository\FieldController
+      action: indexAction
+
+    - name: dummy_client.field.read
+      methods: ["GET"]
+      uri:
+          pattern: repository/{repositoryId}/field/{id}/read
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\Repository\FieldController
+      action: readAction
+
+    - name: dummy_client.field.update
+      methods: ["GET"]
+      uri:
+          pattern: repository/{repositoryId}/field/{id}/update
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\Repository\FieldController
+      action: updateAction
+
+    - name: dummy_client.field.create
+      methods: ["GET","POST"]
+      uri:
+          pattern: repository/{repositoryId}/field/create
+          requirements:
+              - param: repositoryId
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\Repository\FieldController
+      action: createAction
+
+    - name: dummy_client.field.delete
+      methods: ["GET","POST"]
+      uri:
+          pattern: repository/{repositoryId}/field/{id}/delete
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\Repository\FieldController
+      action: deleteAction
+
+    # entity
+
+    - name: dummy_client.entity.index
+      methods: ["GET"]
+      uri:
+          pattern: repository/{repositoryId}/entities
+          requirements:
+              - param: repositoryId
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\EntityController
+      action: indexAction
+
+    - name: dummy_client.entity.read
+      methods: ["GET"]
+      uri:
+          pattern: repository/{repositoryId}/entity/{id}
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\EntityController
+      action: readAction
+
+    - name: dummy_client.entity.create
+      methods: ["GET", "POST"]
+      uri:
+          pattern: repository/{repositoryId}/entity/create
+          requirements:
+              - param: repositoryId
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\EntityController
+      action: createAction
+
+    - name: dummy_client.entity.update
+      methods: ["GET", "POST"]
+      uri:
+          pattern: repository/{repositoryId}/entity/{id}/update
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\EntityController
+      action: updateAction
+
+    - name: dummy_client.entity.delete
+      methods: ["GET", "POST"]
+      uri:
+          pattern: repository/{repositoryId}/entity/{id}/delete
+          requirements:
+              - param: repositoryId
+                value: \d+
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\EntityController
+      action: deleteAction
+
+    # grants
+
+    - name: dummy_client.grant.index
+      methods: ["GET"]
+      uri:
+          pattern: app/{appId}/grants
+          requirements:
+              - param: appId
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\GrantController
+      action: indexAction
+
+    - name: dummy_client.grant.update
+      methods: ["GET"]
+      uri:
+          pattern: app/{appId}/grant/{id}/{action}
+          requirements:
+              - param: appId
+                value: \d+
+              - param: id
+                value: \d+
+              - param: action
+                value: "c|r|u|d"
+      controller: \Michcald\DummyClient\Controller\GrantController
+      action: updateAction
+      
     # default
     
     - name: dummy_client.not_found

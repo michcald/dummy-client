@@ -1,0 +1,39 @@
+<? if (isset($_['field']) && isset($_['repository'])): ?>
+
+<h1>
+    <span class="glyphicon glyphicon-folder-open"></span>&emsp;
+    Repository
+    <small>
+        <?= $_['repository']->getName() ?>
+    </small>
+</h1>
+
+<h3>
+    Repository Field
+    <small>
+        <?= $_['field']->getName() ?>
+    </small>
+</h3>
+
+<?= $this->viewRender('repository/field/tab.phtml', array(
+    'field' => $_['field'],
+    'active' => 'delete'
+)) ?>
+
+<div class="alert alert-danger">
+    <p>
+        Do you really want to delete this repository field?
+    </p>
+
+    <br />
+
+    <form role="form" method="post">
+        <button type="submit" class="btn btn-danger">
+            <span class="glyphicon glyphicon-remove"></span>
+            Delete
+        </button>
+    </form>
+
+</div>
+
+<? endif; ?>

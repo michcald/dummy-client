@@ -1,22 +1,49 @@
-<ul class="nav nav-tabs" role="tablist">
-    <li class="active">
-        <a href="#">
-            Read
+<?
+$items = array(
+    array(
+        'label' => 'Read',
+        'active' => $_['active'] == 'read',
+        'icon' => 'book',
+        'url' => $this->url('dummy_client.repository.read', array(
+            'id' => $_['repository']->getId()
+        ))
+    ),
+    array(
+        'label' => 'Update',
+        'active' => $_['active'] == 'update',
+        'icon' => 'edit',
+        'url' => $this->url('dummy_client.repository.update', array(
+            'id' => $_['repository']->getId()
+        ))
+    ),
+    array(
+        'label' => 'Delete',
+        'active' => $_['active'] == 'delete',
+        'icon' => 'trash',
+        'url' => $this->url('dummy_client.repository.delete', array(
+            'id' => $_['repository']->getId()
+        ))
+    ),
+    array(
+        'label' => 'Fields',
+        'active' => $_['active'] == 'fields',
+        'icon' => 'list',
+        'url' => $this->url('dummy_client.field.index', array(
+            'repositoryId' => $_['repository']->getId()
+        ))
+    ),
+);
+?>
+
+<ul class="nav nav-tabs nav-justified" role="tablist">
+    <? foreach ($items as $item): ?>
+    <li<? if($item['active'] == 'read'): ?> class="active"<? endif; ?>>
+        <a href="<?= $item['url'] ?>">
+            <span class="glyphicon glyphicon-<?= $item['icon'] ?>"></span>
+            <?= $item['label'] ?>
         </a>
     </li>
-    <li>
-        <a href="#">
-            Edit
-        </a>
-    </li>
-    <li>
-        <a href="#">
-            Delete
-        </a>
-    </li>
-    <li>
-        <a href="#">
-            Fields
-        </a>
-    </li>
+    <? endforeach; ?>
 </ul>
+
+<br />

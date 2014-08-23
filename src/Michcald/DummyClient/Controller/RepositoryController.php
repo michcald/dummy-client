@@ -2,138 +2,150 @@
 
 namespace Michcald\DummyClient\Controller;
 
+use Michcald\DummyClient\App;
+
 class RepositoryController extends \Michcald\DummyClient\Controller
 {
+    private $repositoryDao;
+
+    public function __construct()
+    {
+        $this->repositoryDao = new App\Dao\Repository();
+
+        $this->addNavbar('Repositories', $this->generateUrl('dummy_client.repository.index'));
+    }
+
     public function indexAction()
     {
         $page = (int)$this->getRequest()->getQueryParam('page', 1);
-        
-        $restResponse = $this->restCall('get', 'repository', array(
-            'page' => $page
-        ));
-        
-        if ($restResponse->getStatusCode() != 200) {
-            $content = $this->render(
-                'error.phtml',
-                array(
-                    'response' => $restResponse,
-                )
-            );
-        } else {
-            $array = json_decode($restResponse->getContent(), true);
-            
-            // set up paginator
-            
-            $content = $this->render(
-                'repository/index.phtml',
-                array(
-                    'paginator' => $array['paginator'],
-                    'repositories' => $array['results'],
-                )
-            );
-            
-            $content = $this->render(
-                'layout.phtml',
-                array(
-                    'content' => $content,
-                )
-            );
+
+        try {
+            $repositories = $this->repositoryDao->findAll(array(
+                'page' => $page
+            ));
+            return $this->generateResponse('repository/index.phtml', array(
+                'repositories' => $repositories
+            ));
+        } catch (\Exception $e) {
+            $this->addFlash($e->getMessage(), 'error');
+            return $this->generateResponse();
         }
-        
-        $response = new \Michcald\Mvc\Response();
-        $response->addHeader('Content-Type: text/html')
-            ->setContent($content);
-        return $response;
     }
-    
+
     public function createAction()
     {
-        $form = new \Michcald\DummyClient\App\Form\Repository();
-        
-        $form->handleRequest($this->getRequest());
-        
+        $this->addNavbar('Create', $this->generateUrl('dummy_client.repository.create'));
+
+        $repository = new App\Model\Repository();
+
+        $form = new App\Form\Repository();
+
+        $form->handleRequest($this->getRequest(), $repository);
+
         if ($form->isSubmitted()) {
-            
-            $restResponse = $this->restCall('post', 'repository', $form->toArray());
-            
-            $form->handleResponse($restResponse);
-            
-            if ($form->isValid()) {
-                
-                $content = $this->render(
-                    'repository/create.phtml',
-                    array(
-                        'created' => true,
-                    )
-                );
-                
+
+            $created = $this->repositoryDao->create($repository);
+
+            if ($created === true) {
+
+                $this->addFlash('Repository created successfully!', 'success');
+
+                $this->redirect('dummy_client.repository.read', array(
+                    'id' => $repository->getId()
+                ));
+
             } else {
-                
-                $content = $this->render(
-                    'repository/create.phtml',
-                    array(
-                        'form' => $form
-                    )
-                );
-                
+                $this->addFlash($created, 'error');
+                $form->handleResponse($created);
             }
-            
-        } else {
-            $content = $this->render(
-                'repository/create.phtml',
-                array(
-                    'form' => $form
-                )
-            );
         }
-        
-        $content = $this->render(
-            'layout.phtml',
-            array(
-                'content' => $content,
-            )
-        );
-        
-        $response = new \Michcald\Mvc\Response();
-        $response->addHeader('Content-Type: text/html')
-            ->setContent($content);
-        return $response;
+
+        return $this->generateResponse('repository/create.phtml', array(
+            'form' => $form
+        ));
     }
-    
-    public function readAction($name)
+
+    public function readAction($id)
     {
-        $restResponse = $this->restCall('get', sprintf('repository/%s', $name));
-        
-        if ($restResponse->getStatusCode() != 200) {
-            $content = $this->render(
-                'error.phtml',
-                array(
-                    'response' => $restResponse,
-                )
-            );
+        $repository = $this->repositoryDao->findOne($id);
+
+        $this->addNavbar('Read');
+
+        $form = new App\Form\Repository();
+
+        if (!$repository) {
+            $this->addFlash('Repository not found', 'warning');
         } else {
-            $array = json_decode($restResponse->getContent(), true);
-            
-            // set up paginator
-            
-            $content = $this->render(
-                'repository/read.phtml',
-                array(
-                    'repository' => $array,
-                )
-            );
-            
-            $content = $this->render(
-                'layout.phtml',
-                array(
-                    'content' => $content,
-                )
-            );
+            $form->handleModel($repository);
         }
-        
-        $response = new \Michcald\Mvc\Response();
-        $response->addHeader('Content-Type: text/html')
-            ->setContent($content);
-        return $response;
+
+        return $this->generateResponse('repository/read.phtml', array(
+            'repository' => $repository,
+            'form' => $form
+        ));
     }
+
+    public function updateAction($id)
+    {
+        $this->addNavbar('Update');
+
+        $repository = $this->repositoryDao->findOne($id);
+
+        if (!$repository) {
+            $this->addFlash('Repository not found', 'warning');
+        } else {
+
+            $form = new App\Form\Repository();
+            $form->setButtonLabel('Save');
+
+            $form->handleRequest($this->getRequest(), $repository);
+
+            if ($form->isSubmitted()) {
+
+                $updated = $this->repositoryDao->update($repository);
+
+                if ($updated === true) {
+
+                    $this->addFlash('Repository updated successfully!', 'success');
+
+                    $this->redirect('dummy_client.repository.update', array(
+                        'id' => $repository->getId()
+                    ));
+
+                } else {
+                    $this->addFlash($updated, 'error');
+                    $form->handleResponse($updated);
+                }
+            }
+
+            return $this->generateResponse('repository/update.phtml', array(
+                'repository' => $repository,
+                'form' => $form
+            ));
+        }
+
+        return $this->generateResponse();
+    }
+
+    public function deleteAction($id)
+    {
+        $this->addNavbar('Delete');
+
+        $repository = $this->repositoryDao->findOne($id);
+
+        if (!$repository) {
+            $this->addFlash('Repository not found', 'warning');
+        } else {
+            if ($this->getRequest()->isMethod('post')) {
+                $this->repositoryDao->delete($repository);
+                $this->addFlash('Repository deleted successfully!', 'success');
+                $this->redirect('dummy_client.repository.index');
+            }
+        }
+
+        return $this->generateResponse('repository/delete.phtml', array(
+            'repository' => $repository
+        ));
+    }
+
 }

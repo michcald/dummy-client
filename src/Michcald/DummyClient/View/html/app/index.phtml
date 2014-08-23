@@ -1,11 +1,5 @@
-<?= $this->viewRender('partials/navbar.phtml', array(
-    'urls' => array(
-        'Apps' => null
-    )
-)) ?>
-
 <h1>
-    <span class="glyphicon glyphicon-lock"></span>
+    <span class="glyphicon glyphicon-lock"></span>&emsp;
     Apps
     <small>
         <a href="<?= $this->url('dummy_client.app.create') ?>" class="green">
@@ -14,7 +8,7 @@
     </small>
 </h1>
 
-<?= $this->viewRender('partials/search.phtml') ?>
+<?//= $this->viewRender('partials/search.phtml') ?>
 
 <? if ($_['apps']->count() == 0): ?>
 
@@ -37,7 +31,9 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Title</th>
                 <th>Description</th>
+                <th>Base URL</th>
                 <th>Is Admin</th>
                 <th></th>
             </tr>
@@ -47,15 +43,17 @@
             <tr>
                 <td><?= $app->getId() ?></td>
                 <td><?= $app->getName() ?></td>
+                <td><?= $app->getTitle() ?></td>
                 <td><?= $app->getDescription() ?></td>
+                <td><?= $app->getBaseUrl() ?></td>
                 <td>
                     <? if ($app->getIsAdmin() == 1): ?>
-                    Y
+                    <span class="glyphicon glyphicon-check"></span>
                     <? else: ?>
-                    N
+                    <span class="glyphicon glyphicon-unchecked"></span>
                     <? endif; ?>
                 </td>
-                <td class="text-right">
+                <td class="small col-md-2">
                     <a href="<?= $this->url('dummy_client.app.read', array(
                         'id' => $app->getId()
                     )) ?>">

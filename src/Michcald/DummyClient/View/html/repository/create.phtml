@@ -1,25 +1,11 @@
-<ol class="breadcrumb">
-    <li>
-        <a href="<?= $this->url('dummy_client.index.index') ?>">Home</a>
-    </li>
-    <li>
-        <a href="<?= $this->url('dummy_client.repository.index') ?>">Repository</a>
-    </li>
-    <li>
-        <a href="<?= $this->url('dummy_client.repository.create') ?>">Create</a>
-    </li>
-</ol>
-
 <h1>
-    Create a New Repository
+    <span class="glyphicon glyphicon-folder-open"></span>&emsp;
+    Repository
+    <small>
+        Create new
+    </small>
 </h1>
 
-<? if (isset($_['created'])): ?>
-<div class="alert alert-success">
-    Repository created successfully
-</div>
-<? else: ?>
-
-<?= $this->viewRender('partials/form.phtml', array('form' => $_['form'])) ?>
-
-<? endif; ?>
+<?= $this->viewRender('partials/form.phtml', array(
+    'form' => $_['form']
+)) ?>

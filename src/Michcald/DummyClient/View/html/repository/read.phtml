@@ -1,20 +1,20 @@
-<ol class="breadcrumb">
-    <li>
-        <a href="<?= $this->url('dummy_client.index.index') ?>">Home</a>
-    </li>
-    <li>
-        <a href="<?= $this->url('dummy_client.repository.index') ?>">Repositories</a>
-    </li>
-    <li>
-        <a href="<?= $this->url('dummy_client.repository.read', array(
-            'name' => $_['repository']['name']
-        )) ?>">Repository</a>
-    </li>
-</ol>
+<? if (isset($_['repository'])): ?>
 
-<h1>Repository</h1>
+<h1>
+    <span class="glyphicon glyphicon-folder-open"></span>&emsp;
+    Repository
+    <small>
+        <?= $_['repository']->getName() ?>
+    </small>
+</h1>
 
 <?= $this->viewRender('repository/tab.phtml', array(
     'repository' => $_['repository'],
     'active' => 'read'
 )) ?>
+
+<?= $this->viewRender('partials/form-static.phtml', array(
+    'form' => $_['form']
+)) ?>
+
+<? endif; ?>

@@ -1,0 +1,32 @@
+<? if (isset($_['repository'])): ?>
+
+<h1>
+    <span class="glyphicon glyphicon-folder-open"></span>&emsp;
+    Repository
+    <small>
+        <?= $_['repository']->getName() ?>
+    </small>
+</h1>
+
+<?= $this->viewRender('repository/tab.phtml', array(
+    'repository' => $_['repository'],
+    'active' => 'delete'
+)) ?>
+
+<div class="alert alert-danger">
+    <p>
+        Do you really want to delete this repository?
+    </p>
+
+    <br />
+
+    <form role="form" method="post">
+        <button type="submit" class="btn btn-danger">
+            <span class="glyphicon glyphicon-remove"></span>
+            Delete
+        </button>
+    </form>
+
+</div>
+
+<? endif; ?>

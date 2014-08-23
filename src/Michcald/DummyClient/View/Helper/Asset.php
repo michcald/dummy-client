@@ -6,14 +6,12 @@ class Asset extends \Michcald\Mvc\View\Helper
 {
     public function execute()
     {
-        $config = \Michcald\DummyClient\Config::getInstance();
-        
         $file = sprintf(
-            '%spub/assets/%s', 
-            $config->base_url, 
+            '%spub/assets/%s',
+            \Michcald\DummyClient\WhoAmI::getInstance()->getApp()->getBaseUrl(),
             $this->getArg(0)
         );
-        
+
         return $file;
     }
 

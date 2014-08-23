@@ -10,10 +10,11 @@ abstract class Bootstrap
 
         self::initConfig();
         self::initRoutes();
-        self::initEventListeners();
         self::initViewHelpers();
-        self::initRequest();
+        self::initEventListeners();
         self::initRestClient();
+        self::initWhoAmI();
+        self::initRequest();
     }
 
     private static function initConfig()
@@ -28,7 +29,7 @@ abstract class Bootstrap
     {
         $mvc = \Michcald\Mvc\Container::get('dummy_client.mvc');
 
-        //$listener = new Event\Listener\Monolog();
+        //$listener = new Event\Listener\DummyAuth();
         //$mvc->addEventSubscriber($listener);
     }
 
@@ -69,7 +70,8 @@ abstract class Bootstrap
         $view->addHelper('\Michcald\DummyClient\View\Helper\Asset', 'asset');
         $view->addHelper('\Michcald\DummyClient\View\Helper\ViewRender', 'viewRender');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Url', 'url');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\Menu', 'menu');
+        $view->addHelper('\Michcald\DummyClient\View\Helper\WhoAmI', 'whoami');
+        $view->addHelper('\Michcald\DummyClient\View\Helper\Main', 'main');
     }
 
     private static function initRequest()
@@ -83,8 +85,30 @@ abstract class Bootstrap
     {
         $config = \Michcald\DummyClient\Config::getInstance();
 
-        $rest = new RestClient($config->dummy['endpoint']);
+        $rest = new restClient($config->dummy['endpoint']);
+
+        $basic = new \Michcald\RestClient\Auth\Basic();
+        $basic->setUsername($config->dummy['key']['public'])
+            ->setPassword($config->dummy['key']['private']);
+
+        $rest->setAuth($basic);
 
         \Michcald\Mvc\Container::add('dummy_client.rest_client', $rest);
+    }
+
+    private static function initWhoAmI()
+    {
+        /* @var $restClient \Michcald\DummyClient\RestClient */
+        $restClient = \Michcald\Mvc\Container::get('dummy_client.rest_client');
+
+        $response = $restClient->get('whoami');
+
+        if ($response->getStatusCode() == 200) {
+            $whoami = json_decode($response->getContent(), true);
+
+            \Michcald\DummyClient\WhoAmI::getInstance()->init($whoami);
+        } else {
+            throw new \Exception('Not connected to dummy');
+        }
     }
 }

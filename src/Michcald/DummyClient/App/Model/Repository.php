@@ -4,64 +4,69 @@ namespace Michcald\DummyClient\App\Model;
 
 class Repository extends \Michcald\DummyClient\Model
 {
-    private $name;
-    
-    private $description;
-    
-    private $singularLabel;
-    
-    private $pluralLabel;
-    
-    private $fields = array();
-    
+    protected $name;
+
+    protected $description;
+
+    protected $label_singular;
+
+    protected $label_plural;
+
     public function setName($name)
     {
         $this->name = $name;
-        
+
         return $this;
     }
-    
+
     public function getName()
     {
         return $this->name;
     }
-    
+
     public function setDescription($description)
     {
         $this->description = $description;
-        
+
         return $this;
     }
-    
+
     public function getDescription()
     {
         return $this->description;
     }
-    
-    public function getLabel($plural = false)
+
+    public function setSingularLabel($singularLabel)
     {
-        return $plural ? $this->pluralLabel : $this->singularLabel;
-    }
-    
-    public function addField(Repository\Field $field)
-    {
-        $this->fields[] = $field;
-        
+        $this->label_singular = $singularLabel;
+
         return $this;
     }
-    
-    public function getFields()
+
+    public function getSingularLabel()
     {
-        return $this->fields;
+        return $this->label_singular;
     }
-    
+
+    public function setPluralLabel($pluralLabel)
+    {
+        $this->label_plural = $pluralLabel;
+
+        return $this;
+    }
+
+    public function getPluralLabel()
+    {
+        return $this->label_plural;
+    }
+
     public function toArray()
     {
         return array(
-            'name' => $this->getName(),
-            'description' => $this->getDescription(),
-            'label_singular' => $this->getLabel(),
-            'label_plural' => $this->getLabel(true)
+            'name' => $this->name,
+            'description' => $this->description,
+            'label_singular' => $this->label_singular,
+            'label_plural' => $this->label_plural
         );
     }
 }

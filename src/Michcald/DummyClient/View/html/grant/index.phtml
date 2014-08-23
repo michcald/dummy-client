@@ -1,0 +1,109 @@
+<? if (isset($_['app'])): ?>
+<h1>
+    <span class="glyphicon glyphicon-lock"></span>&emsp;
+    App
+    <small>
+        <?= $_['app']->getName() ?>
+    </small>
+</h1>
+
+<?= $this->viewRender('app/tab.phtml', array(
+    'app' => $_['app'],
+    'active' => 'grants'
+)) ?>
+
+<? endif; ?>
+
+<? if (count($_['items']) == 0): ?>
+
+<p class="alert alert-info">
+    <span class="glyphicon glyphicon-info-sign"></span>&emsp;
+    No repositories yet
+</p>
+
+<? else: ?>
+
+<table class="table table-hover table-condensed table-striped">
+    <thead>
+        <tr>
+            <th>Repository</th>
+            <th>Create</th>
+            <th>Read</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <? foreach ($_['items'] as $item):
+        $repository = $item['repository'];
+        $grant = $item['grant'];
+        ?>
+        <tr>
+            <td>
+                <?= $repository->getName() ?>
+                <? if ($repository->getDescription()): ?>
+                <p>
+                    <small>
+                        <?= $repository->getDescription() ?>
+                    </small>
+                </p>
+                <? endif; ?>
+            </td>
+            <td>
+                <a href="<?= $this->url('dummy_client.grant.update', array(
+                    'appId' => $_['app']->getId(),
+                    'id' => $grant->getId(),
+                    'action' => 'c'
+                )) ?>">
+                    <? if ($grant->getCreate() == 1): ?>
+                    <span class="glyphicon glyphicon-check"></span>
+                    <? else: ?>
+                    <span class="glyphicon glyphicon-unchecked"></span>
+                    <? endif; ?>
+                </a>
+            </td>
+            <td>
+                <a href="<?= $this->url('dummy_client.grant.update', array(
+                    'appId' => $_['app']->getId(),
+                    'id' => $grant->getId(),
+                    'action' => 'r'
+                )) ?>">
+                    <? if ($grant->getRead() == 1): ?>
+                    <span class="glyphicon glyphicon-check"></span>
+                    <? else: ?>
+                    <span class="glyphicon glyphicon-unchecked"></span>
+                    <? endif; ?>
+                </a>
+            </td>
+            <td>
+                <a href="<?= $this->url('dummy_client.grant.update', array(
+                    'appId' => $_['app']->getId(),
+                    'id' => $grant->getId(),
+                    'action' => 'u'
+                )) ?>">
+                    <? if ($grant->getUpdate() == 1): ?>
+                    <span class="glyphicon glyphicon-check"></span>
+                    <? else: ?>
+                    <span class="glyphicon glyphicon-unchecked"></span>
+                    <? endif; ?>
+                </a>
+            </td>
+            <td>
+                <a href="<?= $this->url('dummy_client.grant.update', array(
+                    'appId' => $_['app']->getId(),
+                    'id' => $grant->getId(),
+                    'action' => 'd'
+                )) ?>">
+                    <? if ($grant->getDelete() == 1): ?>
+                    <span class="glyphicon glyphicon-check"></span>
+                    <? else: ?>
+                    <span class="glyphicon glyphicon-unchecked"></span>
+                    <? endif; ?>
+                </a>
+            </td>
+        </tr>
+        <? endforeach; ?>
+    </tbody>
+</table>
+
+<? endif; ?>

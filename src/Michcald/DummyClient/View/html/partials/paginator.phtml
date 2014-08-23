@@ -9,48 +9,62 @@
             Page <?= $_['paginator']->getCurrentPage() ?> of <?= $_['paginator']->getTotalPages() ?>
         </a>
     </li>
-    
+
     <!-- Start Go back //-->
-    
+
     <? if ($_['paginator']->getCurrentPage() > 1): ?>
     <li>
-        <a href="<?= $this->url($_['routeId'], array(
-            'page' => $_['paginator']->getCurrentPage()-1
-        ))?>">&laquo;</a>
+        <a href="<?= $this->url(
+            $_['routeId'],
+            array_merge(
+                array('page' => $_['paginator']->getCurrentPage()-1),
+                $_['routeParams']
+            )
+        )?>">&laquo;</a>
     </li>
     <? else: ?>
     <li class="disabled">
         <a href="#">&laquo;</a>
     </li>
     <? endif; ?>
-    
+
     <!-- End Go back //-->
-    
+
     <!-- Start Pages list //-->
-    
+
     <? for ($i=1; $i<=$_['paginator']->getTotalPages(); $i++): ?>
     <li<? if($i == $_['paginator']->getCurrentPage()): ?> class="active"<? endif; ?>>
-        <a href="<?= $this->url($_['routeId'], array('page' => $i))?>">
+        <a href="<?= $this->url(
+            $_['routeId'],
+            array_merge(
+                array('page' => $_['paginator']->getCurrentPage()),
+                $_['routeParams']
+            )
+        )?>">
             <?= $i ?>
         </a>
     </li>
     <? endfor; ?>
-  
+
     <!-- End Pages list //-->
-    
+
     <!-- Start Go next //-->
-    
+
     <? if ($_['paginator']->getCurrentPage() < $_['paginator']->getTotalPages()): ?>
     <li>
-        <a href="<?= $this->url($_['routeId'], array(
-            'page' => $_['paginator']->getCurrentPage()+1
-        ))?>">&raquo;</a>
+        <a href="<?= $this->url(
+            $_['routeId'],
+            array_merge(
+                array('page' => $_['paginator']->getCurrentPage()+1),
+                $_['routeParams']
+            )
+        )?>">&raquo;</a>
     </li>
     <? else: ?>
     <li class="disabled">
         <a href="#">&raquo;</a>
     </li>
     <? endif; ?>
-    
+
     <!-- End Go next //-->
 </ul>

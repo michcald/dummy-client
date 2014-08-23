@@ -2,10 +2,33 @@
 
 <div class="jumbotron">
     <h1>
-        <?= $this->config()->title ?>
+        <?= $this->whoami()->getApp()->getTitle() ?>
+        <small>
+            <?= $this->whoami()->getApp()->getName() ?>
+        </small>
     </h1>
     <p>
-        <?= $this->config()->description ?>
+        <?= $this->whoami()->getApp()->getDescription() ?>
     </p>
-    <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
 </div>
+
+<? if ($this->whoami()->getApp()->getIsAdmin()): ?>
+<ul class="nav nav-pills nav-justified">
+    <li>
+        <a href="<?= $this->url('dummy_client.app.index') ?>">
+            <h2>
+                <span class="glyphicon glyphicon-lock"></span>&emsp;
+                Apps
+            </h2>
+        </a>
+    </li>
+    <li>
+        <a href="<?= $this->url('dummy_client.repository.index') ?>">
+            <h2>
+                <span class="glyphicon glyphicon-folder-open"></span>&emsp;
+                Repositories
+            </h2>
+        </a>
+    </li>
+</ul>
+<? endif; ?>
