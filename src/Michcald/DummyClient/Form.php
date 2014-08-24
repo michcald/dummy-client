@@ -40,13 +40,17 @@ class Form
                     continue;
                 }
 
-                if ($element->getType() == Form\Element::TYPE_FILE && isset($data[$name])) {
+                if ($element->getType() == Form\Element::TYPE_FILE) {
 
-                    $dir = dirname($data[$name]['tmp_name']);
-                    $destination = $dir . DIRECTORY_SEPARATOR . $data[$name]['name'];
-                    rename($data[$name]['tmp_name'], $destination);
+                    if (isset($data[$name]['tmp_name'])) {
+                        $dir = dirname($data[$name]['tmp_name']);
+                        $destination = $dir . DIRECTORY_SEPARATOR . $data[$name]['name'];
+                        rename($data[$name]['tmp_name'], $destination);
 
-                    $data[$name] = '@' . $destination;
+                        $data[$name] = '@' . $destination;
+                    } else {
+                        $data[$name] = '';
+                    }
                 }
 
                 $model->set($name, (string)$data[$name]);
