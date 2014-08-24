@@ -1,4 +1,4 @@
-<form role="form" method="<?= $_['form']->getMethod() ?>">
+<form role="form" method="<?= $_['form']->getMethod() ?>" enctype="multipart/form-data">
     <? foreach ($_['form']->getElements() as $element): ?>
     <? if ($element->getDisabled() && !$element->getValue()) continue; ?>
     <div class="form-group">

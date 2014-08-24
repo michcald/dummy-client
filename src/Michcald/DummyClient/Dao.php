@@ -82,7 +82,7 @@ abstract class Dao
         $array = $model->toArray();
 
         $response = $this->rest->call('post', $this->getResource(), $array);
-
+        
         if ($response->getStatusCode() == 201) { // created
             $id = $response->getContent();
             $model->setId($id);

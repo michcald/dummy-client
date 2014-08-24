@@ -1,1 +1,7 @@
-TODO
+<input
+    type="file"
+    class="form-control"
+    name="<?= $_['element']->getName() ?>"
+    id="<?= $_['element']->getName() ?>"
+    <? if ($_['element']->getDisabled()): ?> disabled<? endif; ?>
+    />

@@ -40,6 +40,15 @@ class Form
                     continue;
                 }
 
+                if ($element->getType() == Form\Element::TYPE_FILE && isset($data[$name])) {
+
+                    $dir = dirname($data[$name]['tmp_name']);
+                    $destination = $dir . DIRECTORY_SEPARATOR . $data[$name]['name'];
+                    rename($data[$name]['tmp_name'], $destination);
+
+                    $data[$name] = '@' . $destination;
+                }
+
                 $model->set($name, (string)$data[$name]);
                 $element->setValue((string)$data[$name]);
             }
