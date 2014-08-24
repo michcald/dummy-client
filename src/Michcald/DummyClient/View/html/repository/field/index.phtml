@@ -36,11 +36,10 @@
         <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Type</th>
             <th>Label</th>
+            <th>Type</th>
+            <th>Options</th>
             <th>Required</th>
-            <th>Searchable</th>
-            <th>Sortable</th>
             <th>Main</th>
             <th>List</th>
             <th></th>
@@ -51,24 +50,11 @@
         <tr>
             <td><?= $field->getDisplayOrder() ?></td>
             <td><?= $field->getName() ?></td>
-            <td><?= $field->getType() ?></td>
             <td><?= $field->getLabel() ?></td>
+            <td><?= $field->getType() ?></td>
+            <td><?= json_encode($field->getOptions())?></td>
             <td class="col-md-1">
                 <? if ($field->getRequired()): ?>
-                <span class="glyphicon glyphicon-check"></span>
-                <? else: ?>
-                <span class="glyphicon glyphicon-unchecked"></span>
-                <? endif; ?>
-            </td>
-            <td class="col-md-1">
-                <? if ($field->getSearchable()): ?>
-                <span class="glyphicon glyphicon-check"></span>
-                <? else: ?>
-                <span class="glyphicon glyphicon-unchecked"></span>
-                <? endif; ?>
-            </td>
-            <td class="col-md-1">
-                <? if ($field->getSortable()): ?>
                 <span class="glyphicon glyphicon-check"></span>
                 <? else: ?>
                 <span class="glyphicon glyphicon-unchecked"></span>

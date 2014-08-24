@@ -49,12 +49,15 @@ class Show extends \Michcald\Mvc\View\Helper
 
         $repositoryDao = new \Michcald\DummyClient\App\Dao\Repository();
 
+        $options = $field->getOptions();
+        $foreignTable = $options['repository'];
+
         $result = $repositoryDao->findAll(array(
             'limit' => 1,
             'filters' => array(
                 array(
                     'field' => 'name',
-                    'value' => $field->getForeignTable()
+                    'value' => $foreignTable
                 )
             )
         ));

@@ -28,7 +28,8 @@ class Options extends \Michcald\Mvc\View\Helper
 
             /* @var $field \Michcald\DummyClient\App\Model\Repository\Field */
             if ($field->getName() == $fieldName) {
-                $foreignTable = $field->getForeignTable();
+                $options = $field->getOptions();
+                $foreignTable = $options['repository'];
                 break;
             }
         }
