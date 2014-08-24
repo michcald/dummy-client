@@ -42,7 +42,7 @@ class Form
 
                 if ($element->getType() == Form\Element::TYPE_FILE) {
 
-                    if (isset($data[$name]['tmp_name'])) {
+                    if (isset($data[$name]['tmp_name']) && $data[$name]['tmp_name']) {
                         $dir = dirname($data[$name]['tmp_name']);
                         $destination = $dir . DIRECTORY_SEPARATOR . $data[$name]['name'];
                         rename($data[$name]['tmp_name'], $destination);
