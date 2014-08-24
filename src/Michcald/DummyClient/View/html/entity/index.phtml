@@ -51,11 +51,11 @@
                 <? foreach ($_['repositoryFields'] as $field): ?>
                 <? if ($field->getList()): ?>
                 <td>
-                    <? if ($field->getType() == 'foreign'): ?>
-                    <?= $this->printForeign($entity, $field->getName()) ?>
-                    <? else: ?>
-                    <?= $entityArray[$field->getName()] ?>
-                    <? endif; ?>
+                    <?= $this->viewRender(sprintf('entity/partials/%s.phtml', $field->getType()), array(
+                        'field' => $field,
+                        'entity' => $entity,
+                        'value' => $entityArray[$field->getName()]
+                    )) ?>
                 </td>
                 <? endif; ?>
                 <? endforeach; ?>

@@ -1,0 +1,6 @@
+<? foreach ($_['field']->getOptions() as $key => $value): ?>
+<? if ($value == $_['value']): ?>
+<?= $key ?>
+<? break; ?>
+<? endif; ?>
+<? endforeach; ?>
