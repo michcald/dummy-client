@@ -17,7 +17,6 @@ class Field extends \Michcald\DummyClient\Dao
             ->setId($data['id'])
             ->setRepositoryId($data['repository_id'])
             ->setType($data['type'])
-            ->setForeignTable($data['foreign_table'])
             ->setName($data['name'])
             ->setLabel($data['label'])
             ->setDescription($data['description'])
@@ -28,6 +27,17 @@ class Field extends \Michcald\DummyClient\Dao
             ->setSortable($data['sortable'])
             ->setDisplayOrder($data['display_order'])
             ;
+
+        if (isset($data['options'])) {
+
+            $options = json_decode($data['options'], true);
+
+            if (!is_array($options)) {
+                $options = array();
+            }
+            
+            $field->setOptions($options);
+        }
 
         return $field;
     }

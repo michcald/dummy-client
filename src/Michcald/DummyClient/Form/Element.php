@@ -14,6 +14,11 @@ class Element
     const TYPE_FOREIGN = 'foreign';
     const TYPE_FLOAT = 'float';
     const TYPE_TIMESTAMP = 'timestamp';
+    const TYPE_URL = 'url';
+    const TYPE_DATE = 'date';
+    const TYPE_COLOR = 'color';
+    const TYPE_EMAIL = 'email';
+    const TYPE_RANGE = 'range';
 
     private $name;
 
@@ -29,7 +34,7 @@ class Element
 
     private $type = self::TYPE_TEXT;
 
-    private $options;
+    private $options = array();
 
     public function setName($name)
     {
@@ -103,11 +108,9 @@ class Element
         return $this->disabled;
     }
 
-    public function setType($type, array $options = array())
+    public function setType($type)
     {
         $this->type = $type;
-
-        $this->options = $options;
 
         return $this;
     }

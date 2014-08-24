@@ -8,8 +8,6 @@ class Field extends \Michcald\DummyClient\Model
 
     protected $type;
 
-    protected $foreign_table;
-
     protected $name;
 
     protected $label;
@@ -27,6 +25,8 @@ class Field extends \Michcald\DummyClient\Model
     protected $list = 0;
 
     protected $display_order;
+
+    protected $options;
 
     public function setRepositoryId($repositoryId)
     {
@@ -52,16 +52,16 @@ class Field extends \Michcald\DummyClient\Model
         return $this->type;
     }
 
-    public function setForeignTable($foreignTable)
+    public function setOptions($options)
     {
-        $this->foreign_table = $foreignTable;
+        $this->options = $options;
 
         return $this;
     }
 
-    public function getForeignTable()
+    public function getOptions()
     {
-        return $this->foreign_table;
+        return $this->options;
     }
 
     public function setName($name)
@@ -177,7 +177,6 @@ class Field extends \Michcald\DummyClient\Model
         return array(
             'repository_id' => $this->repository_id,
             'type' => $this->type,
-            'foreign_table' => $this->foreign_table,
             'name' => $this->name,
             'label' => $this->label,
             'description' => $this->description,
@@ -186,7 +185,8 @@ class Field extends \Michcald\DummyClient\Model
             'sortable' => $this->sortable,
             'main' => $this->main,
             'list' => $this->list,
-            'display_order' => $this->display_order
+            'display_order' => $this->display_order,
+            'options' => $this->options,
         );
     }
 

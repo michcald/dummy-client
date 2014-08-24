@@ -20,17 +20,23 @@ class Field extends \Michcald\DummyClient\Form
                 'String' => 'string',
                 'Text' => 'text',
                 'Integer' => 'integer',
+                'Select' => 'select',
                 'Float' => 'float',
                 'Boolean' => 'boolean',
                 'Timestamp' => 'timestamp',
                 'File' => 'file',
-                'Foreign' => 'foreign'
+                'Foreign' => 'foreign',
+                'URL' => 'url',
+                'Date' => 'date',
+                'Color' => 'color',
+                'Email' => 'email',
+                'Range' => 'range',
             ));
         $this->addElement($type);
 
         $ft = new \Michcald\DummyClient\Form\Element();
-        $ft->setName('foreign_table')
-            ->setLabel('Foreign table');
+        $ft->setName('options')
+            ->setLabel('Options');
         $this->addElement($ft);
 
         $label = new \Michcald\DummyClient\Form\Element();

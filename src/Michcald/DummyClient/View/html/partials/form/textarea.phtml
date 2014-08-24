@@ -3,4 +3,9 @@
     name="<?= $_['element']->getName() ?>"
     id="<?= $_['element']->getName() ?>"
     <? if ($_['element']->getDisabled()): ?> disabled<? endif; ?>
+
+    <? foreach ($_['element']->getOptions() as $attribute => $value): ?>
+    <?= $attribute ?>="<?= $value ?>"
+    <? endforeach; ?>
+
     ><?= $_['element']->getValue() ?></textarea>

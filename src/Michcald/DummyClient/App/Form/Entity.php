@@ -19,7 +19,10 @@ class Entity extends \Michcald\DummyClient\Form
 
             $element = new Element();
             $element->setName($field->getName())
-                ->setLabel($field->getLabel());
+                ->setLabel($field->getLabel())
+                ->setOptions($field->getOptions());
+
+
 
             switch ($field->getType()) {
                 case 'string':
@@ -30,6 +33,9 @@ class Entity extends \Michcald\DummyClient\Form
                     break;
                 case 'text':
                     $element->setType(Element::TYPE_TEXTAREA);
+                    break;
+                case 'select':
+                    $element->setType(Element::TYPE_SELECT);
                     break;
                 case 'integer':
                     $element->setType(Element::TYPE_INTEGER);
@@ -46,7 +52,23 @@ class Entity extends \Michcald\DummyClient\Form
                 case 'timestamp':
                     $element->setType(Element::TYPE_TIMESTAMP);
                     break;
+                case 'date':
+                    $element->setType(Element::TYPE_DATE);
+                    break;
+                case 'url':
+                    $element->setType(Element::TYPE_URL);
+                    break;
+                case 'color':
+                    $element->setType(Element::TYPE_COLOR);
+                    break;
+                case 'email':
+                    $element->setType(Element::TYPE_EMAIL);
+                    break;
+                case 'range':
+                    $element->setType(Element::TYPE_RANGE);
+                    break;
                 default:
+                    throw new \Exception('Must specify a type');
             }
 
             $this->addElement($element);
