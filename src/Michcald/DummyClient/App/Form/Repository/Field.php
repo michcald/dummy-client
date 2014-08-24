@@ -9,7 +9,8 @@ class Field extends \Michcald\DummyClient\Form
         $name = new \Michcald\DummyClient\Form\Element();
         $name->setName('name')
             ->setLabel('Name')
-            ->setDescription('The name of the raw field');
+            ->setDescription('The name of the raw field')
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXT);
         $this->addElement($name);
 
         $type = new \Michcald\DummyClient\Form\Element();
@@ -36,17 +37,20 @@ class Field extends \Michcald\DummyClient\Form
 
         $ft = new \Michcald\DummyClient\Form\Element();
         $ft->setName('options')
-            ->setLabel('Options');
+            ->setLabel('Options')
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXTAREA);
         $this->addElement($ft);
 
         $label = new \Michcald\DummyClient\Form\Element();
         $label->setName('label')
-            ->setLabel('Label');
+            ->setLabel('Label')
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXT);
         $this->addElement($label);
 
         $description = new \Michcald\DummyClient\Form\Element();
         $description->setName('description')
-            ->setLabel('Description');
+            ->setLabel('Description')
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXTAREA);
         $this->addElement($description);
 
         $required = new \Michcald\DummyClient\Form\Element();
@@ -81,7 +85,12 @@ class Field extends \Michcald\DummyClient\Form
 
         $displayOrder = new \Michcald\DummyClient\Form\Element();
         $displayOrder->setName('display_order')
-            ->setLabel('Display order');
+            ->setLabel('Display order')
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_INTEGER)
+            ->setOptions(array(
+                'min' => 1,
+                'step' => 1
+            ));
         $this->addElement($displayOrder);
     }
 

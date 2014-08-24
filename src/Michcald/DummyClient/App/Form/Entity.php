@@ -22,8 +22,6 @@ class Entity extends \Michcald\DummyClient\Form
                 ->setLabel($field->getLabel())
                 ->setOptions($field->getOptions());
 
-
-
             switch ($field->getType()) {
                 case 'string':
                     $element->setType(Element::TYPE_TEXT);

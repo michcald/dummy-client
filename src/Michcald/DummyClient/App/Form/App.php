@@ -14,17 +14,20 @@ class App extends \Michcald\DummyClient\Form
 
         $name = new \Michcald\DummyClient\Form\Element();
         $name->setName('name')
-            ->setLabel('Name');
+            ->setLabel('Name')
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXT);
         $this->addElement($name);
 
         $title = new \Michcald\DummyClient\Form\Element();
         $title->setName('title')
-            ->setLabel('Title');
+            ->setLabel('Title')
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXT);
         $this->addElement($title);
 
         $description = new \Michcald\DummyClient\Form\Element();
         $description->setName('description')
-            ->setLabel('Description');
+            ->setLabel('Description')
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXTAREA);
         $this->addElement($description);
 
         $isAdmin = new \Michcald\DummyClient\Form\Element();
@@ -38,17 +41,20 @@ class App extends \Michcald\DummyClient\Form
 
         $baseUrl = new \Michcald\DummyClient\Form\Element();
         $baseUrl->setName('base_url')
-            ->setLabel('Base URL');
+            ->setLabel('Base URL')
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_URL);
         $this->addElement($baseUrl);
 
         $publicKey = new \Michcald\DummyClient\Form\Element();
         $publicKey->setName('public_key')
-            ->setLabel('Public key');
+            ->setLabel('Public key')
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXT);
         $this->addElement($publicKey);
 
         $privateKey = new \Michcald\DummyClient\Form\Element();
         $privateKey->setName('private_key')
-            ->setLabel('Private key');
+            ->setLabel('Private key')
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXT);
         $this->addElement($privateKey);
     }
 
