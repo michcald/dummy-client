@@ -1,20 +1,18 @@
 <? $navbar = \Michcald\DummyClient\Navbar::getInstance() ?>
 
-<ol class="breadcrumb">
-    <li>
-        <a href="<?= $this->url('dummy_client.index.index') ?>">
-            Home
-        </a>
-    </li>
+<div class="btn-group btn-breadcrumb">
+    <a href="<?= $this->url('dummy_client.index.index') ?>" class="btn btn-default">
+        <i class="glyphicon glyphicon-home"></i>
+    </a>
     <? foreach ($navbar->getElements() as $element): ?>
-    <li>
-        <? if ($element['url']): ?>
-        <a href="<?= $element['url'] ?>">
-            <?= $element['label'] ?>
-        </a>
-        <? else: ?>
+    <? if ($element['url']): ?>
+    <a href="<?= $element['url'] ?>"  class="btn btn-default">
         <?= $element['label'] ?>
-        <? endif; ?>
-    </li>
+    </a>
+    <? else: ?>
+    <a href="#" class="btn btn-primary">
+        <?= $element['label'] ?>
+    </a>
+    <? endif; ?>
     <? endforeach; ?>
-</ol>
+</div>
