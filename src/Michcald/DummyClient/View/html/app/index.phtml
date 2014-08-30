@@ -1,12 +1,12 @@
-<h1>
-    <span class="glyphicon glyphicon-lock"></span>&emsp;
-    Apps
-    <small>
-        <a href="<?= $this->url('dummy_client.app.create') ?>" class="green">
-            <span class="glyphicon glyphicon-plus-sign"></span>
-        </a>
-    </small>
-</h1>
+<div class="pull-left">
+    <?= $this->viewRender('partials/breadcrumbs.phtml') ?>
+</div>
+
+<?= $this->viewRender('partials/button/add.phtml', array(
+    'url' => $this->url('dummy_client.app.create')
+)) ?>
+
+<div class="clearfix"></div>
 
 <?//= $this->viewRender('partials/search.phtml') ?>
 

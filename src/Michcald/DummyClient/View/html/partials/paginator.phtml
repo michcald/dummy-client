@@ -2,12 +2,7 @@
     <ul class="pagination">
         <li class="disabled">
             <a href="">
-                Total Results <?= $_['paginator']->getTotalResults() ?>
-            </a>
-        </li>
-        <li class="disabled">
-            <a href="">
-                Page <?= $_['paginator']->getCurrentPage() ?> of <?= $_['paginator']->getTotalPages() ?>
+                Results <strong><?= $_['paginator']->getTotalResults() ?></strong>
             </a>
         </li>
 
@@ -68,5 +63,14 @@
         <? endif; ?>
 
         <!-- End Go next //-->
+
+        <li class="disabled">
+            <a href="">
+                Page
+                <strong><?= $_['paginator']->getCurrentPage() ?></strong>
+                of
+                <strong><?= $_['paginator']->getTotalPages() ?></strong>
+            </a>
+        </li>
     </ul>
 </div>

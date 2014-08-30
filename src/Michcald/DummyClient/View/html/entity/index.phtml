@@ -1,14 +1,14 @@
-<h1>
-    <span class="glyphicon glyphicon-list"></span>&emsp;
-    <?= $_['repository']->getPluralLabel() ?>
-    <small>
-        <a href="<?= $this->url('dummy_client.entity.create', array(
-            'repositoryId' => $_['repository']->getId()
-        ))?>" class="green">
-            <span class="glyphicon glyphicon-plus-sign"></span>
-        </a>
-    </small>
-</h1>
+<div class="pull-left">
+    <?= $this->viewRender('partials/breadcrumbs.phtml') ?>
+</div>
+
+<?= $this->viewRender('partials/button/add.phtml', array(
+    'url' => $this->url('dummy_client.entity.create', array(
+        'repositoryId' => $_['repository']->getId()
+    ))
+)) ?>
+
+<div class="clearfix"></div>
 
 <?//= $this->viewRender('partials/search.phtml') ?>
 

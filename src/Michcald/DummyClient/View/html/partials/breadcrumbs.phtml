@@ -4,15 +4,20 @@
     <a href="<?= $this->url('dummy_client.index.index') ?>" class="btn btn-default">
         <i class="glyphicon glyphicon-home"></i>
     </a>
+    <? $i = 1 ?>
     <? foreach ($navbar->getElements() as $element): ?>
-    <? if ($element['url']): ?>
-    <a href="<?= $element['url'] ?>"  class="btn btn-default">
-        <?= $element['label'] ?>
-    </a>
-    <? else: ?>
-    <a href="#" class="btn btn-primary">
-        <?= $element['label'] ?>
-    </a>
+    <? $url = $element['url'] ? $element['url'] : '#' ?>
+    <? $btn = 'btn-default' ?>
+    <? if ($i == count($navbar->getElements())): ?>
+    <? $btn = 'btn-info' ?>
     <? endif; ?>
+    <? $i++ ?>
+
+    <a href="<?= $url ?>" class="btn <?= $btn ?>">
+        <?= $element['label'] ?>
+    </a>
+
     <? endforeach; ?>
 </div>
+
+&emsp;

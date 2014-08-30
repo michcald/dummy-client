@@ -1,10 +1,4 @@
-<h1>
-    <span class="glyphicon glyphicon-lock"></span>&emsp;
-    <?= $this->main($_['entity'], $_['repositoryFields']) ?>
-    <small>
-        <?= $_['repository']->getSingularLabel() ?>
-    </small>
-</h1>
+<br /><br />
 
 <?
 $items = array(
@@ -38,7 +32,7 @@ $items = array(
 );
 ?>
 
-<ul class="nav nav-tabs nav-justified" role="tablist">
+<ul class="nav nav-tabs" role="tablist">
     <? foreach ($items as $item): ?>
     <li<? if($item['active'] == 'read'): ?> class="active"<? endif; ?>>
         <a href="<?= $item['url'] ?>">

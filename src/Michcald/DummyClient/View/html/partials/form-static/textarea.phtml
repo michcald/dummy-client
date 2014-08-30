@@ -1,1 +1,3 @@
-<?= nl2br($_['element']->getValue()) ?>
+<?= nl2br(
+    is_array($_['element']->getValue()) ? json_encode($_['element']->getValue()) : $_['element']->getValue()
+) ?>

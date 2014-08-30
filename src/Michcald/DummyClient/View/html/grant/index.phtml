@@ -1,11 +1,6 @@
+<?= $this->viewRender('partials/breadcrumbs.phtml') ?>
+
 <? if (isset($_['app'])): ?>
-<h1>
-    <span class="glyphicon glyphicon-lock"></span>&emsp;
-    App
-    <small>
-        <?= $_['app']->getName() ?>
-    </small>
-</h1>
 
 <?= $this->viewRender('app/tab.phtml', array(
     'app' => $_['app'],

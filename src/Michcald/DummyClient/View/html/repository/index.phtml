@@ -1,12 +1,15 @@
-<h1>
-    <span class="glyphicon glyphicon-folder-open"></span>&emsp;
-    Repositories
-    <small>
-        <a href="<?= $this->url('dummy_client.repository.create') ?>" class="green">
-            <span class="glyphicon glyphicon-plus-sign"></span>
-        </a>
-    </small>
-</h1>
+<div class="pull-left">
+    <?= $this->viewRender('partials/breadcrumbs.phtml') ?>
+</div>
+
+<a href="<?= $this->url('dummy_client.repository.create') ?>" class="btn btn-primary">
+    <span class="glyphicon glyphicon-plus"></span>
+    Add new
+</a>
+
+<div class="clearfix"></div>
+
+<?= $this->viewRender('partials/flashes.phtml') ?>
 
 <?//= $this->viewRender('partials/search.phtml') ?>
 

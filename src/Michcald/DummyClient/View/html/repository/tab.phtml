@@ -1,3 +1,5 @@
+<br /><br />
+
 <?
 $items = array(
     array(
@@ -35,7 +37,7 @@ $items = array(
 );
 ?>
 
-<ul class="nav nav-tabs nav-justified" role="tablist">
+<ul class="nav nav-tabs" role="tablist">
     <? foreach ($items as $item): ?>
     <li<? if($item['active'] == 'read'): ?> class="active"<? endif; ?>>
         <a href="<?= $item['url'] ?>">

@@ -1,26 +1,19 @@
-<? if (isset($_['repository'])): ?>
+<div class="pull-left">
+    <?= $this->viewRender('partials/breadcrumbs.phtml') ?>
+</div>
 
-<h1>
-    <span class="glyphicon glyphicon-folder-open"></span>&emsp;
-    Repository
-    <small>
-        <?= $_['repository']->getName() ?>
-    </small>
-</h1>
+<?= $this->viewRender('partials/button/add.phtml', array(
+    'url' => $this->url('dummy_client.field.create', array(
+        'repositoryId' => $_['repository']->getId()
+    ))
+)) ?>
+
+<? if (isset($_['repository'])): ?>
 
 <?= $this->viewRender('repository/tab.phtml', array(
     'repository' => $_['repository'],
     'active' => 'fields'
 )) ?>
-
-<p class="text-right">
-    <a href="<?= $this->url('dummy_client.field.create', array(
-        'repositoryId' => $_['repository']->getId()
-    )) ?>" class="btn btn-success">
-        <span class="glyphicon glyphicon-plus"></span>
-        Add new field
-    </a>
-</p>
 
 <? if ($_['fields']->count() == 0): ?>
 
