@@ -1,0 +1,16 @@
+<select 
+    class="form-control"
+    name="{{ element.getName }}"
+    id="{{ element.getName }}"
+    {% if element.getDisabled %}disabled{% endif %}
+    
+    <option value="">-- Select --</option>
+    {% for key,value in element.getOptions %}
+    <option 
+        value="{{ value }}"
+        {% if element.getValue == value %} selected{% endif %}
+        >
+        {{ key }}
+    </option>
+    {% endfor %}
+</select>

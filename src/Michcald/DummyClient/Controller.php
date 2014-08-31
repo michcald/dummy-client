@@ -15,17 +15,9 @@ abstract class Controller extends \Michcald\Mvc\Controller
 
     protected function render($filename, array $data = array())
     {
-        $dir = realpath(__DIR__ . '/View');
+        $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
 
-        $filename = sprintf('%s/html/%s', $dir, $filename);
-
-        if (!is_file($filename)) {
-            throw new \Exception(sprintf('View file not found: %s', $filename));
-        }
-
-        $filename = realpath($filename);
-
-        return $this->getView()->render($filename, $data);
+        return $twig->render($filename, $data);
     }
 
     protected function addFlash($message, $type = 'info')
@@ -113,7 +105,7 @@ abstract class Controller extends \Michcald\Mvc\Controller
             $content = null;
         }
 
-        $layout = $this->render('layout.phtml', array(
+        $layout = $this->render('layout.html.twig', array(
             'content' => $content,
         ));
 

@@ -11,31 +11,27 @@ class AppController extends \Michcald\DummyClient\Controller
     public function __construct()
     {
         $this->appDao = new App\Dao\App();
-
-        $this->addNavbar('Apps', $this->generateUrl('dummy_client.app.index'));
     }
 
     public function indexAction()
     {
         $page = (int)$this->getRequest()->getQueryParam('page', 1);
 
-        try {
-            $apps = $this->appDao->findAll(array(
-                'page' => $page
-            ));
-            return $this->generateResponse('app/index.phtml', array(
-                'apps' => $apps
-            ));
-        } catch (\Exception $e) {
-            $this->addFlash($e->getMessage(), 'error');
-            return $this->generateResponse();
-        }
+        $apps = $this->appDao->findAll(array(
+            'page' => $page
+        ));
+        $content = $this->render('app/index.html.twig', array(
+            'apps' => $apps
+        ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function createAction()
     {
-        $this->addNavbar('Create', $this->generateUrl('dummy_client.app.create'));
-
         $app = new App\Model\App();
 
         $form = new App\Form\App();
@@ -60,9 +56,14 @@ class AppController extends \Michcald\DummyClient\Controller
             }
         }
 
-        return $this->generateResponse('app/create.phtml', array(
+        $content = $this->render('app/create.html.twig', array(
             'form' => $form
         ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function readAction($id)

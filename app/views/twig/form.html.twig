@@ -1,0 +1,40 @@
+{% spaceless %}
+<div class="container">
+    
+    <form role="form" method="{{ form.getMethod }}" enctype="multipart/form-data">
+        {% for element in form.getElements if element.getDisabled == false or element.getValue == false %}
+            <div class="form-group">
+                {% if element.getType != 'hidden' %}
+                <label for="{{ element.getName }}">
+                    {{ element.getLabel }}
+                </label>
+                {% endif %}
+
+                {% if element.getDescription %}
+                <p><small>{{ element.getDescription }}</small></p>
+                {% endif %}
+
+                {% include 'twig/form/' ~ element.getType ~ '.html.twig' with {
+                    element: element,
+                    repository: repository is defined ? repository : null
+                } %}
+
+                {% if element.getErrors|length > 0 %}
+                <br />
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for error in element.getErrors %}
+                        <li><small>{{ error }}</small></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">
+            {{ form.getButtonLabel }}
+        </button>
+    </form>
+</div>
+{% endspaceless %}

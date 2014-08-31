@@ -3,3 +3,7 @@ dummy:
     key:
         public: dummy_app
         private: dummy_app
+
+twig:
+    templates: app/views
+    cache: app/cache

@@ -1,0 +1,17 @@
+<div class="btn-group btn-breadcrumb">
+    <a href="{{ url('dummy_client.index.index') }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-home"></i>
+    </a>
+    {% for item in items %}
+        {% set url = item.url ? item.url : '#' %}
+        {% set btnClass = 'btn-default' %}
+        {% if loop.index == items|length %}
+            {% set btnClass = 'btn-info' %}
+        {% endif %}
+        <a href="{{ url }}" class="btn {{ btnClass }}">
+            {{ item.label }}
+        </a>
+    {% endfor %}
+</div>
+
+<br /><br />

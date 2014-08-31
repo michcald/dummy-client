@@ -1,0 +1,64 @@
+<div class="text-center">
+    <ul class="pagination">
+        <li class="disabled">
+            <a href="">
+                Results <strong>{{ paginator.getTotalResults }}</strong>
+            </a>
+        </li>
+
+        <!-- Start Go back //-->
+
+        {% if paginator.getCurrentPage > 1 %}
+        <li>
+            <a href="{{ url(routeId, {
+                    page: paginator.getCurrentPage - 1
+                }|merge(routeParams)) }}">&laquo;</a>
+        </li>
+        {% else %}
+        <li class="disabled">
+            <a href="#">&laquo;</a>
+        </li>
+        {% endif %}
+
+        <!-- End Go back //-->
+
+        <!-- Start Pages list //-->
+
+        {% for i in range(1, paginator.getTotalPages) %}
+            <li{% if i == paginator.getCurrentPage %} class="active"{% endif %}>
+                <a href="{{ url(routeId, {
+                    page: i
+                }|merge(routeParams)) }}">
+                    {{ i }}
+                </a>
+            </li>
+        {% endfor %}
+
+        <!-- End Pages list //-->
+
+        <!-- Start Go next //-->
+
+        {% if paginator.getCurrentPage < paginator.getTotalPages %}
+        <li>
+            <a href="{{ url(routeId, {
+                page: paginator.getCurrentPage+1
+            }|merge(routeParams)) }}">&raquo;</a>
+        </li>
+        {% else %}
+        <li class="disabled">
+            <a href="#">&raquo;</a>
+        </li>
+        {% endif %}
+
+        <!-- End Go next //-->
+
+        <li class="disabled">
+            <a href="">
+                Page
+                <strong>{{ paginator.getCurrentPage }}</strong>
+                of
+                <strong>{{ paginator.getTotalPages }}</strong>
+            </a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,13 @@
+<select
+    name="<?= $_['element']->getName() ?>"
+    class="form-control"
+    id="<?= $_['element']->getName() ?>"
+    <? if ($_['element']->getDisabled()): ?> disabled<? endif; ?>
+    >
+    <option value="">-- select --</option>
+    <? foreach ($this->getForeignOptions($_['repository'], $_['element']->getName()) as $value => $option): ?>
+    <option value="<?= $value ?>"<? if ($_['element']->getValue() == $value): ?> selected<? endif; ?>>
+        <?= $option ?>
+    </option>
+    <? endforeach; ?>
+</select>

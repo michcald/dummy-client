@@ -7,14 +7,7 @@ class IndexController extends \Michcald\DummyClient\Controller
     public function indexAction()
     {
         $content = $this->render(
-            'index/index.phtml'
-        );
-
-        $content = $this->render(
-            'layout.phtml',
-            array(
-                'content' => $content
-            )
+            'index/index.html.twig'
         );
 
         $response = new \Michcald\Mvc\Response();
