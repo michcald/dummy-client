@@ -9,6 +9,10 @@ class Options extends \Michcald\Mvc\View\Helper
         /* @var $repository \Michcald\DummyClient\App\Model\Repository */
         $repository = $this->getArg(0);
 
+        if (!$repository) {
+            throw new \Exception('Not valid repository');
+        }
+
         $fieldName = $this->getArg(1);
 
         $repositoryFieldDao = new \Michcald\DummyClient\App\Dao\Repository\Field();
