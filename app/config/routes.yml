@@ -105,6 +105,16 @@ routes:
                 value: \d+
       controller: \Michcald\DummyClient\Controller\RepositoryController
       action: deleteAction
+      
+    - name: dummy_client.repository.doc
+      methods: ["GET"]
+      uri:
+          pattern: repository/{id}/doc
+          requirements:
+              - param: id
+                value: \d+
+      controller: \Michcald\DummyClient\Controller\RepositoryController
+      action: docAction
 
     # repository fields
 

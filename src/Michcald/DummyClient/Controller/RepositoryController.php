@@ -148,4 +148,24 @@ class RepositoryController extends \Michcald\DummyClient\Controller
         ));
     }
 
+    public function docAction($id)
+    {
+        $repository = $this->repositoryDao->findOne($id);
+
+        $this->addNavbar('Doc');
+
+        $form = new App\Form\Repository();
+
+        if (!$repository) {
+            $this->addFlash('Repository not found', 'warning');
+        } else {
+            $form->handleModel($repository);
+        }
+
+        return $this->generateResponse('repository/doc.phtml', array(
+            'repository' => $repository,
+            'form' => $form
+        ));
+    }
+
 }
