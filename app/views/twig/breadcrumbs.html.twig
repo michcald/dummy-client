@@ -3,7 +3,12 @@
         <i class="glyphicon glyphicon-home"></i>
     </a>
     {% for item in items %}
-        {% set url = item.url ? item.url : '#' %}
+        {% if item.url is defined %}
+            {% set url = item.url %}
+        {% else %}
+            {% set url = '#' %}
+        {% endif %}
+        
         {% set btnClass = 'btn-default' %}
         {% if loop.index == items|length %}
             {% set btnClass = 'btn-info' %}

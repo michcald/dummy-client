@@ -10,12 +10,20 @@
             label: app.getName
         },
         {
-            label: 'Create',
-            url: url('dummy_client.app.create')
+            label: 'Read'
         }
     ]) }}
 {% endblock %}
 
 {% block page %}
-    {{ form(form) }}
+    
+    {% include 'app/tab.html.twig' with {
+        app: app,
+        active: 'read'
+    } %}
+    
+    <?= $this->viewRender('partials/form-static.phtml', array(
+    'form' => $_['form']
+)) ?>
+    
 {% endblock %}

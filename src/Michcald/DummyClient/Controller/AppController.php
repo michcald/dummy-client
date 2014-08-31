@@ -80,10 +80,15 @@ class AppController extends \Michcald\DummyClient\Controller
             $form->handleModel($app);
         }
 
-        return $this->generateResponse('app/read.phtml', array(
+        $content = $this->render('app/read.html.twig', array(
             'app' => $app,
             'form' => $form
         ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function updateAction($id)
@@ -130,8 +135,6 @@ class AppController extends \Michcald\DummyClient\Controller
 
     public function deleteAction($id)
     {
-        $this->addNavbar('Delete');
-
         $app = $this->appDao->findOne($id);
 
         if (!$app) {
@@ -150,9 +153,14 @@ class AppController extends \Michcald\DummyClient\Controller
             }
         }
 
-        return $this->generateResponse('app/delete.phtml', array(
+        $content = $this->render('app/delete.html.twig', array(
             'app' => $app
         ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
 }

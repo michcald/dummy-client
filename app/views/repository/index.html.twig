@@ -1,0 +1,65 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Repositories',
+            url: url('dummy_client.repository.index')
+        }
+    ]) }}
+{% endblock %}
+
+{% block addButton %}
+    {{ addButton(url('dummy_client.repository.create')) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% if repositories|length == 0 %}
+
+        {{ alertInfo('No results yet') }}
+
+    {% else %}
+    
+    {{ search() }}
+
+    {{ paginator(repositories.getPaginator, 'dummy_client.repository.index') }}
+
+    <div class="table-responsive">
+        <table class="table table-condensed table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for repository in repositories %}
+                <tr>
+                    <td>{{ repository.getId }}</td>
+                    <td>{{ repository.getName }}</td>
+                    <td>{{ repository.getDescription }}</td>
+                    <td class="text-right small">
+                        <a href="{{ url('dummy_client.repository.read', {
+                            id: repository.getId
+                        }) }}">
+                            <span class="glyphicon glyphicon-book"></span> read
+                        </a>
+                        {{ editButton(url('dummy_client.repository.update', {
+                            id: repository.getId
+                        })) }}
+                        {{ deleteButton(url('dummy_client.repository.delete', {
+                            id: repository.getId
+                        })) }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% endif %}
+    
+{% endblock %}

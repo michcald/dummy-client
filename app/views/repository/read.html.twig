@@ -1,0 +1,29 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Repositories',
+            url: url('dummy_client.repository.index')
+        },
+        {
+            label: repository.getSingularLabel
+        },
+        {
+            label: 'Read'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% include 'repository/tab.html.twig' with {
+        repository: repository,
+        active: 'read'
+    } %}
+    
+    <?= $this->viewRender('partials/form-static.phtml', array(
+    'form' => $_['form']
+)) ?>
+    
+{% endblock %}

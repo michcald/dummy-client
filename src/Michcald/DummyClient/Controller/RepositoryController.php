@@ -11,25 +11,23 @@ class RepositoryController extends \Michcald\DummyClient\Controller
     public function __construct()
     {
         $this->repositoryDao = new App\Dao\Repository();
-
-        $this->addNavbar('Repositories', $this->generateUrl('dummy_client.repository.index'));
     }
 
     public function indexAction()
     {
         $page = (int)$this->getRequest()->getQueryParam('page', 1);
 
-        try {
-            $repositories = $this->repositoryDao->findAll(array(
-                'page' => $page
-            ));
-            return $this->generateResponse('repository/index.phtml', array(
-                'repositories' => $repositories
-            ));
-        } catch (\Exception $e) {
-            $this->addFlash($e->getMessage(), 'error');
-            return $this->generateResponse();
-        }
+        $repositories = $this->repositoryDao->findAll(array(
+            'page' => $page
+        ));
+        $content = $this->render('repository/index.html.twig', array(
+            'repositories' => $repositories
+        ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function createAction()
@@ -79,10 +77,15 @@ class RepositoryController extends \Michcald\DummyClient\Controller
             $form->handleModel($repository);
         }
 
-        return $this->generateResponse('repository/read.phtml', array(
+        $content = $this->render('repository/read.html.twig', array(
             'repository' => $repository,
             'form' => $form
         ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function updateAction($id)
