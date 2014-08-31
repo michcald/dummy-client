@@ -12,14 +12,25 @@
 
 <?//= $this->viewRender('partials/search.phtml') ?>
 
+
 <div class="container text-center">
     <? foreach ($_['repositoryFields'] as $field): ?>
+
     <? if ($field->getType() != 'foreign') continue; ?>
+
+    <? $options = $field->getOptions() ?>
+    <? $repoName = $options['repository'] ?>
+
     <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             <strong><?= $field->getLabel() ?>:</strong>
             <? if (isset($_['filters'][$field->getName()]) && $_['filters'][$field->getName()]): ?>
-            <?= $_['filters'][$field->getName()] ?>
+            <? foreach ($this->fetchEntities($repoName) as $entity): ?>
+            <? if ($_['filters'][$field->getName()] == $entity->getId()): ?>
+            <?= $this->printMain($entity) ?>
+            <? break; ?>
+            <? endif; ?>
+            <? endforeach; ?>
             <? else: ?>
             All
             <? endif; ?>
@@ -32,8 +43,6 @@
                 )) ?>">All</a>
             </li>
             <li class="divider"></li>
-            <? $options = $field->getOptions() ?>
-            <? $repoName = $options['repository'] ?>
             <? foreach ($this->fetchEntities($repoName) as $entity): ?>
             <li>
                 <a href="<?= $this->url('dummy_client.entity.index', array(
@@ -45,7 +54,7 @@
                         )
                     )
                 )) ?>">
-                    <?= $entity->getId() ?>
+                    <?= $this->printMain($entity) ?>
                 </a>
             </li>
             <? endforeach; ?>
