@@ -121,15 +121,26 @@ abstract class Bootstrap
     {
         $config = \Michcald\DummyClient\Config::getInstance();
 
+        $options = array();
+
         $templates = __DIR__ . '/../../../' . $config->twig['templates'];
-        $cache = __DIR__ . '/../../../' . $config->twig['cache'];
+
+        if ($config->twig['cache']) {
+            $options['cache'] = __DIR__ . '/../../../' . $config->twig['cache'];
+        }
+
+        if ($config->env == 'dev') {
+            $options['debug'] = true;
+        }
 
         $loader = new \Twig_Loader_Filesystem($templates);
-        $twig = new \Twig_Environment($loader, array(
-            #'cache' => $cache
-        ));
+        $twig = new \Twig_Environment($loader, $options);
 
         $twig->addExtension(new Twig\Util());
+
+        if ($config->env == 'dev') {
+            $twig->addExtension(new \Twig_Extension_Debug());
+        }
 
         \Michcald\Mvc\Container::add('dummy_client.twig', $twig);
     }

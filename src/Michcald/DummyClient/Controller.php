@@ -40,15 +40,6 @@ abstract class Controller extends \Michcald\Mvc\Controller
         return $this;
     }
 
-    protected function addNavbar($label, $url = null)
-    {
-        $navbar = Navbar::getInstance();
-
-        $navbar->addElement($label, $url);
-
-        return $this;
-    }
-
     /**
      *
      * @param type $method
@@ -95,32 +86,5 @@ abstract class Controller extends \Michcald\Mvc\Controller
         }
 
         throw new \Exception(sprintf('Route id %s not found', $routeId));
-    }
-
-    protected function generateResponse($file = null, array $params = array())
-    {
-        if ($file) {
-            $content = $this->render($file, $params);
-        } else {
-            $content = null;
-        }
-
-        $layout = $this->render('layout.html.twig', array(
-            'content' => $content,
-        ));
-
-        $response = new \Michcald\Mvc\Response();
-        $response->addHeader('Content-Type: text/html');
-
-        return $response->setContent($layout);
-    }
-
-    public function __destruct()
-    {
-        $session = Session::getInstance()->setNamespace('dummy_client');
-
-        if (isset($session->navbar)) {
-            unset($session->navbar);
-        };
     }
 }

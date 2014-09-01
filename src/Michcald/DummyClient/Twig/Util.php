@@ -24,6 +24,8 @@ class Util extends \Twig_Extension
             new \Twig_SimpleFunction('alertInfo', array($this, 'alertInfo')),
             new \Twig_SimpleFunction('paginator', array($this, 'paginator')),
             new \Twig_SimpleFunction('form', array($this, 'form')),
+            new \Twig_SimpleFunction('config', array($this, 'config')),
+            new \Twig_SimpleFunction('fetch_entities', array($this, 'fetchEntities')),
 
         );
     }
@@ -32,7 +34,71 @@ class Util extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFilter('render', array($this, 'render')),
+            new \Twig_SimpleFilter('printMainLabel', array($this, 'printMainLabel')),
         );
+    }
+
+    public function printMainLabel(\Michcald\DummyClient\App\Model\Entity $entity)
+    {
+        /* @var $repository \Michcald\DummyClient\App\Model\Repository */
+        $repository = $entity->getRepository();
+
+        $repositoryFieldDao = new \Michcald\DummyClient\App\Dao\Repository\Field();
+        $result = $repositoryFieldDao->findAll(array(
+            'limit' => 10000,
+            'filters' => array(
+                array(
+                    'field' => 'repository_id',
+                    'value' => $repository->getId()
+                )
+            ),
+            'orders' => array(
+                array(
+                    'field' => 'display_order',
+                    'direction' => 'asc'
+                )
+            )
+        ));
+
+        $fields = $result->getElements();
+
+        $entityArray = $entity->toArray();
+
+        $label = array();
+        foreach ($fields as $f) {
+            if ($f->getMain()) {
+                $label[] = $entityArray[$f->getName()];
+            }
+        }
+
+        echo implode(', ', $label);
+    }
+
+    public function fetchEntities($repositoryName)
+    {
+        $repositoryDao = new \Michcald\DummyClient\App\Dao\Repository();
+
+        $repositories = $repositoryDao->findAll(array(
+            'name' => $repositoryName,
+            'limit' => 1
+        ));
+
+        $res = $repositories->getElements();
+
+        $repository = $res[0];
+
+        $entityDao = new \Michcald\DummyClient\App\Dao\Entity();
+
+        $entityDao->setRepository($repository);
+
+        return $entityDao->findAll(array(
+            'limit' => 10000
+        ));
+    }
+
+    public function config()
+    {
+        return \Michcald\DummyClient\Config::getInstance();
     }
 
     public function render($obj)
