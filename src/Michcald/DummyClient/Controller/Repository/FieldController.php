@@ -14,14 +14,10 @@ class FieldController extends \Michcald\DummyClient\Controller
     {
         $this->repositoryDao = new App\Dao\Repository();
         $this->fieldDao = new App\Dao\Repository\Field();
-
-        $this->addNavbar('Repositories', $this->generateUrl('dummy_client.repository.index'));
     }
 
     public function indexAction($repositoryId)
     {
-        $this->addNavbar('Repository Fields');
-
         $repository = $this->repositoryDao->findOne($repositoryId);
 
         if (!$repository) {
@@ -44,24 +40,19 @@ class FieldController extends \Michcald\DummyClient\Controller
             )
         ));
 
-        try {
-            return $this->generateResponse('repository/field/index.phtml', array(
-                'repository' => $repository,
-                'fields' => $fields
-            ));
-        } catch (\Exception $e) {
-            $this->addFlash($e->getMessage(), 'error');
-            return $this->generateResponse();
-        }
+        $content = $this->render('repository/field/index.html.twig', array(
+            'repository' => $repository,
+            'fields' => $fields
+        ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function createAction($repositoryId)
     {
-        $this->addNavbar('Repository Fields', $this->generateUrl('dummy_client.field.index', array(
-            'repositoryId' => $repositoryId
-        )));
-        $this->addNavbar('Add new Field');
-
         $repository = $this->repositoryDao->findOne($repositoryId);
 
         if (!$repository) {
@@ -94,19 +85,19 @@ class FieldController extends \Michcald\DummyClient\Controller
             }
         }
 
-        return $this->generateResponse('repository/field/create.phtml', array(
+        $content = $this->render('repository/field/create.html.twig', array(
             'repository' => $repository,
             'form' => $form
         ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function readAction($repositoryId, $id)
     {
-        $this->addNavbar('Repository Fields', $this->generateUrl('dummy_client.field.index', array(
-            'repositoryId' => $repositoryId
-        )));
-        $this->addNavbar('Read');
-
         $repository = $this->repositoryDao->findOne($repositoryId);
 
         if (!$repository) {
@@ -123,20 +114,20 @@ class FieldController extends \Michcald\DummyClient\Controller
             $form->handleModel($field);
         }
 
-        return $this->generateResponse('repository/field/read.phtml', array(
+        $content = $this->render('repository/field/read.html.twig', array(
             'repository' => $repository,
             'field' => $field,
             'form' => $form
         ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function deleteAction($repositoryId, $id)
     {
-        $this->addNavbar('Repository Fields', $this->generateUrl('dummy_client.field.index', array(
-            'repositoryId' => $repositoryId
-        )));
-        $this->addNavbar('Delete');
-
         $repository = $this->repositoryDao->findOne($repositoryId);
 
         if (!$repository) {
@@ -157,10 +148,15 @@ class FieldController extends \Michcald\DummyClient\Controller
             }
         }
 
-        return $this->generateResponse('repository/field/delete.phtml', array(
+        $content = $this->render('repository/field/delete.html.twig', array(
             'repository' => $repository,
             'field' => $field
         ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function updateAction($repositoryId, $id)
@@ -212,7 +208,5 @@ class FieldController extends \Michcald\DummyClient\Controller
                 'form' => $form
             ));
         }
-
-        return $this->generateResponse();
     }
 }

@@ -1,0 +1,35 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Repositories',
+            url: url('dummy_client.repository.index')
+        },
+        {
+            label: repository.getSingularLabel
+        },
+        {
+            label: 'Fields',
+            url: url('dummy_client.field.index', {
+                repositoryId: repository.getId
+            })
+        },
+        {
+            label: 'Create'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% include 'repository/tab.html.twig' with {
+        repository: repository,
+        active: 'fields'
+    } %}
+    
+    <?= $this->viewRender('partials/form.phtml', array(
+    'form' => $_['form']
+)) ?>
+    
+{%  endblock %}

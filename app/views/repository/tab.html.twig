@@ -32,6 +32,14 @@
         url: url('dummy_client.field.index', {
             repositoryId: repository.getId
         })
+    },
+    {
+        label: 'Doc',
+        active: active == 'doc',
+        icon: 'info-sign',
+        url: url('dummy_client.repository.doc', {
+            id: repository.getId
+        })
     }
 ] %}
 
@@ -39,7 +47,7 @@
     {% for item in items %}
     <li{% if item.active %} class="active"{% endif %}>
         <a href="{{ item.url }}">
-            <span class="glyphicon glyphicon-{{ item.icon }}<?= $item['icon'] ?>"></span>
+            <span class="glyphicon glyphicon-{{ item.icon }}"></span>
             {{ item.label }}
         </a>
     </li>

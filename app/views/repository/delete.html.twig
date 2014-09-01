@@ -1,0 +1,41 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Repositories',
+            url: url('dummy_client.repository.index')
+        },
+        {
+            label: repository.getSingularLabel
+        },
+        {
+            label: 'Delete'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% include 'repository/tab.html.twig' with {
+        repository: repository,
+        active: 'delete'
+    } %}
+    
+    <div class="alert alert-danger">
+        <p>
+            Do you really want to delete this repository?
+        </p>
+
+        <br />
+
+        <form role="form" method="post">
+            <button type="submit" class="btn btn-danger">
+                <span class="glyphicon glyphicon-remove"></span>
+                Delete
+            </button>
+        </form>
+
+    </div>
+    
+{% endblock %}

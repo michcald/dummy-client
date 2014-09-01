@@ -23,63 +23,56 @@ class EntityController extends \Michcald\DummyClient\Controller
     {
         $filters = $this->getRequest()->getQueryParam('filters', array());
 
-        try {
+        /* @var $repository App\Model\Repository */
+        $repository = $this->repositoryDao->findOne($repositoryId);
 
-            /* @var $repository App\Model\Repository */
-            $repository = $this->repositoryDao->findOne($repositoryId);
-
-            if (!$repository) {
-                throw new \Exception(sprintf('Repository not found: %d', $repositoryId));
-            }
-
-            $this->addNavbar(
-                $repository->getPluralLabel(),
-                $this->generateUrl('dummy_client.entity.index', array(
-                    'repositoryId' => $repository->getId()
-                ))
-            );
-
-            $this->entityDao->setRepository($repository);
-
-            $page = (int)$this->getRequest()->getQueryParam('page', 1);
-
-            $repositoryFields = $this->repositoryFieldDao->findAll(array(
-                'limit' => 10000,
-                'filters' => array(
-                    array(
-                        'field' => 'repository_id',
-                        'value' => $repository->getId()
-                    )
-                ),
-                'orders' => array(
-                    array(
-                        'field' => 'display_order',
-                        'direction' => 'asc'
-                    )
-                )
-            ));
-
-            $entities = $this->entityDao->findAll(array(
-                'page' => $page,
-                'filters' => $filters
-            ));
-
-            foreach ($filters as $filter) {
-                $field = $filter['field'];
-                $value = $filter['value'];
-                $filters[$field] = $value;
-            }
-
-            return $this->generateResponse('entity/index.phtml', array(
-                'repository' => $repository,
-                'repositoryFields' => $repositoryFields,
-                'entities' => $entities,
-                'filters' => $filters
-            ));
-        } catch (\Exception $e) {
-            $this->addFlash($e->getMessage(), 'error');
-            return $this->generateResponse();
+        if (!$repository) {
+            throw new \Exception(sprintf('Repository not found: %d', $repositoryId));
         }
+
+        $this->entityDao->setRepository($repository);
+
+        $page = (int)$this->getRequest()->getQueryParam('page', 1);
+
+        $repositoryFields = $this->repositoryFieldDao->findAll(array(
+            'limit' => 10000,
+            'filters' => array(
+                array(
+                    'field' => 'repository_id',
+                    'value' => $repository->getId()
+                )
+            ),
+            'orders' => array(
+                array(
+                    'field' => 'display_order',
+                    'direction' => 'asc'
+                )
+            )
+        ));
+
+        $entities = $this->entityDao->findAll(array(
+            'page' => $page,
+            'filters' => $filters
+        ));
+
+        foreach ($filters as $filter) {
+            $field = $filter['field'];
+            $value = $filter['value'];
+            $filters[$field] = $value;
+        }
+
+        $content = $this->render('entity/index.html.twig', array(
+            'repository' => $repository,
+            'repositoryFields' => $repositoryFields,
+            'entities' => $entities,
+            'filters' => $filters
+        ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
+
     }
 
     public function createAction($repositoryId)
