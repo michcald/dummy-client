@@ -12,6 +12,59 @@
 
 <?//= $this->viewRender('partials/search.phtml') ?>
 
+
+<div class="container text-center">
+    <? foreach ($_['repositoryFields'] as $field): ?>
+
+    <? if ($field->getType() != 'foreign') continue; ?>
+
+    <? $options = $field->getOptions() ?>
+    <? $repoName = $options['repository'] ?>
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <strong><?= $field->getLabel() ?>:</strong>
+            <? if (isset($_['filters'][$field->getName()]) && $_['filters'][$field->getName()]): ?>
+            <? foreach ($this->fetchEntities($repoName) as $entity): ?>
+            <? if ($_['filters'][$field->getName()] == $entity->getId()): ?>
+            <?= $this->printMain($entity) ?>
+            <? break; ?>
+            <? endif; ?>
+            <? endforeach; ?>
+            <? else: ?>
+            All
+            <? endif; ?>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li>
+                <a href="<?= $this->url('dummy_client.entity.index', array(
+                    'repositoryId' => $_['repository']->getId()
+                )) ?>">All</a>
+            </li>
+            <li class="divider"></li>
+            <? foreach ($this->fetchEntities($repoName) as $entity): ?>
+            <li>
+                <a href="<?= $this->url('dummy_client.entity.index', array(
+                    'repositoryId' => $_['repository']->getId(),
+                    'filters' => array(
+                        array(
+                            'field' => $field->getName(),
+                            'value' => $entity->getId()
+                        )
+                    )
+                )) ?>">
+                    <?= $this->printMain($entity) ?>
+                </a>
+            </li>
+            <? endforeach; ?>
+        </ul>
+    </div>
+    <? endforeach; ?>
+</div>
+
+<br />
+
 <? if ($_['entities']->count() == 0): ?>
 
 <p class="alert alert-info">

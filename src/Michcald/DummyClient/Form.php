@@ -26,19 +26,16 @@ class Form
     {
         $this->request = $request;
 
-        if ($model->getId()) {
-            $data = $model->toArray();
-        } else {
+        if ($request->isMethod('post')) {
             $data = $request->getData();
+        } else {
+            $data = $model->toArray();
         }
 
         foreach ($this->getElements() as $element) {
             $name = $element->getName();
-            if (array_key_exists($name, $data)) {
 
-                if ($element->getType() == Form\Element::TYPE_FOREIGN && !$data[$name]) {
-                    continue;
-                }
+            if (array_key_exists($name, $data)) {
 
                 if ($element->getType() == Form\Element::TYPE_FILE) {
 

@@ -34,6 +34,14 @@ $items = array(
             'repositoryId' => $_['repository']->getId()
         ))
     ),
+    array(
+        'label' => 'Doc',
+        'active' => $_['active'] == 'doc',
+        'icon' => 'info-sign',
+        'url' => $this->url('dummy_client.repository.doc', array(
+            'id' => $_['repository']->getId()
+        ))
+    ),
 );
 ?>
 

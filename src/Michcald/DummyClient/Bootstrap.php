@@ -75,6 +75,8 @@ abstract class Bootstrap
         $view->addHelper('\Michcald\DummyClient\View\Helper\Main', 'main');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Foreign\Show', 'printForeign');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Foreign\Options', 'getForeignOptions');
+        $view->addHelper('\Michcald\DummyClient\View\Helper\FetchEntities', 'fetchEntities');
+        $view->addHelper('\Michcald\DummyClient\View\Helper\PrintMain', 'printMain');
     }
 
     private static function initRequest()
