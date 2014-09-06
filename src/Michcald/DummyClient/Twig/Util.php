@@ -25,9 +25,17 @@ class Util extends \Twig_Extension
             new \Twig_SimpleFunction('paginator', array($this, 'paginator')),
             new \Twig_SimpleFunction('form', array($this, 'form')),
             new \Twig_SimpleFunction('config', array($this, 'config')),
+<<<<<<< HEAD
             new \Twig_SimpleFunction('fetch_entities', array($this, 'fetchEntities')),
+=======
+>>>>>>> 7e94ab6064dc98cf5df53e355e02c72efd64a6ea
 
         );
+    }
+
+    public function config()
+    {
+        return \Michcald\DummyClient\Config::getInstance();
     }
 
     public function getFilters()
