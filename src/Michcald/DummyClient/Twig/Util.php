@@ -273,12 +273,13 @@ class Util extends \Twig_Extension
         ));
     }
 
-    public function form(\Michcald\DummyClient\Form $form)
+    public function form(\Michcald\DummyClient\Form $form, \Michcald\DummyClient\App\Model\Repository $repository = null)
     {
         $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
 
         echo $twig->render('twig/form.html.twig', array(
-            'form' => $form
+            'form' => $form,
+            'repository' => $repository
         ));
     }
 
