@@ -1,0 +1,42 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: repository.getPluralLabel,
+            url: url('dummy_client.entity.index', {
+                repositoryId: repository.getId
+            })
+        },
+        {
+            label: 'Delete'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% include 'entity/tab/html/twig' with {
+        repository: repository,
+        repositoryFields: repositoryFields,
+        entity: entity,
+        active: 'delete'
+    } %}
+    
+    <div class="alert alert-danger">
+        <p>
+            Do you really want to delete this entity?
+        </p>
+
+        <br />
+
+        <form role="form" method="post">
+            <button type="submit" class="btn btn-danger">
+                <span class="glyphicon glyphicon-remove"></span>
+                Delete
+            </button>
+        </form>
+
+    </div>
+
+{% endblock %}
