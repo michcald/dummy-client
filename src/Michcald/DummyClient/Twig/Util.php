@@ -203,14 +203,19 @@ class Util extends \Twig_Extension
         $repositoryDao = new \Michcald\DummyClient\App\Dao\Repository();
 
         $repositories = $repositoryDao->findAll(array(
-            'name' => $repositoryName,
+            'filters' => array(
+                array(
+                    'field' => 'name',
+                    'value' => $repositoryName
+                )
+            ),
             'limit' => 1
         ));
 
         $res = $repositories->getElements();
 
         $repository = $res[0];
-
+        
         $entityDao = new \Michcald\DummyClient\App\Dao\Entity();
 
         $entityDao->setRepository($repository);

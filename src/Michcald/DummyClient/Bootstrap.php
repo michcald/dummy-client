@@ -10,7 +10,7 @@ abstract class Bootstrap
 
         self::initConfig();
         self::initRoutes();
-        self::initViewHelpers();
+        //self::initViewHelpers();
         self::initEventListeners();
         self::initRestClient();
         self::initWhoAmI();
@@ -65,7 +65,7 @@ abstract class Bootstrap
     private static function initViewHelpers()
     {
         /* @var $view \Michcald\Mvc\View */
-        $view = \Michcald\Mvc\Container::get('mvc.view');
+        /*$view = \Michcald\Mvc\Container::get('mvc.view');
 
         $view->addHelper('\Michcald\DummyClient\View\Helper\Config', 'config');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Asset', 'asset');
@@ -76,7 +76,7 @@ abstract class Bootstrap
         $view->addHelper('\Michcald\DummyClient\View\Helper\Foreign\Show', 'printForeign');
         $view->addHelper('\Michcald\DummyClient\View\Helper\Foreign\Options', 'getForeignOptions');
         $view->addHelper('\Michcald\DummyClient\View\Helper\FetchEntities', 'fetchEntities');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\PrintMain', 'printMain');
+        $view->addHelper('\Michcald\DummyClient\View\Helper\PrintMain', 'printMain');*/
     }
 
     private static function initRequest()
