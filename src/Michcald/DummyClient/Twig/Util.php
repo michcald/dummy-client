@@ -14,6 +14,7 @@ class Util extends \Twig_Extension
         return array(
             new \Twig_SimpleFunction('whoAmI', array($this, 'fetchWhoAmI')),
             new \Twig_SimpleFunction('url', array($this, 'url')),
+            new \Twig_SimpleFunction('bower', array($this, 'bower')),
             new \Twig_SimpleFunction('asset', array($this, 'asset')),
             new \Twig_SimpleFunction('navbar', array($this, 'navbar')),
             new \Twig_SimpleFunction('breadcrumbs', array($this, 'breadcrumbs')),
@@ -21,7 +22,7 @@ class Util extends \Twig_Extension
             new \Twig_SimpleFunction('editButton', array($this, 'editButton')),
             new \Twig_SimpleFunction('deleteButton', array($this, 'deleteButton')),
             new \Twig_SimpleFunction('search', array($this, 'search')),
-            new \Twig_SimpleFunction('alertInfo', array($this, 'alertInfo')),
+            new \Twig_SimpleFunction('alert', array($this, 'alert')),
             new \Twig_SimpleFunction('paginator', array($this, 'paginator')),
             new \Twig_SimpleFunction('form', array($this, 'form')),
             new \Twig_SimpleFunction('formStatic', array($this, 'formStatic')),
@@ -31,6 +32,17 @@ class Util extends \Twig_Extension
             new \Twig_SimpleFunction('getForeignOptions', array($this, 'getForeignOptions')),
             new \Twig_SimpleFunction('restDebug', array($this, 'restDebug')),
         );
+    }
+
+    public function bower($filename)
+    {
+        $file = sprintf(
+            '%spub/bower_components/%s',
+            \Michcald\DummyClient\WhoAmI::getInstance()->getApp()->getBaseUrl(),
+            $filename
+        );
+
+        return $file;
     }
 
     public function getForeignOptions(
@@ -234,7 +246,7 @@ class Util extends \Twig_Extension
     public function restDebug()
     {
         $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
-        
+
         echo $twig->render('twig/rest-debug.html.twig', array(
             'calls' => \Michcald\Mvc\Container::get('dummy_client.rest_client')->getCalls()
         ));

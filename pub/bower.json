@@ -1,0 +1,6 @@
+{
+    "name": "dummy-client",
+    "dependencies": {
+        "bootstrap": ">= 3.2.0"
+    }
+}
