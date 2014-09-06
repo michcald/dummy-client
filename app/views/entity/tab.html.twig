@@ -26,13 +26,13 @@
         url: url('dummy_client.entity.delete', {
             repositoryId: repository.getId,
             id: entity.getId
-        ))
+        })
     }
 ] %}
 
 <ul class="nav nav-tabs" role="tablist">
     {% for item in items %}
-        <li{% if active %} class="active"{% endif %}>
+        <li{% if item.active %} class="active"{% endif %}>
             <a href="{{ item.url }}">
                 <span class="glyphicon glyphicon-{{ item.icon }}"></span>
                 {{ item.label }}
@@ -42,3 +42,5 @@
 </ul>
 
 <br />
+
+{{ flashMessenger() }}

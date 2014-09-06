@@ -151,20 +151,6 @@ class EntityController extends \Michcald\DummyClient\Controller
 
         $entity = $this->entityDao->findOne($id);
 
-        $this->addNavbar(
-            $repository->getPluralLabel(),
-            $this->generateUrl('dummy_client.entity.index', array(
-                'repositoryId' => $repository->getId()
-            ))
-        );
-        $this->addNavbar(
-            'Read',
-            $this->generateUrl('dummy_client.entity.read', array(
-                'repositoryId' => $repository->getId(),
-                'id' => $entity->getId()
-            ))
-        );
-
         $repositoryFields = $this->repositoryFieldDao->findAll(array(
             'limit' => 10000,
             'filters' => array(
@@ -189,12 +175,17 @@ class EntityController extends \Michcald\DummyClient\Controller
             $form->handleModel($entity);
         }
 
-        return $this->generateResponse('entity/read.phtml', array(
+        $content = $this->render('entity/read.html.twig', array(
             'repository' => $repository,
             'repositoryFields' => $repositoryFields,
             'entity' => $entity,
             'form' => $form
         ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function deleteAction($repositoryId, $id)
@@ -273,20 +264,6 @@ class EntityController extends \Michcald\DummyClient\Controller
             $this->addFlash('Entity not found', 'warning');
         }
 
-        $this->addNavbar(
-            $repository->getPluralLabel(),
-            $this->generateUrl('dummy_client.entity.index', array(
-                'repositoryId' => $repository->getId()
-            ))
-        );
-        $this->addNavbar(
-            'Update',
-            $this->generateUrl('dummy_client.entity.update', array(
-                'repositoryId' => $repository->getId(),
-                'id' => $entity->getId()
-            ))
-        );
-
         $repositoryFields = $this->repositoryFieldDao->findAll(array(
             'limit' => 10000,
             'filters' => array(
@@ -328,11 +305,16 @@ class EntityController extends \Michcald\DummyClient\Controller
             }
         }
 
-        return $this->generateResponse('entity/update.phtml', array(
+        $content = $this->render('entity/update.html.twig', array(
             'repository' => $repository,
             'repositoryFields' => $repositoryFields,
             'entity' => $entity,
             'form' => $form
         ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 }

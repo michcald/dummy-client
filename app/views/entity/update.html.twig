@@ -9,13 +9,20 @@
             })
         },
         {
-            label: 'Create'
+            label: 'Update'
         }
     ]) }}
 {% endblock %}
 
 {% block page %}
     
+    {% include 'entity/tab.html.twig' with {
+        repository: repository,
+        repositoryFields: repositoryFields,
+        entity: entity,
+        active: 'update'
+    } %}
+    
     {{ form(form) }}
-
+    
 {% endblock %}

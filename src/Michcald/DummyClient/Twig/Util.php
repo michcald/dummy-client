@@ -24,13 +24,117 @@ class Util extends \Twig_Extension
             new \Twig_SimpleFunction('alertInfo', array($this, 'alertInfo')),
             new \Twig_SimpleFunction('paginator', array($this, 'paginator')),
             new \Twig_SimpleFunction('form', array($this, 'form')),
+            new \Twig_SimpleFunction('formStatic', array($this, 'formStatic')),
             new \Twig_SimpleFunction('config', array($this, 'config')),
-<<<<<<< HEAD
             new \Twig_SimpleFunction('fetch_entities', array($this, 'fetchEntities')),
-=======
->>>>>>> 7e94ab6064dc98cf5df53e355e02c72efd64a6ea
-
+            new \Twig_SimpleFunction('flashMessenger', array($this, 'flashMessenger')),
+            new \Twig_SimpleFunction('getForeignOptions', array($this, 'getForeignOptions')),
+            new \Twig_SimpleFunction('restDebug', array($this, 'restDebug')),
         );
+    }
+
+    public function getForeignOptions(
+        \Michcald\DummyClient\App\Model\Repository $repository,
+        $fieldName
+    ) {
+        $repositoryFieldDao = new \Michcald\DummyClient\App\Dao\Repository\Field();
+
+        $result = $repositoryFieldDao->findAll(array(
+            'limit' => 1000,
+            'filters' => array(
+                array(
+                    'field' => 'repository_id',
+                    'value' => $repository->getId()
+                ),
+            ),
+        ));
+
+        $foreignTable = null;
+        foreach ($result->getElements() as $field) {
+
+            /* @var $field \Michcald\DummyClient\App\Model\Repository\Field */
+            if ($field->getName() == $fieldName) {
+                $options = $field->getOptions();
+                $foreignTable = $options['repository'];
+                break;
+            }
+        }
+
+        if (!$foreignTable) {
+            throw new \Exception('Something wrong');
+        }
+
+        $repositoryDao = new \Michcald\DummyClient\App\Dao\Repository();
+        $result = $repositoryDao->findAll(array(
+            'limit' => 1,
+            'filters' => array(
+                array(
+                    'field' => 'name',
+                    'value' => $foreignTable
+                )
+            ),
+        ));
+
+        $result = $result->getElements();
+
+        $foreignRepository = $result[0];
+
+        $result = $repositoryFieldDao->findAll(array(
+            'limit' => 10000,
+            'filters' => array(
+                array(
+                    'field' => 'repository_id',
+                    'value' => $foreignRepository->getId()
+                )
+            ),
+            'orders' => array(
+                array(
+                    'field' => 'display_order',
+                    'direction' => 'asc'
+                )
+            )
+        ));
+
+        $foreignRepositoryFields = $result->getElements();
+
+        $entityDao = new \Michcald\DummyClient\App\Dao\Entity();
+        $entityDao->setRepository($foreignRepository);
+        $result = $entityDao->findAll(array(
+            'limit' => 10000,
+        ));
+
+        $entities = $result->getElements();
+
+        $options = array();
+
+        foreach ($entities as $entity) {
+            $entityArray = $entity->toArray();
+
+            $main = array();
+            foreach ($foreignRepositoryFields as $field) {
+                if ($field->getMain()) {
+                    $main[] = $entityArray[$field->getName()];
+                }
+            }
+
+            $options[$entityArray['id']] = implode(', ', $main);
+        }
+
+        return $options;
+    }
+
+    public function flashMessenger()
+    {
+        $session = \Michcald\DummyClient\Session::getInstance()->setNamespace('dummy_client');
+
+        if (isset($session->flashes) && is_array($session->flashes)) {
+            $flashes = $session->flashes;
+            $session->flashes = array();
+        }
+
+        foreach ($flashes as $flash) {
+            $this->alert($flash['message'], $flash['type']);
+        }
     }
 
     public function config()
@@ -104,11 +208,6 @@ class Util extends \Twig_Extension
         ));
     }
 
-    public function config()
-    {
-        return \Michcald\DummyClient\Config::getInstance();
-    }
-
     public function render($obj)
     {
         $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
@@ -132,6 +231,15 @@ class Util extends \Twig_Extension
         echo $twig->render('twig/navbar.html.twig');
     }
 
+    public function restDebug()
+    {
+        $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
+        
+        echo $twig->render('twig/rest-debug.html.twig', array(
+            'calls' => \Michcald\Mvc\Container::get('dummy_client.rest_client')->getCalls()
+        ));
+    }
+
     public function paginator(\Michcald\DummyClient\Dao\Paginator $paginator, $routeId, array $routParams = array())
     {
         $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
@@ -143,12 +251,13 @@ class Util extends \Twig_Extension
         ));
     }
 
-    public function alertInfo($message)
+    public function alert($message, $type = 'info')
     {
         $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
 
-        echo $twig->render('twig/alert/info.html.twig', array(
-            'message' => $message
+        echo $twig->render('twig/alert.html.twig', array(
+            'message' => $message,
+            'type'    => $type
         ));
     }
 
@@ -157,6 +266,15 @@ class Util extends \Twig_Extension
         $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
 
         echo $twig->render('twig/form.html.twig', array(
+            'form' => $form
+        ));
+    }
+
+    public function formStatic(\Michcald\DummyClient\Form $form)
+    {
+        $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
+
+        echo $twig->render('twig/form-static.html.twig', array(
             'form' => $form
         ));
     }

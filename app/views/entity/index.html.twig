@@ -92,10 +92,11 @@
                         <th>ID</th>
                         {% for field in repositoryFields %}
                             {% if field.getList %}
-                                {{ fiel.getLabel }}
+                                <th>
+                                    {{ field.getLabel }}
+                                </th>
                             {% endif %}
                         {% endfor %}
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,12 +107,7 @@
                             {% for field in repositoryFields %}
                                 {% if field.getList %}
                                 <td>
-                                    {{ entity|render(field.getName) }}
-                                    <?= $this->viewRender(sprintf('entity/partials/%s.phtml', $field->getType()), array(
-                                        'field' => $field,
-                                        'entity' => $entity,
-                                        'value' => $entityArray[$field->getName()]
-                                    )) ?>
+                                    {{ entityArray[field.getName] }}
                                 </td>
                                 {% endif %}
                             {% endfor %}

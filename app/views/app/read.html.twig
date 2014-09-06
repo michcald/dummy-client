@@ -22,8 +22,6 @@
         active: 'read'
     } %}
     
-    <?= $this->viewRender('partials/form-static.phtml', array(
-    'form' => $_['form']
-)) ?>
+    {{ formStatic(form) }}
     
 {% endblock %}

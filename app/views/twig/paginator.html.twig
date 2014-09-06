@@ -6,17 +6,29 @@
             </a>
         </li>
 
+        {% if paginator.getCurrentPage > 1 %}
+        <li>
+            <a href="{{ url(routeId, {
+                    page: 1
+                }|merge(routeParams)) }}">First</a>
+        </li>
+        {% else %}
+        <li class="disabled">
+            <a href="#">First</a>
+        </li>
+        {% endif %}
+        
         <!-- Start Go back //-->
 
         {% if paginator.getCurrentPage > 1 %}
         <li>
             <a href="{{ url(routeId, {
                     page: paginator.getCurrentPage - 1
-                }|merge(routeParams)) }}">&laquo;</a>
+                }|merge(routeParams)) }}">Prev</a>
         </li>
         {% else %}
         <li class="disabled">
-            <a href="#">&laquo;</a>
+            <a href="#">Prev</a>
         </li>
         {% endif %}
 
@@ -42,15 +54,27 @@
         <li>
             <a href="{{ url(routeId, {
                 page: paginator.getCurrentPage+1
-            }|merge(routeParams)) }}">&raquo;</a>
+            }|merge(routeParams)) }}">Next</a>
         </li>
         {% else %}
         <li class="disabled">
-            <a href="#">&raquo;</a>
+            <a href="#">Next</a>
         </li>
         {% endif %}
 
         <!-- End Go next //-->
+        
+        {% if paginator.getCurrentPage < paginator.getTotalPages %}
+        <li>
+            <a href="{{ url(routeId, {
+                page: paginator.getTotalPages
+            }|merge(routeParams)) }}">Last</a>
+        </li>
+        {% else %}
+        <li class="disabled">
+            <a href="#">Last</a>
+        </li>
+        {% endif %}
 
         <li class="disabled">
             <a href="">

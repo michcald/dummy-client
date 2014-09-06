@@ -1,0 +1,22 @@
+{% if type == 'info' %}
+    {% set class = 'alert-info' %}
+    {% set icon = 'info-sign' %}
+{% elseif type == 'success' %}
+    {% set class = 'alert-success' %}
+    {% set icon = 'ok' %}
+{% elseif type == 'warning' %}
+    {% set class = 'alert-warning' %}
+    {% set icon = 'warning-sign' %}
+{% elseif type == 'danger' %}
+    {% set class = 'alert-danger' %}
+    {% set icon = 'remove' %}
+{% else %}
+    {% set class = 'alert-default' %}
+    {% set icon = 'asterisk' %}
+{% endif %}
+    
+
+<div class="alert {{ class }}">
+    <span class="glyphicon glyphicon-{{ icon }}"></span>
+    {{ message }}
+</div>

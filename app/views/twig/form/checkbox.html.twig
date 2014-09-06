@@ -1,9 +1,12 @@
 <input
-    type="text"
+    type="checkbox"
     class="form-control"
     name="{{ element.getName }}"
     id="{{ element.getName }}"
-    value="{{ element.getValue }}"
+    value="1"
+    {% if element.getValue%}
+        checked
+    {% endif %}
     {% if element.getDisabled %}
         disabled
     {% endif %}

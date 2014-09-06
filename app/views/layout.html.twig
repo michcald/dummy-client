@@ -41,6 +41,10 @@
             {% block page %}{% endblock %}
         </div>
 
+        {% if config().env == 'dev' %}
+            {{ restDebug() }}
+        {% endif %}
+        
         {# $this->viewRender('partials/debug.phtml') #}
 
     </body>

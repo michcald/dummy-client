@@ -1,0 +1,16 @@
+<select
+    name="{{ element.getName }}"
+    id="{{ element.getName }}"
+    class="form-control"
+    {% if element.getDisabled %}
+        disabled
+    {% endif %}
+    >
+    <option value="">-- select --</option>
+    {% set foreignOptions = getForeignOptions(repository, element.getName) %}
+    {% for value, option in foreignOptions %}
+        <option value="{{ value }}"{% if element.getValue == value %} selected{% endif %}>
+            {{ option }}
+        </option>
+    {% endfor %}
+</select>

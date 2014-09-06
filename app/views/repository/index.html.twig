@@ -15,9 +15,9 @@
 
 {% block page %}
     
-    {% if repositories|length == 0 %}
+    {% if repositories.getPaginator.getTotalResults == 0 %}
 
-        {{ alertInfo('No results yet') }}
+        {{ alert('No results yet', 'info') }}
 
     {% else %}
     

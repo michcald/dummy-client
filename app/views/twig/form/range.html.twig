@@ -1,0 +1,28 @@
+<input
+    type="range"
+    class="form-control"
+    name="{{ element.getName }}"
+    id="{{ element.getName }}"
+    value="{{ element.getValue }}"
+    {% if element.getDisabled %}
+        disabled
+    {% endif %}
+    {% for attr,value in element.getOptions %}
+        {{ attr }}="{{ value }}"
+    {% endfor %}
+    />
+
+<div class="col-md-12">
+    <div class="text-center" id="{{ element.getName }}_value"></div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        $("#{{ element.getName }}_value").text($("#{{ element.getName}}").val());
+
+        $("#{{ element.getName }}").change(function () {
+            $("#{{ element.getName }}_value").text($(this).val());
+        });
+    });
+</script>

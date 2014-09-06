@@ -15,8 +15,6 @@
 
 {% block page %}
     
-    <?= $this->viewRender('partials/form.phtml', array(
-    'form' => $_['form']
-)) ?>
+    {{ form(form) }}
     
 {% endblock %}
