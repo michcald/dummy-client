@@ -52,20 +52,14 @@ class EntityController extends \Michcald\DummyClient\Controller
 
         $entities = $this->entityDao->findAll(array(
             'page' => $page,
-            'filters' => $filters
+            'filters' => $filters,
         ));
-
-        foreach ($filters as $filter) {
-            $field = $filter['field'];
-            $value = $filter['value'];
-            $filters[$field] = $value;
-        }
 
         $content = $this->render('entity/index.html.twig', array(
             'repository' => $repository,
             'repositoryFields' => $repositoryFields,
             'entities' => $entities,
-            'filters' => $filters
+            'filters' => $filters,
         ));
 
         $response = new \Michcald\Mvc\Response();

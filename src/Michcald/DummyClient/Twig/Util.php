@@ -141,11 +141,12 @@ class Util extends \Twig_Extension
 
         if (isset($session->flashes) && is_array($session->flashes)) {
             $flashes = $session->flashes;
-            $session->flashes = array();
-        }
 
-        foreach ($flashes as $flash) {
-            $this->alert($flash['message'], $flash['type']);
+            foreach ($flashes as $flash) {
+                $this->alert($flash['message'], $flash['type']);
+            }
+            
+            $session->flashes = array();
         }
     }
 
@@ -215,7 +216,7 @@ class Util extends \Twig_Extension
         $res = $repositories->getElements();
 
         $repository = $res[0];
-        
+
         $entityDao = new \Michcald\DummyClient\App\Dao\Entity();
 
         $entityDao->setRepository($repository);
@@ -225,15 +226,31 @@ class Util extends \Twig_Extension
         ));
     }
 
-    public function render($obj)
+    public function render($obj, array $other = array())
     {
         $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
 
         if ($obj instanceof \Michcald\Paginator) {
             $twig->render('twig/paginator.html.twig', $obj);
+            return;
         }
 
-        throw new \Exception('Not valid entity');
+        if ($obj instanceof \Michcald\DummyClient\App\Model\Entity) {
+            if (isset($other['field'])) {
+                echo $twig->render(
+                    sprintf('twig/entity/field/%s.html.twig', $other['field']->getType()),
+                    array(
+                        'entity' => $obj,
+                        'field'  => $other['field']
+                    )
+                );
+                return;
+            } else {
+                throw new \Exception('TODO');
+            }
+        }
+
+        throw new \Exception(sprintf('Not valid entity %s', get_class($obj)));
     }
 
     public function fetchWhoAmI()

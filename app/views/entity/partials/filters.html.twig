@@ -6,11 +6,15 @@
     <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             <strong>{{ field.getLabel }}:</strong>
-            {% if filters[field.getName] is defined and filters[field.getName]  %}
+            {% set currentFilter = null %}
+            {% for filter in filters if filter.field == field.getName %}
+                {% set currentFilter = filter %}
+            {% endfor %}
+            
+            {% if currentFilter != null %}
                 {% for entity in fetch_entities(repoName) %}
-                    {% if filters[field.getName] == entity.getId %}
+                    {% if currentFilter.value == entity.getId %}
                         {{ entity|printMainLabel }}
-                        <? break; ?>
                     {% endif %}
                 {% endfor %}
             {% else %}
@@ -20,8 +24,13 @@
         </button>
         <ul class="dropdown-menu" role="menu">
             <li>
+                {% set tmpCurrentFilters = [] %}
+                {% for filter in filters if filter.field != currentFilter.field %}
+                    {% set tmpCurrentFilters = tmpCurrentFilters|merge([filter]) %}
+                {% endfor %}
                 <a href="{{ url('dummy_client.entity.index', {
-                    repositoryId: repository.getId
+                    repositoryId: repository.getId,
+                    filters: tmpCurrentFilters
                 }) }}">All</a>
             </li>
             <li class="divider"></li>
@@ -34,7 +43,7 @@
                                 field: field.getName,
                                 value: entity.getId
                             }
-                        ]
+                        ]|merge(filters)
                     }) }}">
                         {{ entity|printMainLabel }}
                     </a>
@@ -42,4 +51,5 @@
             {% endfor %}
         </ul>
     </div>
+    &nbsp;
 {% endfor %}
