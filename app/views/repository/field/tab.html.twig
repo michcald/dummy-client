@@ -1,0 +1,44 @@
+<br /><br />
+
+{% set items = [
+    {
+        label: 'Read',
+        active: active == 'read',
+        icon: 'book',
+        url: url('dummy_client.field.read', {
+            repositoryId: field.getRepositoryId,
+            id: field.getId
+        })
+    },
+    {
+        label: 'Update',
+        active: active == 'update',
+        icon: 'edit',
+        url: url('dummy_client.field.update', {
+            repositoryId: field.getRepositoryId,
+            id: field.getId
+        })
+    },
+    {
+        label: 'Delete',
+        active: active == 'delete',
+        icon: 'trash',
+        url: url('dummy_client.field.delete', {
+            repositoryId: field.getRepositoryId,
+            id: field.getId
+        })
+    }
+] %}
+
+<ul class="nav nav-tabs" role="tablist">
+    {% for item in items %}
+        <li{% if item.active == 'read' %} class="active"{% endif %}>
+            <a href="{{ item.url }}">
+                <span class="glyphicon glyphicon-{{ item.icon }}"></span>
+                {{ item.label }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<br />

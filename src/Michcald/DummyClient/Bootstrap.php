@@ -15,6 +15,7 @@ abstract class Bootstrap
         self::initRestClient();
         self::initWhoAmI();
         self::initRequest();
+        self::initTwig();
     }
 
     private static function initConfig()
@@ -114,5 +115,33 @@ abstract class Bootstrap
         } else {
             throw new \Exception('Not connected to dummy');
         }
+    }
+
+    private static function initTwig()
+    {
+        $config = \Michcald\DummyClient\Config::getInstance();
+
+        $options = array();
+
+        $templates = __DIR__ . '/../../../' . $config->twig['templates'];
+
+        if ($config->twig['cache']) {
+            $options['cache'] = __DIR__ . '/../../../' . $config->twig['cache'];
+        }
+
+        if ($config->env == 'dev') {
+            $options['debug'] = true;
+        }
+
+        $loader = new \Twig_Loader_Filesystem($templates);
+        $twig = new \Twig_Environment($loader, $options);
+
+        $twig->addExtension(new Twig\Util());
+
+        if ($config->env == 'dev') {
+            $twig->addExtension(new \Twig_Extension_Debug());
+        }
+
+        \Michcald\Mvc\Container::add('dummy_client.twig', $twig);
     }
 }

@@ -1,0 +1,114 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Repositories',
+            url: url('dummy_client.repository.index')
+        },
+        {
+            label: repository.getSingularLabel
+        },
+        {
+            label: 'Fields'
+        }
+    ]) }}
+{% endblock %}
+
+{% block addButton %}
+    {{ addButton(url('dummy_client.field.create', {
+        repositoryId: repository.getId
+    })) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% include 'repository/tab.html.twig' with {
+        repository: repository,
+        active: 'fields'
+    } %}
+    
+    {% if fields.count == 0 %}
+
+    <p class="alert alert-info">
+        <span class="glyphicon glyphicon-info-sign"></span>&emsp;
+        No fields yet
+    </p>
+
+    {% else %}
+
+    <div class="table-responsive">
+        <table class="table table-hover table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Label</th>
+                    <th>Type</th>
+                    <th>Options</th>
+                    <th>Required</th>
+                    <th>Main</th>
+                    <th>List</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for field in fields %}
+                <tr>
+                    <td>{{ field.getDisplayOrder }}</td>
+                    <td>{{ field.getName }}</td>
+                    <td>{{ field.getLabel }}</td>
+                    <td>{{ field.getType }}</td>
+                    <td>{{ field.getOptions|json_encode() }}</td>
+                    <td class="col-md-1">
+                        {% if field.getRequired %}
+                        <span class="glyphicon glyphicon-check"></span>
+                        {% else %}
+                        <span class="glyphicon glyphicon-unchecked"></span>
+                        {% endif %}
+                    </td>
+                    <td class="col-md-1">
+                        {% if field.getMain %}
+                        <span class="glyphicon glyphicon-check"></span>
+                        {% else %}
+                        <span class="glyphicon glyphicon-unchecked"></span>
+                        {% endif %}
+                    </td>
+                    <td class="col-md-1">
+                        {% if field.getList %}
+                        <span class="glyphicon glyphicon-check"></span>
+                        {% else %}
+                        <span class="glyphicon glyphicon-unchecked"></span>
+                        {% endif %}
+                    </td>
+                    <td class="small col-md-2">
+                        <a href="{{ url('dummy_client.field.read', {
+                            id: field.getId,
+                            repositoryId: field.getRepositoryId
+                        }) }}">
+                            <span class="glyphicon glyphicon-book"></span> read
+                        </a>
+                        &emsp;
+                        <a href="{{ url('dummy_client.field.update', {
+                            id: field.getId,
+                            repositoryId: field.getRepositoryId
+                        }) }}" class="orange">
+                            <span class="glyphicon glyphicon-edit"></span> update
+                        </a>
+                        &emsp;
+                        <a href="{{ url('dummy_client.field.delete', {
+                            id: field.getId,
+                            repositoryId: field.getRepositoryId
+                        }) }}" class="red">
+                            <span class="glyphicon glyphicon-trash"></span> delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% endif %}
+    
+{%  endblock %}

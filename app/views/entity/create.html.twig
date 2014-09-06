@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: repository.getPluralLabel,
+            url: url('dummy_client.entity.index', {
+                repositoryId: repository.getId
+            })
+        },
+        {
+            label: 'Create'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    {{ form(form, repository) }}
+
+{% endblock %}

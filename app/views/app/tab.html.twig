@@ -1,0 +1,49 @@
+<br /><br />
+
+{% set items = [
+    {
+        label: 'Read',
+        active: active == 'read',
+        icon: 'book',
+        url: url('dummy_client.app.read', {
+            id: app.getId
+        })
+    },
+    {
+        label: 'Update',
+        active: active == 'update',
+        icon: 'edit',
+        url: url('dummy_client.app.update', {
+            id: app.getId
+        })
+    },
+    {
+        label: 'Delete',
+        active: active == 'delete',
+        icon: 'trash',
+        url: url('dummy_client.app.delete', {
+            id: app.getId
+        })
+    },
+    {
+        label: 'Grants',
+        active: active == 'grants',
+        icon: 'ok',
+        url: url('dummy_client.grant.index', {
+            appId: app.getId
+        })
+    }
+] %}
+
+<ul class="nav nav-tabs" role="tablist">
+    {% for item in items %}
+    <li{% if item.active %} class="active"{% endif %}>
+        <a href="{{ item.url }}">
+            <span class="glyphicon glyphicon-{{ item.icon }}"></span>
+            {{ item.label }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+<br />

@@ -1,0 +1,38 @@
+{% extends 'layout.html.twig' %}
+
+{% block page %}
+
+<div class="jumbotron">
+    <h1>
+        {{ whoAmI().getApp.getTitle }}
+        <small>
+            {{ whoAmI().getApp.getName }}
+        </small>
+    </h1>
+    <p>
+        {{ whoAmI().getApp.getDescription }}
+    </p>
+</div>
+
+{% if whoAmI().getApp.getIsAdmin %}
+<ul class="nav nav-pills nav-justified">
+    <li>
+        <a href="{{ url('dummy_client.app.index') }}">
+            <h2>
+                <span class="glyphicon glyphicon-lock"></span>&emsp;
+                Apps
+            </h2>
+        </a>
+    </li>
+    <li>
+        <a href="{{ url('dummy_client.repository.index') }}">
+            <h2>
+                <span class="glyphicon glyphicon-folder-open"></span>&emsp;
+                Repositories
+            </h2>
+        </a>
+    </li>
+</ul>
+{% endif %}
+
+{% endblock %}

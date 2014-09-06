@@ -1,5 +1,11 @@
+env: dev
+
 dummy:
     endpoint: http://localhost/~michael/dummy/
     key:
         public: dummy_app
         private: dummy_app
+
+twig:
+    templates: app/views
+    cache: ~

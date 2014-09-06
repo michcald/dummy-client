@@ -1,0 +1,28 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: repository.getPluralLabel,
+            url: url('dummy_client.entity.index', {
+                repositoryId: repository.getId
+            })
+        },
+        {
+            label: 'Read'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% include 'entity/tab.html.twig' with {
+        repository: repository,
+        repositoryFields: repositoryFields,
+        entity: entity,
+        active: 'read'
+    } %}
+    
+    {{ formStatic(form) }}
+    
+{% endblock %}

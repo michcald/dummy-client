@@ -1,0 +1,13 @@
+<input
+    type="color"
+    class="form-control"
+    name="{{ element.getName }}"
+    id="{{ element.getName }}"
+    value="{{ element.getValue }}"
+    {% if element.getDisabled %}
+        disabled
+    {% endif %}
+    {% for attr,value in element.getOptions %}
+        {{ attr }}="{{ value }}"
+    {% endfor %}
+    />

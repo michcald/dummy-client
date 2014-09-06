@@ -1,0 +1,117 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Apps',
+            url: url('dummy_client.app.index')
+        },
+        {
+            label: app.getName
+        },
+        {
+            label: 'Grants'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% include 'app/tab.html.twig' with {
+        app: app,
+        active: 'read'
+    } %}
+    
+    {% if items|length == 0 %}
+
+        {{ alert('No repositories yet', 'info') }}
+
+    {% else %}
+
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th>Repository</th>
+                        <th class="col-md-1">Create</th>
+                        <th class="col-md-1">Read</th>
+                        <th class="col-md-1">Update</th>
+                        <th class="col-md-1">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        {% set repository = item.repository %}
+                        {% set grant = item.grant %}
+                        <tr>
+                            <td>
+                                {{ repository.getName }}
+                                {% if repository.getDescription %}
+                                    <p>
+                                        <small>
+                                            {{ repository.getDescription }}
+                                        </small>
+                                    </p>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url('dummy_client.grant.update', {
+                                    appId: app.getId,
+                                    id: grant.getId,
+                                    action: 'c'
+                                }) }}">
+                                    {% if grant.getCreate == 1 %}
+                                    <span class="glyphicon glyphicon-check"></span>
+                                    {% else %}
+                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td>
+                                <a href=" {{ url('dummy_client.grant.update', {
+                                    appId: app.getId,
+                                    id: grant.getId,
+                                    action: 'r'
+                                }) }}">
+                                    {% if grant.getRead == 1 %}
+                                    <span class="glyphicon glyphicon-check"></span>
+                                    {% else %}
+                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ url('dummy_client.grant.update', {
+                                    appId: app.getId,
+                                    id: grant.getId,
+                                    action: 'u'
+                                }) }}">
+                                    {% if grant.getUpdate == 1 %}
+                                    <span class="glyphicon glyphicon-check"></span>
+                                    {% else %}
+                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ url('dummy_client.grant.update', {
+                                    appId: app.getId,
+                                    id: grant.getId,
+                                    action: 'd'
+                                }) }}">
+                                    {% if grant.getDelete == 1 %}
+                                    <span class="glyphicon glyphicon-check"></span>
+                                    {% else %}
+                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                    {% endif %}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {% endif %}
+    
+{% endblock %}

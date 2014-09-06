@@ -1,0 +1,106 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Repositories',
+            url: url('dummy_client.repository.index')
+        },
+        {
+            label: repository.getSingularLabel
+        },
+        {
+            label: 'Doc'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% include 'repository/tab.html.twig' with {
+        repository: repository,
+        active: 'doc'
+    } %}
+    
+    <div>
+        <h3>List of elements</h3>
+        <p><span class="label label-success">GET</span></p>
+        <pre>{{ config().dummy.endpoint }}repository/{{ repository.getId }}/entity</pre>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Description</th>
+                        <th>Format</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>limit</td>
+                        <td>Limits the number of results in a request</td>
+                        <td>integer</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>page</td>
+                        <td>Fetches a specific page</td>
+                        <td>integer</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>query</td>
+                        <td>Fetches results depending by the searchable fields</td>
+                        <td>string</td>
+                        <td>Matt Smith</td>
+                    </tr>
+                    <tr>
+                        <td>orders</td>
+                        <td>Orders the results</td>
+                        <td>array</td>
+                        <td><pre>{{ dump([{field:'first_name',direction:'asc'},{field:'last_name',direction:'asc'}]) }}</pre></td>
+                    </tr>
+                    <tr>
+                        <td>filters</td>
+                        <td>
+                            Filters the results
+                        </td>
+                        <td>array</td>
+                        <td><pre>{{ dump([{field:'category',value:4},{field:'color',value:'red'}]) }}</pre></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h4>Response</h4>
+        <pre>{{ dump({paginator: {page: {
+                "current": 1,
+                "total": 1
+            },
+            "results": 2
+        },
+        "results": [
+            {
+                "id": 1,
+                "...": "..."
+            },
+            {
+                "id": 2,
+                "...": "..."
+            }
+        ]
+    }) }}</pre>
+    </div>
+
+    <div>
+        <h3>A single element</h3>
+        <p><span class="label label-success">GET</span></p>
+        <pre><?= $this->config()->dummy['endpoint'] ?>repository/<?= $_['repository']->getId() ?>/entity/{id}</pre>
+        <h4>Response</h4>
+        <pre>{{ dump({
+        "id": 1,
+        "...": "..."
+    }) }}</pre>
+    </div>
+    
+{% endblock %}

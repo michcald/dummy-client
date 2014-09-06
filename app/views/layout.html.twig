@@ -1,0 +1,52 @@
+{% spaceless %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ whoAmI().getApp.getTitle }}</title>
+
+        <!-- Bootstrap -->
+        <link href="{{ bower('bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/layout.css') }}" rel="stylesheet">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="{{ bower('jquery/dist/jquery.min.js') }}"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{{ bower('bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/admin.js') }}"></script>
+    </head>
+    <body>
+
+        {{ navbar() }}
+        
+        <div class="container">
+            
+            <div class="pull-left">
+                {% block breadcrumbs %}{% endblock %}
+            </div>
+            <div class="col-md-1">
+                {% block addButton %}{% endblock %}
+            </div>
+            <div class="clearfix"></div>
+            
+            {% block page %}{% endblock %}
+        </div>
+
+        {% if config().env == 'dev' %}
+            {{ restDebug() }}
+        {% endif %}
+        
+        {# $this->viewRender('partials/debug.phtml') #}
+
+    </body>
+</html>
+{% endspaceless %}

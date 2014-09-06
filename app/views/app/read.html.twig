@@ -1,0 +1,27 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Apps',
+            url: url('dummy_client.app.index')
+        },
+        {
+            label: app.getName
+        },
+        {
+            label: 'Read'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% include 'app/tab.html.twig' with {
+        app: app,
+        active: 'read'
+    } %}
+    
+    {{ formStatic(form) }}
+    
+{% endblock %}

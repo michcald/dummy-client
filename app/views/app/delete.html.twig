@@ -1,0 +1,41 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Apps',
+            url: url('dummy_client.app.index')
+        },
+        {
+            label: app.getName
+        },
+        {
+            label: 'Delete'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% include 'app/tab.html.twig' with {
+        app: app,
+        active: 'delete'
+    } %}
+    
+    <div class="alert alert-danger">
+        <p>
+            Do you really want to delete this app?
+        </p>
+
+        <br />
+
+        <form role="form" method="post">
+            <button type="submit" class="btn btn-danger">
+                <span class="glyphicon glyphicon-remove"></span>
+                Delete
+            </button>
+        </form>
+
+    </div>
+    
+{% endblock %}

@@ -1,0 +1,46 @@
+<br /><br />
+
+{% set items = [
+    {
+        label: 'Read',
+        active: active == 'read',
+        icon: 'book',
+        url: url('dummy_client.entity.read', {
+            repositoryId: repository.getId,
+            id: entity.getId
+        })
+    },
+    {
+        label: 'Update',
+        active: active == 'update',
+        icon: 'edit',
+        url: url('dummy_client.entity.update', {
+            repositoryId: repository.getId,
+            id: entity.getId
+        })
+    },
+    {
+        label: 'Delete',
+        active: active == 'delete',
+        icon: 'trash',
+        url: url('dummy_client.entity.delete', {
+            repositoryId: repository.getId,
+            id: entity.getId
+        })
+    }
+] %}
+
+<ul class="nav nav-tabs" role="tablist">
+    {% for item in items %}
+        <li{% if item.active %} class="active"{% endif %}>
+            <a href="{{ item.url }}">
+                <span class="glyphicon glyphicon-{{ item.icon }}"></span>
+                {{ item.label }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<br />
+
+{{ flashMessenger() }}

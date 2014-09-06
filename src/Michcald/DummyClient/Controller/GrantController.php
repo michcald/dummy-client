@@ -49,15 +49,15 @@ class GrantController extends \Michcald\DummyClient\Controller
             );
         }
 
-        try {
-            return $this->generateResponse('grant/index.phtml', array(
-                'app' => $app,
-                'items' => $items
-            ));
-        } catch (\Exception $e) {
-            $this->addFlash($e->getMessage(), 'error');
-            return $this->generateResponse();
-        }
+        $content = $this->render('grant/index.html.twig', array(
+            'app' => $app,
+            'items' => $items
+        ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function updateAction($appId, $id, $action)

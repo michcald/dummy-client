@@ -15,17 +15,9 @@ abstract class Controller extends \Michcald\Mvc\Controller
 
     protected function render($filename, array $data = array())
     {
-        $dir = realpath(__DIR__ . '/View');
+        $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
 
-        $filename = sprintf('%s/html/%s', $dir, $filename);
-
-        if (!is_file($filename)) {
-            throw new \Exception(sprintf('View file not found: %s', $filename));
-        }
-
-        $filename = realpath($filename);
-
-        return $this->getView()->render($filename, $data);
+        return $twig->render($filename, $data);
     }
 
     protected function addFlash($message, $type = 'info')
@@ -44,15 +36,6 @@ abstract class Controller extends \Michcald\Mvc\Controller
         );
 
         $session->flashes = $flashes;
-
-        return $this;
-    }
-
-    protected function addNavbar($label, $url = null)
-    {
-        $navbar = Navbar::getInstance();
-
-        $navbar->addElement($label, $url);
 
         return $this;
     }
@@ -103,32 +86,5 @@ abstract class Controller extends \Michcald\Mvc\Controller
         }
 
         throw new \Exception(sprintf('Route id %s not found', $routeId));
-    }
-
-    protected function generateResponse($file = null, array $params = array())
-    {
-        if ($file) {
-            $content = $this->render($file, $params);
-        } else {
-            $content = null;
-        }
-
-        $layout = $this->render('layout.phtml', array(
-            'content' => $content,
-        ));
-
-        $response = new \Michcald\Mvc\Response();
-        $response->addHeader('Content-Type: text/html');
-
-        return $response->setContent($layout);
-    }
-
-    public function __destruct()
-    {
-        $session = Session::getInstance()->setNamespace('dummy_client');
-
-        if (isset($session->navbar)) {
-            unset($session->navbar);
-        };
     }
 }

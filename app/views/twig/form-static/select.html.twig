@@ -1,0 +1,5 @@
+{% for key, value in element.getOptions %}
+    {% if value == element.getValue %}
+        {{ key }}
+    {% endif %}
+{% endfor %}

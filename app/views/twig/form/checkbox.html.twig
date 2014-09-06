@@ -1,0 +1,16 @@
+<input
+    type="checkbox"
+    class="form-control"
+    name="{{ element.getName }}"
+    id="{{ element.getName }}"
+    value="1"
+    {% if element.getValue%}
+        checked
+    {% endif %}
+    {% if element.getDisabled %}
+        disabled
+    {% endif %}
+    {% for attr,value in element.getOptions %}
+        {{ attr }}="{{ value }}"
+    {% endfor %}
+    />
