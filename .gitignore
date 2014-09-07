@@ -3,4 +3,5 @@ composer.phar
 vendor/
 app/config/parameters.yml
 app/cache/*
+app/logs/*
 pub/bower_components

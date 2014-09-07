@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Logs'
+        },
+        {
+            label: filename
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    <div>
+        {{ content|nl2br }}
+    </div>
+
+{% endblock %}

@@ -9,7 +9,7 @@ abstract class Bootstrap
         date_default_timezone_set('Europe/London');
 
         self::initConfig();
-        self::initMonolog();
+        self::initLog();
         self::initRoutes();
         self::initEventListeners();
         self::initRestClient();
@@ -34,20 +34,48 @@ abstract class Bootstrap
         //$mvc->addEventSubscriber($listener);
     }
 
-    private static function initMonolog()
+    private static function initLog()
     {
+        $logger = new Logger();
+
         $config = Config::getInstance();
 
-        $log = new \Monolog\Logger('default');
+        $dir = __DIR__ . '/../../../' . $config->log['dir'];
+
+        $prodLogDir = $dir . '/prod/';
+        $devLogDir = $dir . '/dev/';
+
+        if (!is_dir($devLogDir)) {
+            mkdir($devLogDir);
+        }
+
+        if (!is_dir($prodLogDir)) {
+            mkdir($prodLogDir);
+        }
+
+        $log = new \Monolog\Logger('prod');
         $log->pushHandler(
             new \Monolog\Handler\RotatingFileHandler(
-                $config->monolog['dir'],
+                $prodLogDir . 'prod.log',
                 10,
                 \Monolog\Logger::WARNING
             )
         );
 
-        \Michcald\Mvc\Container::add('monolog.default', $log);
+        $logger->setProdLogger($log);
+
+        $log = new \Monolog\Logger('dev');
+        $log->pushHandler(
+            new \Monolog\Handler\RotatingFileHandler(
+                $devLogDir . 'dev.log',
+                10,
+                \Monolog\Logger::DEBUG
+            )
+        );
+
+        $logger->setDevLogger($log);
+
+        \Michcald\Mvc\Container::add('logger', $logger);
     }
 
     private static function initRoutes()
@@ -112,14 +140,16 @@ abstract class Bootstrap
 
             \Michcald\DummyClient\WhoAmI::getInstance()->init($whoami);
         } else {
-            \Michcald\Mvc\Container::get('monolog.default')->addCritical(
-                'Cannot connect to dummy',
-                array(
-                    'status_code' => $response->getStatusCode(),
-                    'content'     => $response->getContent()
-                )
-            );
-            throw new \Exception(sptinf('Cannot connect to dummy: %s', json_decode($response)));
+            $config = Config::getInstance();
+
+            $logger = \Michcald\Mvc\Container::get('logger');
+            $logger->addEmergency('Cannot connect to dummy', array(
+                'endpoint' => $config->dummy['endpoint'],
+                'public_key' => $config->dummy['key']['public'],
+                'private_key' => $config->dummy['key']['private'],
+            ));
+
+            throw new \Exception(sprintf('Cannot connect to dummy'));
         }
     }
 

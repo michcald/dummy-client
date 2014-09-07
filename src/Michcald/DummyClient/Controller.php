@@ -89,4 +89,12 @@ abstract class Controller extends \Michcald\Mvc\Controller
 
         throw new \Exception(sprintf('Route id %s not found', $routeId));
     }
+
+    /**
+     * @return \Michcald\DummyClient\Logger
+     */
+    protected function getLogger()
+    {
+        return \Michcald\Mvc\Container::get('logger');
+    }
 }

@@ -9,7 +9,7 @@ routes:
           requirements: []
       controller: \Michcald\DummyClient\Controller\InstallController
       action: indexAction
-    
+
     # index
     
     - name: dummy_client.index.index
@@ -19,6 +19,26 @@ routes:
           requirements: []
       controller: \Michcald\DummyClient\Controller\IndexController
       action: indexAction
+    
+    # log
+    
+    - name: dummy_client.log.index
+      methods: ["GET"]
+      uri:
+          pattern: logs
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\LogController
+      action: indexAction
+    
+    - name: dummy_client.log.read
+      methods: ["GET"]
+      uri:
+          pattern: logs/{filename}
+          requirements:
+              - param: filename
+                value: ".*"
+      controller: \Michcald\DummyClient\Controller\LogController
+      action: readAction
 
     # app
     

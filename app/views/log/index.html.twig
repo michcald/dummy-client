@@ -1,0 +1,29 @@
+{% extends 'layout.html.twig' %}
+
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Logs'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+
+    <h1 class="page-header">
+        Environment
+        <small>{{ env() }}</small>
+    </h1>
+    
+    <ul>
+        {% for file in files %}
+            <li>
+                <a href="{{ url('dummy_client.log.read', { filename: file }) }}">
+                    {{ file }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
