@@ -1,0 +1,8 @@
+{% for foreignEntity in fetch_entities(field.getOptions.repository) if foreignEntity.getId == entity.get(field.name) %}
+    <a href="{{ url('dummy_client.entity.read', {
+        repositoryId: foreignEntity.getRepository.getId,
+        id: foreignEntity.getId
+    }) }}">
+        {{ foreignEntity|printMainLabel }}
+    </a>
+{% endfor %}

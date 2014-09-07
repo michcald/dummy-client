@@ -22,6 +22,7 @@ class EntityController extends \Michcald\DummyClient\Controller
     public function indexAction($repositoryId)
     {
         $filters = $this->getRequest()->getQueryParam('filters', array());
+        $query = $this->getRequest()->getQueryParam('query', '');
 
         /* @var $repository App\Model\Repository */
         $repository = $this->repositoryDao->findOne($repositoryId);
@@ -52,20 +53,15 @@ class EntityController extends \Michcald\DummyClient\Controller
 
         $entities = $this->entityDao->findAll(array(
             'page' => $page,
-            'filters' => $filters
+            'filters' => $filters,
         ));
-
-        foreach ($filters as $filter) {
-            $field = $filter['field'];
-            $value = $filter['value'];
-            $filters[$field] = $value;
-        }
 
         $content = $this->render('entity/index.html.twig', array(
             'repository' => $repository,
             'repositoryFields' => $repositoryFields,
             'entities' => $entities,
-            'filters' => $filters
+            'filters' => $filters,
+            'query' => $query
         ));
 
         $response = new \Michcald\Mvc\Response();

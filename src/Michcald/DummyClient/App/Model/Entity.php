@@ -18,6 +18,15 @@ class Entity extends \Michcald\DummyClient\Model
         return $this->repository;
     }
 
+    public function get($key)
+    {
+        if (in_array($key, array_keys(get_object_vars($this)))) {
+            return $this->$key;
+        }
+
+        throw new \Exception(sprintf('Invalid key %s'), $key);
+    }
+
     public function toArray()
     {
         $array = array(

@@ -1,0 +1,55 @@
+{% for field in repositoryFields if field.getType == 'foreign' %}
+
+    {% set options = field.getOptions %}
+    {% set repoName = options.repository %}
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <strong>{{ field.getLabel }}:</strong>
+            {% set currentFilter = null %}
+            {% for filter in filters if filter.field == field.getName %}
+                {% set currentFilter = filter %}
+            {% endfor %}
+            
+            {% if currentFilter != null %}
+                {% for entity in fetch_entities(repoName) %}
+                    {% if currentFilter.value == entity.getId %}
+                        {{ entity|printMainLabel }}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+            All
+            {% endif %}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li>
+                {% set tmpCurrentFilters = [] %}
+                {% for filter in filters if filter.field != currentFilter.field %}
+                    {% set tmpCurrentFilters = tmpCurrentFilters|merge([filter]) %}
+                {% endfor %}
+                <a href="{{ url('dummy_client.entity.index', {
+                    repositoryId: repository.getId,
+                    filters: tmpCurrentFilters
+                }) }}">All</a>
+            </li>
+            <li class="divider"></li>
+            {% for entity in fetch_entities(repoName) %}
+                <li>
+                    <a href="{{ url('dummy_client.entity.index', {
+                        repositoryId: repository.getId,
+                        filters: [
+                            {
+                                field: field.getName,
+                                value: entity.getId
+                            }
+                        ]|merge(filters)
+                    }) }}">
+                        {{ entity|printMainLabel }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    &nbsp;
+{% endfor %}

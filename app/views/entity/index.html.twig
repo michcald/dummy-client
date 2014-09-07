@@ -19,54 +19,17 @@
 
 {% block page %}
 
-    {{ search() }}
+    {{ search(url('dummy_client.entity.index', {
+        repositoryId: repository.getId
+    }), query, filters) }}
+    
+    <br />
     
     <div class="container text-center">
-        {% for field in repositoryFields if field.getType == 'foreign' %}
-
-            {% set options = field.getOptions %}
-            {% set repoName = options.repository %}
-        
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <strong>{{ field.getLabel }}:</strong>
-                    {% if filters[field.getName] is defined and filters[field.getName]  %}
-                        {% for entity in fetch_entities(repoName) %}
-                            {% if filters[field.getName] == entity.getId %}
-                                {{ entity|printMainLabel }}
-                                <? break; ?>
-                            {% endif %}
-                        {% endfor %}
-                    {% else %}
-                    All
-                    {% endif %}
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a href="{{ url('dummy_client.entity.index', {
-                            repositoryId: repository.getId
-                        }) }}">All</a>
-                    </li>
-                    <li class="divider"></li>
-                    {% for entity in fetch_entities(repoName) %}
-                        <li>
-                            <a href="{{ url('dummy_client.entity.index', {
-                                repositoryId: repository.getId,
-                                filters: [
-                                    {
-                                        field: field.getName,
-                                        value: entity.getId
-                                    }
-                                ]
-                            }) }}">
-                                {{ entity|printMainLabel }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endfor %}
+        {% include 'entity/partials/filters.html.twig' with {
+            repositoryFields: repositoryFields,
+            filters: filters
+        } %}
     </div>
 
     <br />
@@ -81,7 +44,8 @@
 
         <div class="col-md-12">
             {{ paginator(entities.getPaginator, 'dummy_client.entity.index', {
-                repositoryId: repository.getId
+                repositoryId: repository.getId,
+                filters: filters
             }) }}
         </div>
 
@@ -89,7 +53,7 @@
             <table class="table table-condensed table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th></th>
                         {% for field in repositoryFields %}
                             {% if field.getList %}
                                 <th>
@@ -101,38 +65,22 @@
                 </thead>
                 <tbody>
                     {% for entity in entities %}
-                        {% set entityArray = entity.toArray %}
                         <tr>
-                            <td>{{ entity.getId }}</td>
-                            {% for field in repositoryFields %}
-                                {% if field.getList %}
-                                <td>
-                                    {{ entityArray[field.getName] }}
-                                </td>
-                                {% endif %}
-                            {% endfor %}
-                            <td class="text-right">
+                            <td class="col-md-1 text-center">
                                 <a href="{{ url('dummy_client.entity.read', {
                                     repositoryId: repository.getId,
                                     id: entity.getId
                                 }) }}">
-                                    <span class="glyphicon glyphicon-book"></span> read
-                                </a>
-                                &emsp;
-                                <a href="{{ url('dummy_client.entity.update', {
-                                    repositoryId: repository.getId,
-                                    id: entity.getId
-                                }) }}" class="orange">
-                                    <span class="glyphicon glyphicon-edit"></span> update
-                                </a>
-                                &emsp;
-                                <a href="{{ url('dummy_client.entity.delete', {
-                                    repositoryId: repository.getId,
-                                    id: entity.getId
-                                }) }}" class="red">
-                                    <span class="glyphicon glyphicon-trash"></span> delete
+                                    <span class="glyphicon glyphicon-open"></span>
                                 </a>
                             </td>
+                            {% for field in repositoryFields %}
+                                {% if field.getList %}
+                                <td>
+                                    {{ entity|render({'field':field}) }}
+                                </td>
+                                {% endif %}
+                            {% endfor %}
                         </tr>
                     {% endfor %}
                 </tbody>
