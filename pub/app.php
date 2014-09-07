@@ -1,6 +1,6 @@
 <?php
 
-define(ENV, 'prod');
+define('ENV', 'prod');
 
 include '../vendor/autoload.php';
 
