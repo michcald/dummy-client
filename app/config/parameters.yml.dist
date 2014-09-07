@@ -1,5 +1,3 @@
-env: dev
-
 dummy:
     endpoint: http://localhost/~michael/dummy/
     key:
@@ -9,3 +7,6 @@ dummy:
 twig:
     templates: app/views
     cache: ~
+
+monolog:
+    dir: app/logs

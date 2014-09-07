@@ -39,8 +39,7 @@ class RestClient extends \Michcald\RestClient\Client
         $response = parent::call($method, $url, $params);
 
         if ($response->getStatusCode() == 403) { // forbidden
-            echo $response->getContent();
-            die;
+            return $response;
         }
 
         if ($method == 'get') {

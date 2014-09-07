@@ -18,6 +18,13 @@ class IndexController extends \Michcald\DummyClient\Controller
 
     public function notFoundAction($any)
     {
-        die('Not found ' . $any);
+        if (ENV == 'dev') {
+            throw new \Exception(sprintf('Page not found: %s', $any));
+        }
+
+        if (ENV == 'prod') {
+            // print off the error page
+            die('error page');
+        }
     }
 }

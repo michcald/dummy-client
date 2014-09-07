@@ -70,8 +70,6 @@ class AppController extends \Michcald\DummyClient\Controller
     {
         $app = $this->appDao->findOne($id);
 
-        $this->addNavbar('Read');
-
         $form = new App\Form\App();
 
         if (!$app) {
@@ -93,8 +91,6 @@ class AppController extends \Michcald\DummyClient\Controller
 
     public function updateAction($id)
     {
-        $this->addNavbar('Update');
-
         $app = $this->appDao->findOne($id);
 
         if (!$app) {

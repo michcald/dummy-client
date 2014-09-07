@@ -57,5 +57,4 @@ class App extends \Michcald\DummyClient\Form
             ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXT);
         $this->addElement($privateKey);
     }
-
 }
