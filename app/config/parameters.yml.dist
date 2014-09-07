@@ -6,7 +6,7 @@ dummy:
 
 twig:
     templates: app/views
-    cache: ~
+    cache: app/cache/twig
 
 monolog:
     dir: app/logs

@@ -131,7 +131,7 @@ abstract class Bootstrap
 
         $templates = __DIR__ . '/../../../' . $config->twig['templates'];
 
-        if ($config->twig['cache']) {
+        if (ENV == 'prod') {
             $options['cache'] = __DIR__ . '/../../../' . $config->twig['cache'];
         }
 
