@@ -145,7 +145,7 @@ class Util extends \Twig_Extension
             foreach ($flashes as $flash) {
                 $this->alert($flash['message'], $flash['type']);
             }
-            
+
             $session->flashes = array();
         }
     }
@@ -314,11 +314,15 @@ class Util extends \Twig_Extension
         ));
     }
 
-    public function search()
+    public function search($url, $query = '', array $hiddens = array())
     {
         $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
 
-        echo $twig->render('twig/search.html.twig');
+        echo $twig->render('twig/search.html.twig', array(
+            'url'    => $url,
+            'query'  => $query,
+            'hiddens' => $hiddens
+        ));
     }
 
     public function addButton($url)
