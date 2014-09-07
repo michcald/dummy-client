@@ -9,8 +9,8 @@ abstract class Bootstrap
         date_default_timezone_set('Europe/London');
 
         self::initConfig();
+        self::initMonolog();
         self::initRoutes();
-        //self::initViewHelpers();
         self::initEventListeners();
         self::initRestClient();
         self::initWhoAmI();
@@ -32,6 +32,22 @@ abstract class Bootstrap
 
         //$listener = new Event\Listener\DummyAuth();
         //$mvc->addEventSubscriber($listener);
+    }
+
+    private static function initMonolog()
+    {
+        $config = Config::getInstance();
+
+        $log = new \Monolog\Logger('default');
+        $log->pushHandler(
+            new \Monolog\Handler\RotatingFileHandler(
+                $config->monolog['dir'],
+                10,
+                \Monolog\Logger::WARNING
+            )
+        );
+
+        \Michcald\Mvc\Container::add('monolog.default', $log);
     }
 
     private static function initRoutes()
@@ -60,23 +76,6 @@ abstract class Bootstrap
         }
 
         \Michcald\Mvc\Container::add('dummy_client.mvc', $mvc);
-    }
-
-    private static function initViewHelpers()
-    {
-        /* @var $view \Michcald\Mvc\View */
-        /*$view = \Michcald\Mvc\Container::get('mvc.view');
-
-        $view->addHelper('\Michcald\DummyClient\View\Helper\Config', 'config');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\Asset', 'asset');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\ViewRender', 'viewRender');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\Url', 'url');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\WhoAmI', 'whoami');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\Main', 'main');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\Foreign\Show', 'printForeign');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\Foreign\Options', 'getForeignOptions');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\FetchEntities', 'fetchEntities');
-        $view->addHelper('\Michcald\DummyClient\View\Helper\PrintMain', 'printMain');*/
     }
 
     private static function initRequest()
@@ -113,7 +112,14 @@ abstract class Bootstrap
 
             \Michcald\DummyClient\WhoAmI::getInstance()->init($whoami);
         } else {
-            throw new \Exception('Not connected to dummy');
+            \Michcald\Mvc\Container::get('monolog.default')->addCritical(
+                'Cannot connect to dummy',
+                array(
+                    'status_code' => $response->getStatusCode(),
+                    'content'     => $response->getContent()
+                )
+            );
+            throw new \Exception(sptinf('Cannot connect to dummy: %s', json_decode($response)));
         }
     }
 
@@ -129,7 +135,7 @@ abstract class Bootstrap
             $options['cache'] = __DIR__ . '/../../../' . $config->twig['cache'];
         }
 
-        if ($config->env == 'dev') {
+        if (ENV == 'dev') {
             $options['debug'] = true;
         }
 
@@ -138,7 +144,7 @@ abstract class Bootstrap
 
         $twig->addExtension(new Twig\Util());
 
-        if ($config->env == 'dev') {
+        if (ENV == 'dev') {
             $twig->addExtension(new \Twig_Extension_Debug());
         }
 

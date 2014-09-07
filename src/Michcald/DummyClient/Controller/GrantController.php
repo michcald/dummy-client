@@ -17,14 +17,10 @@ class GrantController extends \Michcald\DummyClient\Controller
         $this->appDao = new App\Dao\App();
         $this->repositoryDao = new App\Dao\Repository();
         $this->grantDao = new App\Dao\Grant();
-
-        $this->addNavbar('Apps', $this->generateUrl('dummy_client.app.index'));
     }
 
     public function indexAction($appId)
     {
-        $this->addNavbar('Grants');
-
         $app = $this->appDao->findOne($appId);
 
         if (!$app) {

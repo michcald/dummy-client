@@ -1,11 +1,10 @@
 <?php
 
+define(ENV, 'prod');
+
 include '../vendor/autoload.php';
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-//\Zend\Debug\Debug::dump($_SERVER);die;
+ini_set('display_errors', 0);
 
 \Michcald\DummyClient\Bootstrap::init();
 

@@ -161,11 +161,6 @@ class FieldController extends \Michcald\DummyClient\Controller
 
     public function updateAction($repositoryId, $id)
     {
-        $this->addNavbar('Repository Fields', $this->generateUrl('dummy_client.field.index', array(
-            'repositoryId' => $repositoryId
-        )));
-        $this->addNavbar('Update');
-
         $repository = $this->repositoryDao->findOne($repositoryId);
 
         if (!$repository) {

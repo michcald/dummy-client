@@ -1,5 +1,15 @@
 routes:
     
+    # install
+    
+    - name: dummy_client.install.index
+      methods: ["GET","POST"]
+      uri:
+          pattern: install
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\InstallController
+      action: indexAction
+    
     # index
     
     - name: dummy_client.index.index

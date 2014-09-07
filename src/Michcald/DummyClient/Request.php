@@ -32,25 +32,27 @@ class Request extends \Michcald\Mvc\Request
 
     private function buildHttpRequest()
     {
-        $baseUrl = WhoAmI::getInstance()->getApp()->getBaseUrl();
+        $baseUrl = sprintf(
+            'http://%s%s',
+            $_SERVER['HTTP_HOST'],
+            $_SERVER['SCRIPT_NAME']
+        );
 
-        // @TODO se non coincide con quello corrente stampalo a video
-        // @TODO create file install
+        $uri = str_replace($_SERVER['SCRIPT_NAME'], '', $_SERVER['REQUEST_URI']);
 
-        $url = sprintf('http://%s%s', $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']);
-
-        $uri = str_replace($baseUrl, '', $url);
-        $uri = str_replace('?' . $_SERVER['QUERY_STRING'], '', $uri);
-
-        if (strlen($uri) > 0) {
-            if ($uri{0} == '/') {
-                $uri = substr($uri, 1);
-            }
-
-            if ($uri{strlen($uri)-1} == '/') {
-                $uri = substr($uri, 0, strlen($uri)-1);
-            }
+        if ($_SERVER['QUERY_STRING'] && strstr($uri, $_SERVER['QUERY_STRING'])) {
+            $uri = str_replace($_SERVER['QUERY_STRING'], '', $uri);
+            $uri = str_replace('?', '', $uri);
         }
+
+        if (strlen($uri) > 0 && $uri{0} == '/') {
+            $uri = substr($uri, 1);
+        }
+
+        $baseDir = preg_replace('/\/pub.*/', '', $baseUrl);
+
+        Config::getInstance()->base_url = $baseUrl;
+        Config::getInstance()->base_dir = $baseDir;
 
         $this->setMethod($_SERVER['REQUEST_METHOD'])
             ->setQueryParams($_GET)

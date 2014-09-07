@@ -31,14 +31,21 @@ class Util extends \Twig_Extension
             new \Twig_SimpleFunction('flashMessenger', array($this, 'flashMessenger')),
             new \Twig_SimpleFunction('getForeignOptions', array($this, 'getForeignOptions')),
             new \Twig_SimpleFunction('restDebug', array($this, 'restDebug')),
+            new \Twig_SimpleFunction('env', array($this, 'env')),
         );
+    }
+
+    public function env()
+    {
+        return ENV;
     }
 
     public function bower($filename)
     {
+        $config = \Michcald\DummyClient\Config::getInstance();
         $file = sprintf(
-            '%spub/bower_components/%s',
-            \Michcald\DummyClient\WhoAmI::getInstance()->getApp()->getBaseUrl(),
+            '%s/pub/bower_components/%s',
+            $config->base_dir,
             $filename
         );
 
@@ -363,9 +370,11 @@ class Util extends \Twig_Extension
 
     public function asset($filename)
     {
+        $config = \Michcald\DummyClient\Config::getInstance();
+
         $file = sprintf(
-            '%spub/assets/%s',
-            \Michcald\DummyClient\WhoAmI::getInstance()->getApp()->getBaseUrl(),
+            '%s/pub/assets/%s',
+            $config->base_dir,
             $filename
         );
 
@@ -395,9 +404,11 @@ class Util extends \Twig_Extension
 
         $realUri = $uri->generate($routeParams);
 
+        $config = \Michcald\DummyClient\Config::getInstance();
+
         $url = sprintf(
-            '%s%s',
-            \Michcald\DummyClient\WhoAmI::getInstance()->getApp()->getBaseUrl(),
+            '%s/%s',
+            $config->base_url,
             $realUri
         );
 

@@ -18,7 +18,8 @@
         "symfony/yaml": "2.3.*@dev",
         "michcald/mvc": "dev-master",
         "twig/twig": "1.*",
-        "michcald/paginator": "dev-master"
+        "michcald/paginator": "dev-master",
+        "monolog/monolog": "1.11.*@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
