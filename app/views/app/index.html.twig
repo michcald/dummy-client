@@ -15,8 +15,6 @@
 
 {% block page %}
     
-    {{ search() }}
-    
     {% if apps.count == 0 %}
         
         {{ alert('No results yet', 'info') }}

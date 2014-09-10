@@ -20,8 +20,6 @@
         {{ alert('No results yet', 'info') }}
 
     {% else %}
-    
-    {{ search() }}
 
     {{ paginator(repositories.getPaginator, 'dummy_client.repository.index') }}
 

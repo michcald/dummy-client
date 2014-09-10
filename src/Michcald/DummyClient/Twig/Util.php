@@ -9,6 +9,14 @@ class Util extends \Twig_Extension
         return 'dummy_util';
     }
 
+    public function getFilters()
+    {
+        return array(
+            new \Twig_SimpleFilter('render', array($this, 'render')),
+            new \Twig_SimpleFilter('printMainLabel', array($this, 'printMainLabel')),
+        );
+    }
+
     public function getFunctions()
     {
         return array(
@@ -160,14 +168,6 @@ class Util extends \Twig_Extension
     public function config()
     {
         return \Michcald\DummyClient\Config::getInstance();
-    }
-
-    public function getFilters()
-    {
-        return array(
-            new \Twig_SimpleFilter('render', array($this, 'render')),
-            new \Twig_SimpleFilter('printMainLabel', array($this, 'printMainLabel')),
-        );
     }
 
     public function printMainLabel(\Michcald\DummyClient\App\Model\Entity $entity)
