@@ -53,12 +53,21 @@ abstract class Bootstrap
             mkdir($prodLogDir);
         }
 
+        switch ($config->log['level']) {
+            case 'debug':
+                $level = \Monolog\Logger::DEBUG;
+                break;
+            case 'warning':
+                $level = \Monolog\Logger::WARNING;
+                break;
+        }
+
         $log = new \Monolog\Logger('prod');
         $log->pushHandler(
             new \Monolog\Handler\RotatingFileHandler(
                 $prodLogDir . 'prod.log',
                 10,
-                \Monolog\Logger::WARNING
+                $level
             )
         );
 

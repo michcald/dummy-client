@@ -37,9 +37,7 @@
 
     {% if entities.count == 0 %}
     
-        <p class="alert alert-info">
-            No results
-        </p>
+        {{ alert('No results', 'info') }}
 
     {% else %}
 

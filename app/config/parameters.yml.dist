@@ -10,3 +10,4 @@ twig:
 
 monolog:
     dir: app/logs
+    level: debug

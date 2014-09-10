@@ -1,6 +1,5 @@
 {% extends 'layout.html.twig' %}
 
-
 {% block breadcrumbs %}
     {{ breadcrumbs([
         {
@@ -12,19 +11,23 @@
 
 {% block page %}
 
-    <h1 class="page-header">
+    <h3 class="text-center">
         Environment
         <small>{{ env() }}</small>
-    </h1>
+    </h3>
     
-    <ul>
-        {% for file in files %}
-            <li>
-                <a href="{{ url('dummy_client.log.read', { filename: file }) }}">
-                    {{ file }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+    {% if files|length == 0 %}
+        {{ alert('No results', 'info') }}
+    {% else %}
+        <ul>
+            {% for file in files %}
+                <li>
+                    <a href="{{ url('dummy_client.log.read', { filename: file }) }}">
+                        {{ file }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
 {% endblock %}

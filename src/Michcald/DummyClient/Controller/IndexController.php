@@ -18,19 +18,17 @@ class IndexController extends \Michcald\DummyClient\Controller
 
     public function notFoundAction($any)
     {
-        if (ENV == 'dev') {
-            $this->getLogger()->addNotice('Page not found', array(
-                'uri' => $any
-            ));
-            throw new \Exception(sprintf('Page not found: %s', $any));
-        }
+        $this->getLogger()->addNotice('Page not found', array(
+            'uri' => $any
+        ));
 
-        if (ENV == 'prod') {
-            $this->getLogger()->addNotice('Page not found', array(
-                'uri' => $any
-            ));
-            // print off the error page
-            die('error page');
-        }
+        $content = $this->render('index/not-found.html.twig', array(
+            'message' => sprintf('Page not found: %s', $any)
+        ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html')
+            ->setContent($content);
+        return $response;
     }
 }
