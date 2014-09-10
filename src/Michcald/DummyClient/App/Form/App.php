@@ -33,17 +33,12 @@ class App extends \Michcald\DummyClient\Form
         $isAdmin = new \Michcald\DummyClient\Form\Element();
         $isAdmin->setName('is_admin')
             ->setLabel('Is Admin')
-            ->setType(\Michcald\DummyClient\Form\Element::TYPE_SELECT, array(
+            ->setType(\Michcald\DummyClient\Form\Element::TYPE_SELECT)
+            ->setOptions(array(
                 'Yes' => 1,
                 'No'  => 0
             ));
         $this->addElement($isAdmin);
-
-        $baseUrl = new \Michcald\DummyClient\Form\Element();
-        $baseUrl->setName('base_url')
-            ->setLabel('Base URL')
-            ->setType(\Michcald\DummyClient\Form\Element::TYPE_URL);
-        $this->addElement($baseUrl);
 
         $publicKey = new \Michcald\DummyClient\Form\Element();
         $publicKey->setName('public_key')

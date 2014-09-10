@@ -12,8 +12,6 @@ class App extends \Michcald\DummyClient\Model
 
     protected $is_admin;
 
-    protected $base_url;
-
     protected $public_key;
 
     protected $private_key;
@@ -66,18 +64,6 @@ class App extends \Michcald\DummyClient\Model
         return $this->is_admin;
     }
 
-    public function setBaseUrl($baseUrl)
-    {
-        $this->base_url = $baseUrl;
-
-        return $this;
-    }
-
-    public function getBaseUrl()
-    {
-        return $this->base_url;
-    }
-
     public function setPublicKey($publicKey)
     {
         $this->public_key = $publicKey;
@@ -109,7 +95,6 @@ class App extends \Michcald\DummyClient\Model
             'title' => $this->title,
             'description' => $this->getDescription(),
             'is_admin' => $this->getIsAdmin(),
-            'base_url' => $this->base_url,
             'public_key' => $this->getPublicKey(),
             'private_key' => $this->getPrivateKey()
         );

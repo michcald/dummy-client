@@ -27,31 +27,30 @@
         <table class="table table-condensed table-hover table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
                     <th></th>
+                    <th>Name</th>
+                    <th>Label</th>
+                    <th>Description</th>
                 </tr>
             </thead>
             <tbody>
                 {% for repository in repositories %}
                 <tr>
-                    <td>{{ repository.getId }}</td>
-                    <td>{{ repository.getName }}</td>
-                    <td>{{ repository.getDescription }}</td>
-                    <td class="text-right small">
+                    <td class="col-md-1 text-center">
                         <a href="{{ url('dummy_client.repository.read', {
                             id: repository.getId
                         }) }}">
-                            <span class="glyphicon glyphicon-book"></span> read
+                            <span class="glyphicon glyphicon-open"></span>
                         </a>
-                        {{ editButton(url('dummy_client.repository.update', {
-                            id: repository.getId
-                        })) }}
-                        {{ deleteButton(url('dummy_client.repository.delete', {
-                            id: repository.getId
-                        })) }}
                     </td>
+                    <td>{{ repository.getName }}</td>
+                    <td>
+                        {{ repository.getSingularLabel }}
+                        <small>
+                            ({{ repository.getPluralLabel }})
+                        </small>
+                    </td>
+                    <td>{{ repository.getDescription }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

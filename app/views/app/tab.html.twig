@@ -1,4 +1,3 @@
-<br /><br />
 
 {% set items = [
     {
@@ -34,6 +33,10 @@
         })
     }
 ] %}
+
+<h3 class="text-center">
+    {{ app.getTitle }}
+</h3>
 
 <ul class="nav nav-tabs" role="tablist">
     {% for item in items %}
