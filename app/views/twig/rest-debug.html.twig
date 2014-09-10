@@ -1,28 +1,28 @@
 <br />
 
 <div class="container">
-    <div class="alert alert-warning">
-        <div class="table-responsive">
-            <table class="table table-condensed">
-                <thead>
+    <div class="table-responsive well col-md-12">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>URL</th>
+                    <th>Params</th>
+                    <th>Status code</th>
+                    <th>Content</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for call in calls %}
                     <tr>
-                        <th>Method</th>
-                        <th>URL</th>
-                        <th>Params</th>
-                        <th>Status code</th>
+                        <td>{{ call.method }}</td>
+                        <td>{{ call.url }}</td>
+                        <td>{{ call.params|json_encode() }}</td>
+                        <td>{{ call.status_code }}</td>
+                        <td><small>{{ call.content }}</small></td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for call in calls %}
-                        <tr>
-                            <td>{{ call.method }}</td>
-                            <td>{{ call.url }}</td>
-                            <td>{{ call.params|json_encode() }}</td>
-                            <td>{{ call.status_code }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>

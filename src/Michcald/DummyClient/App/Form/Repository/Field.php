@@ -9,7 +9,7 @@ class Field extends \Michcald\DummyClient\Form
         $name = new \Michcald\DummyClient\Form\Element();
         $name->setName('name')
             ->setLabel('Name')
-            ->setDescription('The name of the raw field')
+            ->setDescription('The identifier for the field')
             ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXT);
         $this->addElement($name);
 
@@ -44,6 +44,7 @@ class Field extends \Michcald\DummyClient\Form
         $label = new \Michcald\DummyClient\Form\Element();
         $label->setName('label')
             ->setLabel('Label')
+            ->setDescription('Will be displayed everywhere the field appears')
             ->setType(\Michcald\DummyClient\Form\Element::TYPE_TEXT);
         $this->addElement($label);
 
@@ -62,6 +63,7 @@ class Field extends \Michcald\DummyClient\Form
         $searchable = new \Michcald\DummyClient\Form\Element();
         $searchable->setName('searchable')
             ->setLabel('Is searchable?')
+            ->setDescription('Whether the search form will consider this field or not.')
             ->setType(\Michcald\DummyClient\Form\Element::TYPE_CHECKBOX);
         $this->addElement($searchable);
 
@@ -74,18 +76,21 @@ class Field extends \Michcald\DummyClient\Form
         $main = new \Michcald\DummyClient\Form\Element();
         $main->setName('main')
             ->setLabel('Is main?')
+            ->setDescription('Will be used in order to build the label of the entity')
             ->setType(\Michcald\DummyClient\Form\Element::TYPE_CHECKBOX);
         $this->addElement($main);
 
         $list = new \Michcald\DummyClient\Form\Element();
         $list->setName('list')
             ->setLabel('Is list?')
+            ->setDescription('Whether the field will appear in the table or not')
             ->setType(\Michcald\DummyClient\Form\Element::TYPE_CHECKBOX);
         $this->addElement($list);
 
         $displayOrder = new \Michcald\DummyClient\Form\Element();
         $displayOrder->setName('display_order')
             ->setLabel('Display order')
+            ->setDescription('The order of the form element in the form')
             ->setType(\Michcald\DummyClient\Form\Element::TYPE_INTEGER)
             ->setOptions(array(
                 'min' => 1,
@@ -93,6 +98,5 @@ class Field extends \Michcald\DummyClient\Form
             ));
         $this->addElement($displayOrder);
     }
-
 
 }

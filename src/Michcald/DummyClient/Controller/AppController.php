@@ -18,7 +18,8 @@ class AppController extends \Michcald\DummyClient\Controller
         $page = (int)$this->getRequest()->getQueryParam('page', 1);
 
         $apps = $this->appDao->findAll(array(
-            'page' => $page
+            'page' => $page,
+            'limit' => \Michcald\DummyClient\Config::getInstance()->records_per_page,
         ));
         $content = $this->render('app/index.html.twig', array(
             'apps' => $apps

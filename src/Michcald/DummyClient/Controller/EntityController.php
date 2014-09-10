@@ -28,7 +28,13 @@ class EntityController extends \Michcald\DummyClient\Controller
         $repository = $this->repositoryDao->findOne($repositoryId);
 
         if (!$repository) {
-            throw new \Exception(sprintf('Repository not found: %d', $repositoryId));
+            return $this->forward(
+                '\Michcald\DummyClient\Controller\IndexController',
+                'notFoundAction',
+                array(
+                    'Repository not found'
+                )
+            );
         }
 
         $this->entityDao->setRepository($repository);
@@ -56,7 +62,8 @@ class EntityController extends \Michcald\DummyClient\Controller
         $entities = $this->entityDao->findAll(array(
             'page' => $page,
             'filters' => $filters,
-            'query' => $query ? $query : null
+            'query' => $query ? $query : null,
+            'limit' => \Michcald\DummyClient\Config::getInstance()->records_per_page,
         ));
 
         $content = $this->render('entity/index.html.twig', array(
@@ -80,7 +87,13 @@ class EntityController extends \Michcald\DummyClient\Controller
         $repository = $this->repositoryDao->findOne($repositoryId);
 
         if (!$repository) {
-            throw new \Exception(sprintf('Repository not found: %d', $repositoryId));
+            return $this->forward(
+                '\Michcald\DummyClient\Controller\IndexController',
+                'notFoundAction',
+                array(
+                    'Repository not found'
+                )
+            );
         }
 
         $this->entityDao->setRepository($repository);
@@ -143,12 +156,28 @@ class EntityController extends \Michcald\DummyClient\Controller
         $repository = $this->repositoryDao->findOne($repositoryId);
 
         if (!$repository) {
-            throw new \Exception(sprintf('Repository not found: %d', $repositoryId));
+            return $this->forward(
+                '\Michcald\DummyClient\Controller\IndexController',
+                'notFoundAction',
+                array(
+                    'Repository not found'
+                )
+            );
         }
 
         $this->entityDao->setRepository($repository);
 
         $entity = $this->entityDao->findOne($id);
+
+        if (!$entity) {
+            return $this->forward(
+                '\Michcald\DummyClient\Controller\IndexController',
+                'notFoundAction',
+                array(
+                    'Entity not found'
+                )
+            );
+        }
 
         $repositoryFields = $this->repositoryFieldDao->findAll(array(
             'limit' => 10000,
@@ -168,11 +197,7 @@ class EntityController extends \Michcald\DummyClient\Controller
 
         $form = new App\Form\Entity($repositoryFields->getElements());
 
-        if (!$entity) {
-            $this->addFlash('Entity not found', 'warning');
-        } else {
-            $form->handleModel($entity);
-        }
+        $form->handleModel($entity);
 
         $content = $this->render('entity/read.html.twig', array(
             'repository' => $repository,
@@ -193,7 +218,13 @@ class EntityController extends \Michcald\DummyClient\Controller
         $repository = $this->repositoryDao->findOne($repositoryId);
 
         if (!$repository) {
-            throw new \Exception(sprintf('Repository not found: %d', $repositoryId));
+            return $this->forward(
+                '\Michcald\DummyClient\Controller\IndexController',
+                'notFoundAction',
+                array(
+                    'Repository not found'
+                )
+            );
         }
 
         $this->entityDao->setRepository($repository);
@@ -217,7 +248,13 @@ class EntityController extends \Michcald\DummyClient\Controller
         $entity = $this->entityDao->findOne($id);
 
         if (!$entity) {
-            $this->addFlash('Entity not found', 'warning');
+            return $this->forward(
+                '\Michcald\DummyClient\Controller\IndexController',
+                'notFoundAction',
+                array(
+                    'Entity not found'
+                )
+            );
         }
 
         if ($this->getRequest()->isMethod('post')) {
@@ -252,7 +289,13 @@ class EntityController extends \Michcald\DummyClient\Controller
         $repository = $this->repositoryDao->findOne($repositoryId);
 
         if (!$repository) {
-            throw new \Exception(sprintf('Repository not found: %d', $repositoryId));
+            return $this->forward(
+                '\Michcald\DummyClient\Controller\IndexController',
+                'notFoundAction',
+                array(
+                    'Repository not found'
+                )
+            );
         }
 
         $this->entityDao->setRepository($repository);
@@ -260,7 +303,13 @@ class EntityController extends \Michcald\DummyClient\Controller
         $entity = $this->entityDao->findOne($id);
 
         if (!$entity) {
-            $this->addFlash('Entity not found', 'warning');
+            return $this->forward(
+                '\Michcald\DummyClient\Controller\IndexController',
+                'notFoundAction',
+                array(
+                    'Entity not found'
+                )
+            );
         }
 
         $repositoryFields = $this->repositoryFieldDao->findAll(array(

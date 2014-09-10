@@ -18,7 +18,8 @@ class RepositoryController extends \Michcald\DummyClient\Controller
         $page = (int)$this->getRequest()->getQueryParam('page', 1);
 
         $repositories = $this->repositoryDao->findAll(array(
-            'page' => $page
+            'page' => $page,
+            'limit' => \Michcald\DummyClient\Config::getInstance()->records_per_page,
         ));
         $content = $this->render('repository/index.html.twig', array(
             'repositories' => $repositories
