@@ -30,7 +30,8 @@
                 {% endfor %}
                 <a href="{{ url('dummy_client.entity.index', {
                     repositoryId: repository.getId,
-                    filters: tmpCurrentFilters
+                    filters: tmpCurrentFilters,
+                    query: query
                 }) }}">All</a>
             </li>
             <li class="divider"></li>
@@ -43,7 +44,8 @@
                                 field: field.getName,
                                 value: entity.getId
                             }
-                        ]|merge(tmpCurrentFilters)
+                        ]|merge(tmpCurrentFilters),
+                        query: query
                     }) }}">
                         {{ entity|printMainLabel }}
                     </a>

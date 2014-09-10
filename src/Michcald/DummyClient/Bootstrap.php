@@ -135,11 +135,7 @@ abstract class Bootstrap
 
         $response = $restClient->get('whoami');
 
-        if ($response->getStatusCode() == 200) {
-            $whoami = json_decode($response->getContent(), true);
-
-            \Michcald\DummyClient\WhoAmI::getInstance()->init($whoami);
-        } else {
+        if (!$response->getStatusCode()) {
             $config = Config::getInstance();
 
             $logger = \Michcald\Mvc\Container::get('logger');
@@ -150,6 +146,13 @@ abstract class Bootstrap
             ));
 
             throw new \Exception(sprintf('Cannot connect to dummy'));
+        }
+
+        if ($response->getStatusCode() == 200) {
+            $whoami = json_decode($response->getContent(), true);
+            \Michcald\DummyClient\WhoAmI::getInstance()->init($whoami);
+        } else {
+            throw new \Exception(sprintf('Can connect to dummy but some problems'));
         }
     }
 

@@ -35,7 +35,7 @@ class EntityController extends \Michcald\DummyClient\Controller
 
         $page = (int)$this->getRequest()->getQueryParam('page', 1);
 
-        $repositoryFields = $this->repositoryFieldDao->findAll(array(
+        $params = array(
             'limit' => 10000,
             'filters' => array(
                 array(
@@ -49,11 +49,14 @@ class EntityController extends \Michcald\DummyClient\Controller
                     'direction' => 'asc'
                 )
             )
-        ));
+        );
+
+        $repositoryFields = $this->repositoryFieldDao->findAll($params);
 
         $entities = $this->entityDao->findAll(array(
             'page' => $page,
             'filters' => $filters,
+            'query' => $query ? $query : null
         ));
 
         $content = $this->render('entity/index.html.twig', array(

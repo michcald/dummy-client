@@ -1,7 +1,17 @@
 <form action="{{ url }}" method="get">
-    <input type="hidden" name="filters[]" value="{{ hiddens|url_encode() }}" />
+    {% if hiddens|length > 0 %}
+        {% for hidden in hiddens %}
+            <input type="hidden" name="filters[{{ loop.index }}][field]" value="{{ hidden.field }}" />
+            <input type="hidden" name="filters[{{ loop.index }}][value]" value="{{ hidden.value }}" />
+        {% endfor %}
+    {% endif %}
     <div class="input-group container">
-        <input type="text" class="form-control" value="{{ query }}">
+        {% if query is defined %}
+            {% set value = query %}
+        {% else %}
+            {% set value = '' %}
+        {% endif %}
+        <input type="text" name="query" class="form-control" value="{{ value }}">
         <span class="input-group-btn">
             <button class="btn btn-default" type="submit">
                 <span class="glyphicon glyphicon-search"></span>
