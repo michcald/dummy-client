@@ -14,7 +14,9 @@
         <div class="error-details">
             <p>Sorry, an error has occured!</p>
             {% if env() == 'dev' %}
-                {{ alert(dump(args), 'danger') }}
+                {% for arg in args %}
+                    {{ alert(arg, 'danger') }}
+                {% endfor %}
             {% endif %}
         </div>
         <div class="error-actions">

@@ -22,7 +22,7 @@ class IndexController extends \Michcald\DummyClient\Controller
 
         $this->getLogger()->addError('General error', $args);
 
-        $content = $this->render('index/wrror.html.twig', array(
+        $content = $this->render('index/error.html.twig', array(
             'args' => $args
         ));
 
