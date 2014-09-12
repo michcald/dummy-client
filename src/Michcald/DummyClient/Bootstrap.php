@@ -151,7 +151,14 @@ abstract class Bootstrap
         $config = \Michcald\DummyClient\Config::getInstance();
 
         if (isset($config->dummy)) {
-            $rest = new RestClient($config->dummy['endpoint']);
+
+            $endpoint = $config->dummy['endpoint'];
+
+            if ($endpoint{strlen($endpoint)-1} != '/') {
+                $endpoint .= '/';
+            }
+
+            $rest = new RestClient($endpoint);
 
             $basic = new \Michcald\RestClient\Auth\Basic();
             $basic->setUsername($config->dummy['key']['public'])

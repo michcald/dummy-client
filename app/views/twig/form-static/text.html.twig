@@ -1,1 +1,5 @@
-{{ element.getValue }}
+{% if element.getValue is iterable %}
+    {{ element.getValue|json_encode()|nl2br }}
+{% else %}
+    {{ element.getValue|nl2br }}
+{% endif %}

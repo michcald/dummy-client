@@ -4,22 +4,6 @@ namespace Michcald\DummyClient\Form;
 
 class Element
 {
-    const TYPE_TEXT = 'text';
-    const TYPE_TEXTAREA = 'textarea';
-    const TYPE_SELECT = 'select';
-    const TYPE_HIDDEN = 'hidden';
-    const TYPE_CHECKBOX = 'checkbox';
-    const TYPE_FILE = 'file';
-    const TYPE_INTEGER = 'integer';
-    const TYPE_FOREIGN = 'foreign';
-    const TYPE_FLOAT = 'float';
-    const TYPE_TIMESTAMP = 'timestamp';
-    const TYPE_URL = 'url';
-    const TYPE_DATE = 'date';
-    const TYPE_COLOR = 'color';
-    const TYPE_EMAIL = 'email';
-    const TYPE_RANGE = 'range';
-
     private $name;
 
     private $label;
@@ -32,7 +16,7 @@ class Element
 
     private $disabled = false;
 
-    private $type = self::TYPE_TEXT;
+    private $type = 'string';
 
     private $options = array();
 

@@ -23,6 +23,11 @@
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{{ bower('bootstrap/dist/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/admin.js') }}"></script>
+        
+        {# for summernote html editor #}
+        <link href="{{ asset('css/summernote.css') }}" rel="stylesheet">
+        <link href="{{ bower('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+        <script src="{{ asset('js/summernote.min.js') }}"></script>
     </head>
     <body>
 
@@ -37,6 +42,8 @@
                 {% block addButton %}{% endblock %}
             </div>
             <div class="clearfix"></div>
+            
+            {{ flashMessenger() }}
             
             {% block page %}{% endblock %}
         </div>

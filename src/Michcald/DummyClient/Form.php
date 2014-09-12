@@ -37,7 +37,7 @@ class Form
 
             if (array_key_exists($name, $data)) {
 
-                if ($element->getType() == Form\Element::TYPE_FILE) {
+                if ($element->getType() == 'file') {
 
                     if (isset($data[$name]['tmp_name']) && $data[$name]['tmp_name']) {
                         $dir = dirname($data[$name]['tmp_name']);

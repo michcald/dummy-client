@@ -1,0 +1,26 @@
+<textarea
+    class="form-control wysiwyg"
+    name="{{ element.getName }}"
+    id="{{ element.getName }}"
+    {% if element.getDisabled %}disabled{% endif %}
+    {% for attr,value in element.getOptions %}
+        {{ attr }}="{{ value }}"
+    {% endfor %}
+    >{{ element.getValue }}</textarea>
+    
+<script>
+    $(function() {
+        $('.wysiwyg').summernote({
+            height: 300,     // set editor height
+            minHeight: null, // set minimum height of editor
+            maxHeight: null, // set maximum height of editor
+            toolbar: [
+                //[groupname, [button list]]
+                ['style', ['bold', 'italic', 'underline']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link']],
+                ['misc', ['fullscreen','codeview','help']],
+            ]
+        });
+    });
+</script>

@@ -1,6 +1,7 @@
 {
     "name": "dummy-client",
     "dependencies": {
-        "bootstrap": ">= 3.2.0"
+        "bootstrap": ">= 3.2.0",
+        "font-awesome": ">= 4.2.0"
     }
 }
