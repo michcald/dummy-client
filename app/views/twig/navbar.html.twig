@@ -47,19 +47,21 @@
                                 Repositories
                             </a>
                         </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <span class="glyphicon glyphicon-inbox"></span>
-                                Sandbox
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('dummy_client.log.index') }}">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                Logs
-                            </a>
-                        </li>
+                        {% if env() == 'dev' %}
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-inbox"></span>
+                                    Sandbox
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('dummy_client.log.index') }}">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                    Logs
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </li>
             </ul>

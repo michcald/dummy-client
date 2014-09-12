@@ -10,17 +10,28 @@
 {% endblock %}
 
 {% block page %}
-
-    <h3 class="text-center">
-        Environment
-        <small>{{ env() }}</small>
-    </h3>
     
-    {% if files|length == 0 %}
+    <h4>Prod logs</h4>
+    {% if prodFiles|length == 0 %}
         {{ alert('No results', 'info') }}
     {% else %}
         <ul>
-            {% for file in files %}
+            {% for file in prodFiles %}
+                <li>
+                    <a href="{{ url('dummy_client.log.read', { filename: file }) }}">
+                        {{ file }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    <h4>Dev logs</h4>
+    {% if devFiles|length == 0 %}
+        {{ alert('No results', 'info') }}
+    {% else %}
+        <ul>
+            {% for file in devFiles %}
                 <li>
                     <a href="{{ url('dummy_client.log.read', { filename: file }) }}">
                         {{ file }}

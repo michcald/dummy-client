@@ -10,7 +10,13 @@ class InstallController extends \Michcald\DummyClient\Controller
         $parametersFilename = realpath($filename);
 
         if ($parametersFilename) {
-            throw new \Exception('System already installed');
+            return $this->forward(
+                '\Michcald\DummyClient\Controller\IndexController',
+                'errorAction',
+                array(
+                    'The system is already installed'
+                )
+            );
         }
 
         if ($this->getRequest()->isMethod('post')) {
@@ -31,14 +37,8 @@ class InstallController extends \Michcald\DummyClient\Controller
 
             $response = $rest->get('whoami');
 
-            //if ($response->getStatusCode() == 200) {}
-
-            $this->checkAndCreateDir($data['log_dir']);
-
-            $twigCacheDir = null;
-            if ($data['twig_cache_dir']) {
-                $this->checkAndCreateDir($data['twig_cache_dir']);
-                $twigCacheDir = $data['twig_cache_dir'];
+            if ($response->getStatusCode() != 200) {
+                var_dump($response);die;
             }
 
             $array = array(
@@ -49,24 +49,18 @@ class InstallController extends \Michcald\DummyClient\Controller
                         'private' => $data['dummy_prik'],
                     )
                 ),
-                'twig' => array(
-                    'templates' => $data['twig_templates_dir'],
-                    'cache' => $twigCacheDir,
-                ),
-                'log' => $data['log_dir'],
             );
 
             $yml = \Symfony\Component\Yaml\Yaml::dump($array);
 
             file_put_contents($filename, $yml);
 
-
-            die('ok');
             $content = $this->render(
                 'install/done.html.twig'
             );
 
         } else {
+
             $content = $this->render(
                 'install/index.html.twig'
             );
@@ -77,19 +71,4 @@ class InstallController extends \Michcald\DummyClient\Controller
             ->setContent($content);
         return $response;
     }
-
-    private function checkAndCreateDir($pathFromBaseDir)
-    {
-        $path = sprintf(
-            '%s/%s',
-            __DIR__ . '/../../../..',
-            $pathFromBaseDir
-        );
-
-        if (!realpath($path)) {
-            mkdir($path, 0777);
-        }
-    }
-
-
 }

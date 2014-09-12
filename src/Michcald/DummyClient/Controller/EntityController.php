@@ -30,7 +30,7 @@ class EntityController extends \Michcald\DummyClient\Controller
         if (!$repository) {
             return $this->forward(
                 '\Michcald\DummyClient\Controller\IndexController',
-                'notFoundAction',
+                'errorAction',
                 array(
                     'Repository not found'
                 )
@@ -89,7 +89,7 @@ class EntityController extends \Michcald\DummyClient\Controller
         if (!$repository) {
             return $this->forward(
                 '\Michcald\DummyClient\Controller\IndexController',
-                'notFoundAction',
+                'errorAction',
                 array(
                     'Repository not found'
                 )
@@ -158,7 +158,7 @@ class EntityController extends \Michcald\DummyClient\Controller
         if (!$repository) {
             return $this->forward(
                 '\Michcald\DummyClient\Controller\IndexController',
-                'notFoundAction',
+                'errorAction',
                 array(
                     'Repository not found'
                 )
@@ -172,7 +172,7 @@ class EntityController extends \Michcald\DummyClient\Controller
         if (!$entity) {
             return $this->forward(
                 '\Michcald\DummyClient\Controller\IndexController',
-                'notFoundAction',
+                'errorAction',
                 array(
                     'Entity not found'
                 )
@@ -220,7 +220,7 @@ class EntityController extends \Michcald\DummyClient\Controller
         if (!$repository) {
             return $this->forward(
                 '\Michcald\DummyClient\Controller\IndexController',
-                'notFoundAction',
+                'errorAction',
                 array(
                     'Repository not found'
                 )
@@ -250,7 +250,7 @@ class EntityController extends \Michcald\DummyClient\Controller
         if (!$entity) {
             return $this->forward(
                 '\Michcald\DummyClient\Controller\IndexController',
-                'notFoundAction',
+                'errorAction',
                 array(
                     'Entity not found'
                 )
@@ -291,7 +291,7 @@ class EntityController extends \Michcald\DummyClient\Controller
         if (!$repository) {
             return $this->forward(
                 '\Michcald\DummyClient\Controller\IndexController',
-                'notFoundAction',
+                'errorAction',
                 array(
                     'Repository not found'
                 )
@@ -305,7 +305,7 @@ class EntityController extends \Michcald\DummyClient\Controller
         if (!$entity) {
             return $this->forward(
                 '\Michcald\DummyClient\Controller\IndexController',
-                'notFoundAction',
+                'errorAction',
                 array(
                     'Entity not found'
                 )

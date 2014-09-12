@@ -16,6 +16,22 @@ class IndexController extends \Michcald\DummyClient\Controller
         return $response;
     }
 
+    public function errorAction()
+    {
+        $args = func_get_args();
+
+        $this->getLogger()->addError('General error', $args);
+
+        $content = $this->render('index/wrror.html.twig', array(
+            'args' => $args
+        ));
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html')
+            ->setContent($content);
+        return $response;
+    }
+
     public function notFoundAction($any)
     {
         $this->getLogger()->addNotice('Page not found', array(

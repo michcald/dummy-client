@@ -10,11 +10,11 @@
 
     <div class="error-template">
         <h1>Oops!</h1>
-        <h2>404 Not Found</h2>
+        <h2>500 Erorr</h2>
         <div class="error-details">
-            <p>Sorry, an error has occured, Requested page not found!</p>
+            <p>Sorry, an error has occured!</p>
             {% if env() == 'dev' %}
-                {{ alert(message, 'warning') }}
+                {{ alert(dump(args), 'danger') }}
             {% endif %}
         </div>
         <div class="error-actions">

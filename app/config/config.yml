@@ -1,0 +1,9 @@
+twig:
+    templates: app/views
+    cache: app/cache/twig
+
+log:
+    dir: app/logs
+    level: debug
+
+records_per_page: 30

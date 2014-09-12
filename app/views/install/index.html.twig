@@ -5,46 +5,29 @@
         Dummy client installation
     </h1>
     <form role="form" method="post">
-        <h2>
-            Dummy API configuration
-        </h2>
         <div class="well">
             <div class="form-group">
                 <label for="dummy_endpoint">Endpoint base URL</label>
-                <input type="url" class="form-control" name="dummy_endpoint" id="dummy_endpoint" placeholder="Enter URL" />
+                <input type="url" class="form-control" name="dummy_endpoint" id="dummy_endpoint" placeholder="Enter URL" required />
             </div>
             <div class="form-group">
                 <label for="dummy_pubk">Public key</label>
-                <input type="password" class="form-control" name="dummy_pubk" id="dummy_pubk" />
+                <input type="password" class="form-control" name="dummy_pubk" id="dummy_pubk" required />
+                <p class="small">
+                    Default is: dummy_app
+                </p>
             </div>
             <div class="form-group">
                 <label for="dummy_prik">Private key</label>
-                <input type="password" class="form-control" name="dummy_prik" id="dummy_prik" />
+                <input type="password" class="form-control" name="dummy_prik" id="dummy_prik" required />
+                <p class="small">
+                    Default is: dummy_app
+                </p>
             </div>
         </div>
-        <h2>
-            Twig configuration
-        </h2>
-        <div class="well">
-            <div class="form-group">
-                <label for="twig_templates_dir">Templates dir</label>
-                <input type="text" class="form-control" name="twig_templates_dir" id="twig_templates_dir" value="app/views" />
-            </div>
-            <div class="form-group">
-                <label for="twig_cache_enabled">Cache dir</label>
-                <input type="text" class="form-control" name="twig_cache_dir" id="twig_cache_dir" value="app/cache" />
-            </div>
-        </div>
-        <h2>
-            General
-        </h2>
-        <div class="well">
-            <div class="form-group">
-                <label for="log_dir">Logs dir</label>
-                <input type="text" class="form-control" name="log_dir" id="log_dir" value="app/logs" />
-            </div>
-        </div>
-        <button type="submit" class="btn btn-default">Install</button>
+        <button type="submit" class="btn btn-primary">
+            Install
+        </button>
     </form>
 
 {% endblock %}

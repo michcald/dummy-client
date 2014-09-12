@@ -23,68 +23,92 @@ abstract class Bootstrap
         $dir = realpath(__DIR__ . '/../../../app/config');
 
         $config = \Michcald\DummyClient\Config::getInstance();
-        $config->loadDir($dir);
+
+        if (file_exists(sprintf('%s/parameters.yml', $dir))) {
+            $config->loadFile(sprintf('%s/parameters.yml', $dir));
+        }
+
+        $config->loadFile(sprintf('%s/config.yml', $dir));
+        $config->loadFile(sprintf('%s/routes.yml', $dir));
     }
 
     private static function initEventListeners()
     {
         $mvc = \Michcald\Mvc\Container::get('dummy_client.mvc');
 
-        //$listener = new Event\Listener\DummyAuth();
-        //$mvc->addEventSubscriber($listener);
+        $listener = new Event\Listener\Install();
+        $mvc->addEventSubscriber($listener);
     }
 
     private static function initLog()
     {
-        $logger = new Logger();
-
         $config = Config::getInstance();
 
-        $dir = __DIR__ . '/../../../' . $config->log['dir'];
+        if (isset($config->log)) {
 
-        $prodLogDir = $dir . '/prod/';
-        $devLogDir = $dir . '/dev/';
+            $logger = new Logger();
 
-        if (!is_dir($devLogDir)) {
-            mkdir($devLogDir);
+            $dir = __DIR__ . '/../../../' . $config->log['dir'];
+
+            $prodLogDir = $dir . '/prod/';
+            $devLogDir = $dir . '/dev/';
+
+            if (!is_dir($devLogDir)) {
+                mkdir($devLogDir);
+            }
+
+            if (!is_dir($prodLogDir)) {
+                mkdir($prodLogDir);
+            }
+
+            switch ($config->log['level']) {
+                case 'debug':
+                    $level = \Monolog\Logger::DEBUG;
+                    break;
+                case 'info':
+                    $level = \Monolog\Logger::INFO;
+                    break;
+                case 'warning':
+                    $level = \Monolog\Logger::WARNING;
+                    break;
+                case 'error':
+                    $level = \Monolog\Logger::ERROR;
+                    break;
+                case 'critical':
+                    $level = \Monolog\Logger::CRITICAL;
+                    break;
+                case 'alert':
+                    $level = \Monolog\Logger::ALERT;
+                    break;
+                case 'emergency':
+                    $level = \Monolog\Logger::EMERGENCY;
+                    break;
+            }
+
+            $log = new \Monolog\Logger('prod');
+            $log->pushHandler(
+                new \Monolog\Handler\RotatingFileHandler(
+                    $prodLogDir . 'prod.log',
+                    10,
+                    $level
+                )
+            );
+
+            $logger->setProdLogger($log);
+
+            $log = new \Monolog\Logger('dev');
+            $log->pushHandler(
+                new \Monolog\Handler\RotatingFileHandler(
+                    $devLogDir . 'dev.log',
+                    10,
+                    \Monolog\Logger::DEBUG
+                )
+            );
+
+            $logger->setDevLogger($log);
+
+            \Michcald\Mvc\Container::add('logger', $logger);
         }
-
-        if (!is_dir($prodLogDir)) {
-            mkdir($prodLogDir);
-        }
-
-        switch ($config->log['level']) {
-            case 'debug':
-                $level = \Monolog\Logger::DEBUG;
-                break;
-            case 'warning':
-                $level = \Monolog\Logger::WARNING;
-                break;
-        }
-
-        $log = new \Monolog\Logger('prod');
-        $log->pushHandler(
-            new \Monolog\Handler\RotatingFileHandler(
-                $prodLogDir . 'prod.log',
-                10,
-                $level
-            )
-        );
-
-        $logger->setProdLogger($log);
-
-        $log = new \Monolog\Logger('dev');
-        $log->pushHandler(
-            new \Monolog\Handler\RotatingFileHandler(
-                $devLogDir . 'dev.log',
-                10,
-                \Monolog\Logger::DEBUG
-            )
-        );
-
-        $logger->setDevLogger($log);
-
-        \Michcald\Mvc\Container::add('logger', $logger);
     }
 
     private static function initRoutes()
@@ -126,42 +150,46 @@ abstract class Bootstrap
     {
         $config = \Michcald\DummyClient\Config::getInstance();
 
-        $rest = new RestClient($config->dummy['endpoint']);
+        if (isset($config->dummy)) {
+            $rest = new RestClient($config->dummy['endpoint']);
 
-        $basic = new \Michcald\RestClient\Auth\Basic();
-        $basic->setUsername($config->dummy['key']['public'])
-            ->setPassword($config->dummy['key']['private']);
+            $basic = new \Michcald\RestClient\Auth\Basic();
+            $basic->setUsername($config->dummy['key']['public'])
+                ->setPassword($config->dummy['key']['private']);
 
-        $rest->setAuth($basic);
+            $rest->setAuth($basic);
 
-        \Michcald\Mvc\Container::add('dummy_client.rest_client', $rest);
+            \Michcald\Mvc\Container::add('dummy_client.rest_client', $rest);
+        }
     }
 
     private static function initWhoAmI()
     {
         /* @var $restClient \Michcald\DummyClient\RestClient */
-        $restClient = \Michcald\Mvc\Container::get('dummy_client.rest_client');
+        $restClient = \Michcald\Mvc\Container::get('dummy_client.rest_client', false);
 
-        $response = $restClient->get('whoami');
+        if ($restClient) {
+            $response = $restClient->get('whoami');
 
-        if (!$response->getStatusCode()) {
-            $config = Config::getInstance();
+            if (!$response->getStatusCode()) {
+                $config = Config::getInstance();
 
-            $logger = \Michcald\Mvc\Container::get('logger');
-            $logger->addEmergency('Cannot connect to dummy', array(
-                'endpoint' => $config->dummy['endpoint'],
-                'public_key' => $config->dummy['key']['public'],
-                'private_key' => $config->dummy['key']['private'],
-            ));
+                $logger = \Michcald\Mvc\Container::get('logger');
+                $logger->addEmergency('Cannot connect to dummy', array(
+                    'endpoint' => $config->dummy['endpoint'],
+                    'public_key' => $config->dummy['key']['public'],
+                    'private_key' => $config->dummy['key']['private'],
+                ));
 
-            throw new \Exception(sprintf('Cannot connect to dummy'));
-        }
+                throw new \Exception(sprintf('Cannot connect to dummy'));
+            }
 
-        if ($response->getStatusCode() == 200) {
-            $whoami = json_decode($response->getContent(), true);
-            \Michcald\DummyClient\WhoAmI::getInstance()->init($whoami);
-        } else {
-            throw new \Exception(sprintf('Can connect to dummy but some problems'));
+            if ($response->getStatusCode() == 200) {
+                $whoami = json_decode($response->getContent(), true);
+                \Michcald\DummyClient\WhoAmI::getInstance()->init($whoami);
+            } else {
+                throw new \Exception(sprintf('Can connect to dummy but some problems'));
+            }
         }
     }
 
@@ -169,27 +197,29 @@ abstract class Bootstrap
     {
         $config = \Michcald\DummyClient\Config::getInstance();
 
-        $options = array();
+        if (isset($config->twig)) {
+            $options = array();
 
-        $templates = __DIR__ . '/../../../' . $config->twig['templates'];
+            $templates = __DIR__ . '/../../../' . $config->twig['templates'];
 
-        if (ENV == 'prod') {
-            $options['cache'] = __DIR__ . '/../../../' . $config->twig['cache'];
+            if (ENV == 'prod') {
+                $options['cache'] = __DIR__ . '/../../../' . $config->twig['cache'];
+            }
+
+            if (ENV == 'dev') {
+                $options['debug'] = true;
+            }
+
+            $loader = new \Twig_Loader_Filesystem($templates);
+            $twig = new \Twig_Environment($loader, $options);
+
+            $twig->addExtension(new Twig\Util());
+
+            if (ENV == 'dev') {
+                $twig->addExtension(new \Twig_Extension_Debug());
+            }
+
+            \Michcald\Mvc\Container::add('dummy_client.twig', $twig);
         }
-
-        if (ENV == 'dev') {
-            $options['debug'] = true;
-        }
-
-        $loader = new \Twig_Loader_Filesystem($templates);
-        $twig = new \Twig_Environment($loader, $options);
-
-        $twig->addExtension(new Twig\Util());
-
-        if (ENV == 'dev') {
-            $twig->addExtension(new \Twig_Extension_Debug());
-        }
-
-        \Michcald\Mvc\Container::add('dummy_client.twig', $twig);
     }
 }

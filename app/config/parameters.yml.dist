@@ -3,13 +3,3 @@ dummy:
     key:
         public: dummy_app
         private: dummy_app
-
-records_per_page: 30
-
-twig:
-    templates: app/views
-    cache: app/cache/twig
-
-monolog:
-    dir: app/logs
-    level: debug
