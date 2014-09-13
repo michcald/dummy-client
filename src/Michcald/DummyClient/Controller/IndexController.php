@@ -16,6 +16,34 @@ class IndexController extends \Michcald\DummyClient\Controller
         return $response;
     }
 
+    public function emptyCacheAction()
+    {
+        $this->getLogger()->addNotice('Cache emptied');
+
+        $config = \Michcald\DummyClient\Config::getInstance();
+
+        $dir = __DIR__ . '/../../../../' . $config->twig['cache'];
+
+        $this->deleteAll($dir);
+
+        $this->addFlash('Cache emptied successfully', 'success');
+
+        $this->redirect('dummy_client.index.index');
+    }
+
+    private function deleteAll($dir)
+    {
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::CHILD_FIRST
+        );
+
+        foreach ($files as $fileinfo) {
+            $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+            $todo($fileinfo->getRealPath());
+        }
+    }
+
     public function errorAction()
     {
         $args = func_get_args();

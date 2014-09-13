@@ -28,6 +28,14 @@ routes:
       controller: \Michcald\DummyClient\Controller\IndexController
       action: indexAction
     
+    - name: dummy_client.index.empty_cache
+      methods: ["GET"]
+      uri:
+          pattern: empty-cache
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\IndexController
+      action: emptyCacheAction
+    
     # log
     
     - name: dummy_client.log.index
