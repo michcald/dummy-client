@@ -10,6 +10,14 @@ routes:
       controller: \Michcald\DummyClient\Controller\InstallController
       action: indexAction
 
+    - name: dummy_client.install.uninstall
+      methods: ["GET","POST"]
+      uri:
+          pattern: uninstall
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\InstallController
+      action: uninstallAction
+
     # index
     
     - name: dummy_client.index.index

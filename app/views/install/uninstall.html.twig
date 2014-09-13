@@ -1,0 +1,29 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Uninstall'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+
+    <div class="alert alert-danger">
+        <p>
+            Do you really want to uninstall this application?
+        </p>
+        <p>
+            Warning: this procedure will only uninstall this 
+            application. Data will not be deleted.
+        </p>
+        <br /><br />
+        <form method="post">
+            <button type="submit" class="btn btn-danger">
+                Uninstall
+            </button>
+        </form>
+    </div>
+    
+{% endblock %}

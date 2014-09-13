@@ -71,4 +71,36 @@ class InstallController extends \Michcald\DummyClient\Controller
             ->setContent($content);
         return $response;
     }
+
+    public function uninstallAction()
+    {
+        if ($this->getRequest()->isMethod('post')) {
+            $file = __DIR__ . '/../../../../app/config/parameters.yml';
+
+            $filePath = realpath($file);
+
+            if ($filePath) {
+                unlink($filePath);
+                $this->redirect('dummy_client.index.index');
+            }
+
+            return $this->forward(
+                '\Michcald\DummyClient\Controller\IndexController',
+                'errorAction',
+                array(
+                    'Something went wrong during uninstall'
+                )
+            );
+
+        } else {
+            $content = $this->render(
+                'install/uninstall.html.twig'
+            );
+        }
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html')
+            ->setContent($content);
+        return $response;
+    }
 }
