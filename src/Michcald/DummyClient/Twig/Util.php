@@ -39,6 +39,7 @@ class Util extends \Twig_Extension
             new \Twig_SimpleFunction('flashMessenger', array($this, 'flashMessenger')),
             new \Twig_SimpleFunction('getForeignOptions', array($this, 'getForeignOptions')),
             new \Twig_SimpleFunction('restDebug', array($this, 'restDebug')),
+            new \Twig_SimpleFunction('currentUser', array($this, 'currentUser')),
             new \Twig_SimpleFunction('env', array($this, 'env')),
         );
     }
@@ -46,6 +47,14 @@ class Util extends \Twig_Extension
     public function env()
     {
         return ENV;
+    }
+
+    public function currentUser()
+    {
+        $session = \Michcald\DummyClient\Session::getInstance();
+        $session->setNamespace('default');
+
+        return $session->auth;
     }
 
     public function bower($filename)

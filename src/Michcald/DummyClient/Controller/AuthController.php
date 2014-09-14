@@ -23,13 +23,23 @@ class AuthController extends \Michcald\DummyClient\Controller
             foreach ($config->users as $user) {
                 if ($user['username'] == $username) {
                     if ($user['password'] == sha1($password)) {
-                        $session->auth = true;
+                        $session->auth = $username;
+
+                        $this->getLogger()->addInfo(sprintf('User %s signed in', $username));
+
                         $this->redirect('dummy_client.index.index');
                     } else {
                         break;
                     }
                 }
             }
+
+            $this->addFlash('Invalid sign in', 'danger');
+
+            $this->getLogger()->addWarning(
+                sprintf('Wrong sign in for user %s', $username),
+                $this->getRequest()->getData()
+            );
         }
 
         $content = $this->render('auth/sign-in.html.twig');
@@ -44,6 +54,8 @@ class AuthController extends \Michcald\DummyClient\Controller
     {
         $session = \Michcald\DummyClient\Session::getInstance();
         $session->setNamespace('default');
+
+        $this->getLogger()->addInfo(sprintf('User %s signed out', $session->auth));
 
         $session->unsetAll();
 
