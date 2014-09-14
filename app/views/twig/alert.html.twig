@@ -7,7 +7,7 @@
 {% elseif type == 'warning' %}
     {% set class = 'alert-warning' %}
     {% set icon = 'warning-sign' %}
-{% elseif type == 'danger' %}
+{% elseif type == 'danger' or type == 'error' %}
     {% set class = 'alert-danger' %}
     {% set icon = 'remove' %}
 {% else %}

@@ -28,6 +28,10 @@ abstract class Bootstrap
             $config->loadFile(sprintf('%s/parameters.yml', $dir));
         }
 
+        if (file_exists(sprintf('%s/users.yml', $dir))) {
+            $config->loadFile(sprintf('%s/users.yml', $dir));
+        }
+
         $config->loadFile(sprintf('%s/config.yml', $dir));
         $config->loadFile(sprintf('%s/routes.yml', $dir));
     }
@@ -37,6 +41,9 @@ abstract class Bootstrap
         $mvc = \Michcald\Mvc\Container::get('dummy_client.mvc');
 
         $listener = new Event\Listener\Install();
+        $mvc->addEventSubscriber($listener);
+
+        $listener = new Event\Listener\Auth();
         $mvc->addEventSubscriber($listener);
     }
 

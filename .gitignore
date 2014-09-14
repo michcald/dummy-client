@@ -2,6 +2,7 @@
 composer.phar
 vendor/
 app/config/parameters.yml
+app/config/users.yml
 app/cache/*
 app/logs/*
 pub/bower_components

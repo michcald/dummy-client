@@ -55,6 +55,20 @@ class InstallController extends \Michcald\DummyClient\Controller
 
             file_put_contents($filename, $yml);
 
+            // install users
+            $filename = __DIR__ . '/../../../../app/config/users.yml';
+
+            $yml = \Symfony\Component\Yaml\Yaml::dump(array(
+                'users' => array(
+                    array(
+                        'username' => $data['user_username'],
+                        'password' => sha1($data['user_password'])
+                    )
+                )
+            ));
+
+            file_put_contents($filename, $yml);
+
             $content = $this->render(
                 'install/done.html.twig'
             );
@@ -81,6 +95,11 @@ class InstallController extends \Michcald\DummyClient\Controller
 
             if ($filePath) {
                 unlink($filePath);
+
+                unlink(__DIR__ . '/../../../../app/config/users.yml');
+
+                \Michcald\DummyClient\Session::getInstance()->unsetAll();
+
                 $this->redirect('dummy_client.index.index');
             }
 

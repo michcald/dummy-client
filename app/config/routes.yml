@@ -18,6 +18,52 @@ routes:
       controller: \Michcald\DummyClient\Controller\InstallController
       action: uninstallAction
 
+    # auth
+    
+    - name: dummy_client.auth.signin
+      methods: ["GET","POST"]
+      uri:
+          pattern: signin
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\AuthController
+      action: signInAction
+
+    - name: dummy_client.auth.signout
+      methods: ["GET"]
+      uri:
+          pattern: signout
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\AuthController
+      action: signOutAction
+
+    # users
+
+    - name: dummy_client.user.index
+      methods: ["GET"]
+      uri:
+          pattern: users
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\UserController
+      action: indexAction
+
+    - name: dummy_client.user.create
+      methods: ["GET","POST"]
+      uri:
+          pattern: users/create
+          requirements: []
+      controller: \Michcald\DummyClient\Controller\UserController
+      action: createAction
+
+    - name: dummy_client.user.delete
+      methods: ["GET"]
+      uri:
+          pattern: users/{username}/delete
+          requirements:
+              - param: username
+                value: "[a-z0-9]*"
+      controller: \Michcald\DummyClient\Controller\UserController
+      action: deleteAction
+
     # index
     
     - name: dummy_client.index.index
