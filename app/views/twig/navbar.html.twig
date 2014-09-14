@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 {% for repo in whoAmI().getReadableRepositories %}
-                <li>
+                <li{% if currentRepository is defined and currentRepository.getName == repo.getName %} class="active"{% endif %}>
                     <a href="{{ url('dummy_client.entity.index', {
                         repositoryId: repo.getId
                     }) }}">

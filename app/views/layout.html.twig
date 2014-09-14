@@ -30,8 +30,9 @@
         <script src="{{ asset('js/summernote.min.js') }}"></script>
     </head>
     <body>
-
-        {{ navbar() }}
+        {% if repository is defined %}
+            {{ navbar(repository) }}
+        {% endif %}
         
         <div class="container">
             

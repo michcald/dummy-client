@@ -1,1 +1,3 @@
-{{ element.getValue|date('d/m/Y') }}
+{% if element.getValue %}
+    {{ element.getValue|date('d/m/Y') }}
+{% endif %}

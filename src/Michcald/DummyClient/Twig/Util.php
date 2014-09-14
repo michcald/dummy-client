@@ -274,11 +274,16 @@ class Util extends \Twig_Extension
         return \Michcald\DummyClient\WhoAmI::getInstance();
     }
 
-    public function navbar()
+    public function navbar(\Michcald\DummyClient\App\Model\Repository $repository = null)
     {
         $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
 
-        echo $twig->render('twig/navbar.html.twig');
+        echo $twig->render(
+            'twig/navbar.html.twig',
+            array(
+                'currentRepository' => $repository
+            )
+        );
     }
 
     public function restDebug()
