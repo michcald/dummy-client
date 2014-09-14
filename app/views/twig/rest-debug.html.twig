@@ -3,6 +3,7 @@
 <div class="container">
     <div class="col-md-12">
         {% for call in calls %}
+            <h5>Call #{{ loop.index }} - {{ call.time }} seconds</h5>
             <div class="well" style="overflow-x: auto">
                 <pre>{{ call.method|upper }} {{ call.url }}</pre>
                 <p>

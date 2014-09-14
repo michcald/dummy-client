@@ -36,7 +36,11 @@ class RestClient extends \Michcald\RestClient\Client
         $params = json_encode($params, JSON_NUMERIC_CHECK);
         $params = json_decode($params, true);
 
+        $timeStart = $this->microtimeFloat();
+
         $response = parent::call($method, $url, $params);
+
+        $timeEnd = $this->microtimeFloat();
 
         if ($response->getStatusCode() == 403) { // forbidden
             return $response;
@@ -51,10 +55,17 @@ class RestClient extends \Michcald\RestClient\Client
             'url' => $url,
             'params' => $params,
             'status_code' => $response->getStatusCode(),
-            'content' => $response->getContent()
+            'content' => $response->getContent(),
+            'time' => $timeEnd - $timeStart
         );
 
         return $response;
+    }
+
+    private function microtimeFloat()
+    {
+         list($usec, $sec) = explode(" ", microtime());
+         return ((float)$usec + (float)$sec);
     }
 
     public function getCalls()
