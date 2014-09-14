@@ -32,6 +32,8 @@
     <body>
         {% if repository is defined %}
             {{ navbar(repository) }}
+        {% else %}
+            {{ navbar() }}
         {% endif %}
         
         <div class="container">
