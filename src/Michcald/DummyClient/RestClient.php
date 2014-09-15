@@ -33,8 +33,9 @@ class RestClient extends \Michcald\RestClient\Client
 
         $url = sprintf('%s%s', $this->baseUrl, $resource);
 
-        $params = json_encode($params, JSON_NUMERIC_CHECK);
-        $params = json_decode($params, true);
+        // only PHP > 5.3.3
+        //$params = json_encode($params/*, JSON_NUMERIC_CHECK*/);
+        //$params = json_decode($params, true);
 
         $timeStart = $this->microtimeFloat();
 

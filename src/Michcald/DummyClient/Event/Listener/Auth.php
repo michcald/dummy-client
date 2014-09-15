@@ -7,18 +7,18 @@ class Auth implements \Michcald\Mvc\Event\SubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'mvc.event.dispatch.pre' => 'auth'
+            'mvc.event.dispatch.pre' => 'checkAuth'
         );
     }
 
-    public function auth(\Michcald\Mvc\Event\Event $event)
+    public function checkAuth(\Michcald\Mvc\Event\Event $event)
     {
         $file = __DIR__ . '/../../../../../app/config/parameters.yml';
 
         if (!file_exists($file)) {
             return;
         }
-        
+
         $session = \Michcald\DummyClient\Session::getInstance();
         $session->setNamespace('default');
 

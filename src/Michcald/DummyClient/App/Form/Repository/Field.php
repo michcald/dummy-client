@@ -67,7 +67,6 @@ class Field extends \Michcald\DummyClient\Form
         $sortable = new \Michcald\DummyClient\Form\Element();
         $sortable->setName('sortable')
             ->setLabel('Is sortable?')
-            ->setDisabled(true)
             ->setType('boolean');
         $this->addElement($sortable);
 
