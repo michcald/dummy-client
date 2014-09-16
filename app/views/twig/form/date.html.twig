@@ -3,7 +3,11 @@
     class="form-control"
     name="{{ element.getName }}"
     id="{{ element.getName }}"
-    value="{{ element.getValue }}"
+    {% if element.getValue %}
+        value="{{ element.getValue }}"
+    {% else %}
+        value="{{ element.getValue }}"
+    {% endif %}
     {% if element.getDisabled %}
         disabled
     {% endif %}

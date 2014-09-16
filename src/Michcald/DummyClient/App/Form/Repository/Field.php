@@ -36,6 +36,20 @@ class Field extends \Michcald\DummyClient\Form
         $ft = new \Michcald\DummyClient\Form\Element();
         $ft->setName('options')
             ->setLabel('Options')
+            ->setDescription('
+                Foreign: {"repository":"name_of_the_foreign_repository"}<br />
+                Html: {"height": 300,"minHeight": 100,"maxHeight": 300,"toolbar": [
+                        ["style", ["bold", "italic", "underline"]],
+                        ["para", ["ul", "ol", "paragraph"]],
+                        ["insert", ["link"]],
+                        ["misc", ["fullscreen","codeview","help"]]
+                    ]
+                }<br />
+                Integer: {"min":0,"max":100,"step":1}<br />
+                Range: {"min":0,"max":100,"step":1}<br />
+                Select: {"Red":"red","Yellow":"yellow"}<br />
+                Text: {"rows":10}<br />
+            ')
             ->setType('text');
         $this->addElement($ft);
 
