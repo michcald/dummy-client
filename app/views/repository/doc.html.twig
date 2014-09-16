@@ -24,8 +24,7 @@
     
     <div>
         <h3>List of elements</h3>
-        <p><span class="label label-success">GET</span></p>
-        <pre>{{ config().dummy.endpoint }}repository/{{ repository.getId }}/entity</pre>
+        <pre>GET repository/{{ repository.getId }}/entity</pre>
         <div class="table-responsive">
             <table class="table table-hover table-striped table-condensed">
                 <thead>
@@ -57,50 +56,87 @@
                     </tr>
                     <tr>
                         <td>orders</td>
-                        <td>Orders the results</td>
-                        <td>array</td>
-                        <td><pre>{{ dump([{field:'first_name',direction:'asc'},{field:'last_name',direction:'asc'}]) }}</pre></td>
+                        <td>
+                            Orders the results
+                        </td>
+                        <td>
+                            {% set orders = [] %}
+                            {% for field in repositoryFields %}
+                                {% if field.getSearchable %}
+                                    {% set orders = orders|merge([field.getName]) %}
+                                {% endif %}
+                            {% endfor %}
+                            {{ orders|join('|') }}
+                        </td>
+                        <td><pre>array(2) {
+  [0]=> array(2) {
+    ["field"] => string(10) "first_name" 
+    ["direction"] => string(3) "asc"
+  }
+  [1]=> array(2) {
+    ["field"] => string(9) "last_name"
+    ["direction"] => string(3) "asc"
+  }
+}</pre></td>
                     </tr>
                     <tr>
                         <td>filters</td>
                         <td>
                             Filters the results
                         </td>
-                        <td>array</td>
-                        <td><pre>{{ dump([{field:'category',value:4},{field:'color',value:'red'}]) }}</pre></td>
+                        <td>
+                            {% set filters = [] %}
+                            {% for field in repositoryFields %}
+                                {% if field.getType == 'foreign' %}
+                                    {% set filters = filters|merge([field.getName]) %}
+                                {% endif %}
+                            {% endfor %}
+                            {{ filters|join('|') }}
+                        </td>
+                        <td><pre>array(2) {
+  [0] => array(2) {
+    ["field"] => string(8) "category"
+    ["value"] => int(4) 7
+  }
+  [1] => array(2) {
+    ["field"] => string(5) "author"
+    ["value"] => int(4) 6
+  }
+}</pre></td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <h4>Response</h4>
-        <pre>{{ dump({paginator: {page: {
-                "current": 1,
-                "total": 1
-            },
-            "results": 2
-        },
-        "results": [
-            {
-                "id": 1,
-                "...": "..."
-            },
-            {
-                "id": 2,
-                "...": "..."
-            }
-        ]
-    }) }}</pre>
+        <pre>array(2) {
+  ["paginator"] => array(2) {
+    ["page"] => array(2) {
+      ["current"]=> int(1)
+      ["total"] => int(1)
+    }
+    ["results"] => int(2)
+  }
+  ["results"] => array(2) {
+    [0] => array(2) {
+      ["id"] => int(1)
+      ["..."] => string(3) "..."
+    }
+    [1] => array(2) {
+      ["id"] => int(2)
+      ["..."] => string(3) "..."
+    }
+  }
+}</pre>
     </div>
 
     <div>
         <h3>A single element</h3>
-        <p><span class="label label-success">GET</span></p>
-        <pre><?= $this->config()->dummy['endpoint'] ?>repository/<?= $_['repository']->getId() ?>/entity/{id}</pre>
+        <pre>GET repository/{{ repository.getId }}/entity/{id}</pre>
         <h4>Response</h4>
-        <pre>{{ dump({
-        "id": 1,
-        "...": "..."
-    }) }}</pre>
+        <pre>array(2) {
+  ["id"] => int(1)
+  ["..."] => string(3) "..."
+}</pre>
     </div>
     
 {% endblock %}

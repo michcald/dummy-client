@@ -33,6 +33,7 @@ class Form
         }
 
         foreach ($this->getElements() as $element) {
+
             $name = $element->getName();
 
             if (array_key_exists($name, $data)) {
@@ -48,18 +49,24 @@ class Form
                     } else {
                         $data[$name] = '';
                     }
-                }
-
-                if (is_array($data[$name])) {
+                } else if (is_array($data[$name])) {
                     if (count($data[$name])) {
                         $data[$name] = json_encode($data[$name]);
                     } else {
                         $data[$name] = '';
                     }
+                } else if (!array_key_exists($name, $data)) {
+                    die($name);
                 }
 
                 $model->set($name, (string)$data[$name]);
                 $element->setValue((string)$data[$name]);
+            } else {
+                // usually when checkboxes are not checked
+                if ($element->getType() == 'boolean') {
+                    $model->set($name, 0);
+                    $element->setValue(0);
+                }
             }
         }
     }

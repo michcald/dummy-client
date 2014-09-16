@@ -173,7 +173,7 @@ class FieldController extends \Michcald\DummyClient\Controller
             $this->addFlash('Repository field not found', 'warning');
         } else {
 
-            $form = new App\Form\Repository\Field();
+            $form = new App\Form\Repository\Field(true);
             $form->setButtonLabel('Save');
 
             $form->handleRequest($this->getRequest(), $field);

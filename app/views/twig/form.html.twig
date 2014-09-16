@@ -2,7 +2,7 @@
 <div class="container">
     
     <form role="form" method="{{ form.getMethod }}" enctype="multipart/form-data">
-        {% for element in form.getElements if element.getDisabled == false or element.getValue == false %}
+        {% for element in form.getElements %}
             <div class="form-group">
                 {% if element.getType != 'hidden' %}
                 <label for="{{ element.getName }}">

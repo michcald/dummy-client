@@ -233,7 +233,7 @@ routes:
       action: readAction
 
     - name: dummy_client.field.update
-      methods: ["GET"]
+      methods: ["GET","POST"]
       uri:
           pattern: repository/{repositoryId}/field/{id}/update
           requirements:

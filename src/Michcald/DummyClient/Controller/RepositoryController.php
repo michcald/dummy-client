@@ -7,10 +7,12 @@ use Michcald\DummyClient\App;
 class RepositoryController extends \Michcald\DummyClient\Controller
 {
     private $repositoryDao;
+    private $fieldDao;
 
     public function __construct()
     {
         $this->repositoryDao = new App\Dao\Repository();
+        $this->fieldDao = new App\Dao\Repository\Field();
     }
 
     public function indexAction()
@@ -165,8 +167,25 @@ class RepositoryController extends \Michcald\DummyClient\Controller
             $this->addFlash('Repository not found', 'warning');
         }
 
+        $fields = $this->fieldDao->findAll(array(
+            'limit' => 10000,
+            'filters' => array(
+                array(
+                    'field' => 'repository_id',
+                    'value' => $repository->getId()
+                )
+            ),
+            'orders' => array(
+                array(
+                    'field' => 'display_order',
+                    'direction' => 'asc'
+                )
+            )
+        ));
+
         $content = $this->render('repository/doc.html.twig', array(
             'repository' => $repository,
+            'repositoryFields' => $fields->getElements()
         ));
 
         $response = new \Michcald\Mvc\Response();

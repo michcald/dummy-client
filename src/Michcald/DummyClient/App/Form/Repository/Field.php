@@ -4,13 +4,14 @@ namespace Michcald\DummyClient\App\Form\Repository;
 
 class Field extends \Michcald\DummyClient\Form
 {
-    public function __construct()
+    public function __construct($isUpdate = false)
     {
         $name = new \Michcald\DummyClient\Form\Element();
         $name->setName('name')
             ->setLabel('Name')
             ->setDescription('The identifier for the field')
-            ->setType('string');
+            ->setType('string')
+            ->setDisabled($isUpdate);
         $this->addElement($name);
 
         /* @var $restClient \Michcald\DummyClient\RestClient */
