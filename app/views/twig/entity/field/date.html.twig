@@ -1,3 +1,3 @@
-{% if entity.get(field.name) %}
+{% if entity.get(field.name) and entity.get(field.name) != '0000-00-00' %}
     {{ entity.get(field.name)|date('d/m/Y') }}
 {% endif %}
