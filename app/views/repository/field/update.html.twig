@@ -1,0 +1,44 @@
+{% extends 'layout.html.twig' %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        {
+            label: 'Repositories',
+            url: url('dummy_client.repository.index')
+        },
+        {
+            label: repository.getSingularLabel
+        },
+        {
+            label: 'Fields',
+            url: url('dummy_client.field.index', {
+                repositoryId: repository.getId
+            })
+        },
+        {
+            label: field.getLabel
+        },
+        {
+            label: 'Update'
+        }
+    ]) }}
+{% endblock %}
+
+{% block page %}
+    
+    {% include 'repository/tab.html.twig' with {
+        repository: repository,
+        active: 'fields'
+    } %}
+    
+    <h4>{{ field.getLabel }}</h4>
+    
+    {% include 'repository/field/tab.html.twig' with {
+        repository: repository,
+        field: field,
+        active: 'update'
+    } %}
+    
+    {{ form(form) }}
+
+{% endblock %}

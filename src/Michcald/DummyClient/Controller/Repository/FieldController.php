@@ -197,11 +197,16 @@ class FieldController extends \Michcald\DummyClient\Controller
                 }
             }
 
-            return $this->generateResponse('repository/field/update.phtml', array(
+            $content = $this->render('repository/field/update.html.twig', array(
                 'repository' => $repository,
                 'field' => $field,
                 'form' => $form
             ));
         }
+
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 }

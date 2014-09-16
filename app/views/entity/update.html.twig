@@ -23,6 +23,18 @@
         active: 'update'
     } %}
     
-    {{ form(form, repository) }}
+    
+    {% set isFile = false %}
+    {% for field in repositoryFields %}
+        {% if field.getType == 'file' %}
+            {% set isFile = true %}
+        {% endif %}
+    {% endfor %}
+    
+    {% if isFile %}
+        {{ alert('Cannot update an entity containing a file!', 'warning') }}
+    {% else %}
+        {{ form(form, repository) }}
+    {% endif %}
     
 {% endblock %}

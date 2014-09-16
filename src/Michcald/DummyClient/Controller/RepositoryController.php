@@ -121,13 +121,16 @@ class RepositoryController extends \Michcald\DummyClient\Controller
                 }
             }
 
-            return $this->generateResponse('repository/update.phtml', array(
+            $content = $this->render('repository/update.html.twig', array(
                 'repository' => $repository,
                 'form' => $form
             ));
         }
 
-        return $this->generateResponse();
+        $response = new \Michcald\Mvc\Response();
+        $response->addHeader('Content-Type: text/html');
+
+        return $response->setContent($content);
     }
 
     public function deleteAction($id)

@@ -50,6 +50,14 @@ class Form
                     }
                 }
 
+                if (is_array($data[$name])) {
+                    if (count($data[$name])) {
+                        $data[$name] = json_encode($data[$name]);
+                    } else {
+                        $data[$name] = '';
+                    }
+                }
+
                 $model->set($name, (string)$data[$name]);
                 $element->setValue((string)$data[$name]);
             }
