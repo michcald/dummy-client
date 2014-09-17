@@ -48,7 +48,7 @@ class Field extends \Michcald\DummyClient\Form
                 Integer: {"min":0,"max":100,"step":1}<br />
                 Range: {"min":0,"max":100,"step":1}<br />
                 Select: {"Red":"red","Yellow":"yellow"}<br />
-                Text: {"rows":10}<br />
+                Text: {"rows":10}
             ')
             ->setType('text');
         $this->addElement($ft);

@@ -57,6 +57,9 @@
                         {% for field in repositoryFields %}
                             {% if field.getList %}
                                 <th>
+                                    {% if field.getSearchable %}
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    {% endif %}
                                     {{ field.getLabel }}
                                 </th>
                             {% endif %}
