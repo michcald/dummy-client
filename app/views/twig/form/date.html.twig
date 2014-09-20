@@ -6,7 +6,7 @@
     {% if element.getValue %}
         value="{{ element.getValue }}"
     {% else %}
-        value="{{ element.getValue }}"
+        value="{{ 'now'|date('Y-m-d') }}"
     {% endif %}
     {% if element.getDisabled %}
         disabled
