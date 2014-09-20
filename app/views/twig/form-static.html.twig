@@ -12,7 +12,7 @@
             </p>
             <p>
                 {% if element.getDescription %}
-                    <p><small>{{ element.getDescription }}</small></p>
+                    <p><small>{{ element.getDescription|raw }}</small></p>
                 {% endif %}
             </p>
         </div>
