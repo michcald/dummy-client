@@ -4,12 +4,13 @@ namespace Michcald\DummyClient\App\Form;
 
 class Repository extends \Michcald\DummyClient\Form
 {
-    public function __construct()
+    public function __construct($isUpdate = false)
     {
         $name = new \Michcald\DummyClient\Form\Element();
         $name->setName('name')
             ->setLabel('Name')
-            ->setType('string');
+            ->setType('string')
+            ->setDisabled($isUpdate);
         $this->addElement($name);
 
         $description = new \Michcald\DummyClient\Form\Element();

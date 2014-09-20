@@ -100,7 +100,7 @@ class RepositoryController extends \Michcald\DummyClient\Controller
             $this->addFlash('Repository not found', 'warning');
         } else {
 
-            $form = new App\Form\Repository();
+            $form = new App\Form\Repository(true);
             $form->setButtonLabel('Save');
 
             $form->handleRequest($this->getRequest(), $repository);
