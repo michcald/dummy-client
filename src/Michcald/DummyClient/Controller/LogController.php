@@ -44,16 +44,6 @@ class LogController extends \Michcald\DummyClient\Controller
 
     public function readAction($filename)
     {
-        if (ENV != 'dev') {
-            return $this->forward(
-                '\Michcald\DummyClient\Controller\IndexController',
-                'errorAction',
-                array(
-                    'Forbidden'
-                )
-            );
-        }
-
         $config = \Michcald\DummyClient\Config::getInstance();
 
         $path = __DIR__ . '/../../../../' . $config->log['dir'] . '/dev';
@@ -69,8 +59,6 @@ class LogController extends \Michcald\DummyClient\Controller
                 throw new \Exception('Not valid');
             }
         }
-
-
 
         $content = $this->render('log/read.html.twig', array(
             'filename' => $filename,
