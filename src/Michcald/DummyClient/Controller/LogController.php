@@ -6,16 +6,6 @@ class LogController extends \Michcald\DummyClient\Controller
 {
     public function indexAction()
     {
-        if (ENV != 'dev') {
-            return $this->forward(
-                '\Michcald\DummyClient\Controller\IndexController',
-                'errorAction',
-                array(
-                    'Forbidden'
-                )
-            );
-        }
-
         $config = \Michcald\DummyClient\Config::getInstance();
 
         $devFiles = $this->readDir(
