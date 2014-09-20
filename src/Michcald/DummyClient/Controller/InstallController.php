@@ -30,9 +30,9 @@ class InstallController extends \Michcald\DummyClient\Controller
 
             $rest = new \Michcald\DummyClient\RestClient($dummyEndpoint);
 
-            $auth = new \Michcald\RestClient\Auth\Basic();
-            $auth->setUsername($data['dummy_pubk'])
-                ->setPassword($data['dummy_prik']);
+            $auth = new \Michcald\DummyClient\RestClient\DummyAuth();
+            $auth->setPrivateKey($data['dummy_prik'])
+                ->setPublicKey($data['dummy_pubk']);
             $rest->setAuth($auth);
 
             $response = $rest->get('whoami');
