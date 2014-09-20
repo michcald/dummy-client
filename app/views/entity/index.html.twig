@@ -19,9 +19,20 @@
 
 {% block page %}
 
-    {{ search(url('dummy_client.entity.index', {
-        repositoryId: repository.getId
-    }), query, filters) }}
+    {% set placeholder = [] %}
+    {% for field in repositoryFields %}
+        {% if field.getSearchable %}
+            {% set placeholder = placeholder|merge([field.getLabel]) %}
+        {% endif %}
+    {% endfor %}
+    {% if placeholder|length > 0 %}
+        {% set placeholder = 'Search by ' ~ placeholder|join(', ') %}
+    
+        {{ search(url('dummy_client.entity.index', {
+            repositoryId: repository.getId
+        }), query, filters, placeholder) }}
+        
+    {% endif %}
     
     <br />
     
@@ -57,10 +68,10 @@
                         {% for field in repositoryFields %}
                             {% if field.getList %}
                                 <th>
-                                    {% if field.getSearchable %}
-                                        <span class="glyphicon glyphicon-search"></span>
-                                    {% endif %}
                                     {{ field.getLabel }}
+                                    {% if field.getSortable %}
+                                        <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                                    {% endif %}
                                 </th>
                             {% endif %}
                         {% endfor %}

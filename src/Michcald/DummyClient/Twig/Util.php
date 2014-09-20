@@ -335,14 +335,15 @@ class Util extends \Twig_Extension
         ));
     }
 
-    public function search($url, $query = '', array $hiddens = array())
+    public function search($url, $query = '', array $hiddens = array(), $placeholder = null)
     {
         $twig = \Michcald\Mvc\Container::get('dummy_client.twig');
 
         echo $twig->render('twig/search.html.twig', array(
-            'url'    => $url,
-            'query'  => $query,
-            'hiddens' => $hiddens
+            'url'         => $url,
+            'query'       => $query,
+            'hiddens'     => $hiddens,
+            'placeholder' => $placeholder
         ));
     }
 
