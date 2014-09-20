@@ -16,6 +16,9 @@ class LogController extends \Michcald\DummyClient\Controller
             __DIR__ . '/../../../../' . $config->log['dir'] . '/prod'
         );
 
+        usort($devFiles, array($this, 'sortByName'));
+        usort($prodFiles, array($this, 'sortByName'));
+
         $content = $this->render('log/index.html.twig', array(
             'devFiles'  => $devFiles,
             'prodFiles' => $prodFiles
@@ -25,6 +28,15 @@ class LogController extends \Michcald\DummyClient\Controller
         $response->addHeader('Content-Type: text/html')
             ->setContent($content);
         return $response;
+    }
+
+    private function sortByName($a, $b)
+    {
+        if ($a == $b) {
+            return 0;
+        }
+
+        return $a < $b ? -1 : 1;
     }
 
     private function readDir($path)
