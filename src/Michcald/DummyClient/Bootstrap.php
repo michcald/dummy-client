@@ -167,11 +167,11 @@ abstract class Bootstrap
 
             $rest = new RestClient($endpoint);
 
-            $basic = new \Michcald\RestClient\Auth\Basic();
-            $basic->setUsername($config->dummy['key']['public'])
-                ->setPassword($config->dummy['key']['private']);
+            $auth = new RestClient\DummyAuth();
+            $auth->setPrivateKey($config->dummy['key']['private'])
+                ->setPublicKey($config->dummy['key']['public']);
 
-            $rest->setAuth($basic);
+            $rest->setAuth($auth);
 
             \Michcald\Mvc\Container::add('dummy_client.rest_client', $rest);
         }
