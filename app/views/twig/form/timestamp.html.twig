@@ -3,7 +3,11 @@
     class="form-control"
     name="{{ element.getName }}"
     id="{{ element.getName }}"
-    value="{{ element.getValue }}"
+    {% if element.getValue %}
+        value="{{ element.getValue|date('Y-m-d') }}T{{ element.getValue|date('H:i') }}"
+    {% else %}
+        value="{{ 'now'|date('Y-m-d') }}T{{ 'now'|date('H:i') }}"
+    {% endif %}
     {% if element.getDisabled %}
         disabled
     {% endif %}
