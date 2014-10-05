@@ -8,6 +8,8 @@ abstract class Bootstrap
     {
         date_default_timezone_set('Europe/London');
 
+        ini_set('session.gc_maxlifetime', 24*60*60);
+        
         self::initConfig();
         self::initLog();
         self::initRoutes();
