@@ -12,17 +12,66 @@ class EntityController extends \Michcald\DummyClient\Controller
 
     private $entityDao;
 
+    private $session;
+
     public function __construct()
     {
         $this->repositoryDao = new App\Dao\Repository();
         $this->repositoryFieldDao = new App\Dao\Repository\Field();
         $this->entityDao = new App\Dao\Entity();
+
+        $this->session = \Michcald\DummyClient\Session::getInstance();
+        $this->session->setNamespace('dummy_client');
+    }
+
+    private function getSessionParams($repositoryId)
+    {
+        $fromSession = (int)$this->getRequest()->getQueryParam('fromSession', false);
+
+        $filters = $this->getRequest()->getQueryParam('filters', array());
+        $query = $this->getRequest()->getQueryParam('query', '');
+
+        if (!isset($this->session->entities)) {
+            $this->session->entities = array();
+        }
+
+        $entities = $this->session->entities;
+
+        if (!isset($entities[$repositoryId])) {
+            $entities[$repositoryId] = array();
+        }
+
+        if (!isset($entities[$repositoryId]['filters'])) {
+            $entities[$repositoryId]['filters'] = array();
+        }
+
+        if (!isset($entities[$repositoryId]['query'])) {
+            $entities[$repositoryId]['query'] = '';
+        }
+
+        $this->session->entities = $entities;
+
+        if ($fromSession) {
+            return array(
+                $this->session->entities[$repositoryId]['filters'],
+                $this->session->entities[$repositoryId]['query']
+            );
+        }
+
+        $entities[$repositoryId]['filters'] = $filters;
+        $entities[$repositoryId]['query'] = $query;
+
+        $this->session->entities = $entities;
+
+        return array(
+            $filters,
+            $query
+        );
     }
 
     public function indexAction($repositoryId)
     {
-        $filters = $this->getRequest()->getQueryParam('filters', array());
-        $query = $this->getRequest()->getQueryParam('query', '');
+        list($filters, $query) = $this->getSessionParams($repositoryId);
 
         /* @var $repository App\Model\Repository */
         $repository = $this->repositoryDao->findOne($repositoryId);
@@ -267,7 +316,8 @@ class EntityController extends \Michcald\DummyClient\Controller
             }
 
             $this->redirect('dummy_client.entity.index', array(
-                'repositoryId' => $repository->getId()
+                'repositoryId' => $repository->getId(),
+                'fromSession' => true
             ));
         }
 
